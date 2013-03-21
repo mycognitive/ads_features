@@ -1,0 +1,11 @@
+name = ads_menu
+description = Provides menu functionality for ads taxonomies
+core = 7.x
+package = Features
+version = 7.x-0.1
+project = ads_menu
+dependencies[] = fe_block
+dependencies[] = ntm
+dependencies[] = taxonomy
+features[fe_block_settings][] = ntm-1
+features[features_api][] = api:1
