@@ -1,7 +1,7 @@
 name = ads_menu
 description = Provides menu functionality for ads taxonomies
 core = 7.x
-package = Features
+package = Ads
 version = 7.x-0.1
 project = ads_menu
 dependencies[] = fe_block
