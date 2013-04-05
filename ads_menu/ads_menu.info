@@ -1,7 +1,7 @@
 name = ads_menu
-description = Provides menu functionality for ads taxonomies
+description = Provides taxonomy menu functionality for Ads distribution
 core = 7.x
-package = Ads
+package = Ads Features
 php = 5.2.4
 version = 7.x-0.1
 project = ads_menu
@@ -9,6 +9,7 @@ dependencies[] = fe_block
 dependencies[] = ntm
 dependencies[] = strongarm
 dependencies[] = taxonomy
+dependencies[] = ads_features
 features[ctools][] = strongarm:strongarm:1
 features[fe_block_settings][] = ntm-1
 features[features_api][] = api:1
