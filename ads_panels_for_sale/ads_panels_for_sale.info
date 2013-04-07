@@ -1,0 +1,11 @@
+name = Ads Panels For Sale
+description = Provides common components for Adverts for Sale.
+core = 7.x
+package = Ads Features
+version = 7.x-1.0-alpha1
+project = ads_panels_for_sale
+dependencies[] = ctools
+dependencies[] = page_manager
+features[ctools][] = page_manager:pages_default:1
+features[features_api][] = api:1
+features[page_manager_pages][] = ads_for_sale
