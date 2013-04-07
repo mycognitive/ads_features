@@ -13,13 +13,13 @@ function ads_panels_for_sale_default_page_manager_pages() {
   $page->api_version = 1;
   $page->name = 'ads_for_sale';
   $page->task = 'page';
-  $page->admin_title = 'For Sale';
+  $page->admin_title = 'Items For Sale';
   $page->admin_description = 'Adverts for sale';
   $page->path = 'for-sale';
   $page->access = array();
   $page->menu = array(
     'type' => 'normal',
-    'title' => 'For Sale',
+    'title' => 'Items For Sale',
     'name' => 'main-menu',
     'weight' => '0',
     'parent' => array(
