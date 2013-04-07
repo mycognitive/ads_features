@@ -1,7 +1,7 @@
 name = ads_content_types
 description = Provides Content Types for Ads distribution
 core = 7.x
-package = Ads
+package = Ads Features
 php = 5.2.4
 version = 7.x-1.0-alpha1
 project = ads_content_types
@@ -12,6 +12,7 @@ dependencies[] = link
 dependencies[] = money
 dependencies[] = phone
 dependencies[] = strongarm
+dependencies[] = ads_features
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[field][] = node-advert-body
