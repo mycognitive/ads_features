@@ -11,7 +11,7 @@ function ads_common_jobs_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'ads_for_sale';
+  $page->name = 'ads_jobs';
   $page->task = 'page';
   $page->admin_title = 'Jobs';
   $page->admin_description = 'Adverts for sale';
@@ -37,9 +37,9 @@ function ads_common_jobs_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_ads_for_sale_panel_context';
+  $handler->name = 'page_ads_jobs_panel_context';
   $handler->task = 'page';
-  $handler->subtask = 'ads_for_sale';
+  $handler->subtask = 'ads_jobs';
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
@@ -70,7 +70,7 @@ function ads_common_jobs_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['ads_for_sale'] = $page;
+  $pages['ads_jobs'] = $page;
 
   return $pages;
 
