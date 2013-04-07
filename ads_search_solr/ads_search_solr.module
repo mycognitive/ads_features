@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ads Search Solr feature.
+ */
+
+include_once 'ads_search_solr.features.inc';

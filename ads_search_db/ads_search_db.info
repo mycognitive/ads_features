@@ -1,0 +1,11 @@
+name = Ads Search via DB
+description = Uses a normal database to index data.
+core = 7.x
+package = Ads Features
+version = 7.x-1.0-alpha1
+project = ads_search_db
+dependencies[] = entity
+dependencies[] = search_api
+dependencies[] = search_api_db
+features[features_api][] = api:1
+features[search_api_server][] = ads_search_server

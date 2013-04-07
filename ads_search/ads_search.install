@@ -1,0 +1,8 @@
+<?php
+/**
+ * @file
+ * Installation file.
+ */
+
+// @TODO: Add requirements: At least ads_search_db or ads_search_solr should be enabled.
+
