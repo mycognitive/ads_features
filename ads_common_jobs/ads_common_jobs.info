@@ -1,9 +1,9 @@
-name = Ads Panels For Sale
-description = Provides common advert components for Items for Sale.
+name = Ads Panels Jobs
+description = Provides common advert components for Jobs.
 core = 7.x
 package = Ads Features
 version = 7.x-1.0-alpha1
-project = ads_common_items
+project = ads_common_jobs
 dependencies[] = ctools
 dependencies[] = page_manager
 features[ctools][] = page_manager:pages_default:1
