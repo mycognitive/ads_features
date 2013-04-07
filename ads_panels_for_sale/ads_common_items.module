@@ -4,4 +4,4 @@
  * Code for the Ads Panels For Sale feature.
  */
 
-include_once 'ads_panels_for_sale.features.inc';
+include_once 'ads_common_items.features.inc';
