@@ -1,0 +1,9 @@
+/*
+  Ads_homepage module CSS styles.
+*/
+.view-categories-grouped > .view-content > div.item-list  {
+  /* Forcing categories to fill all possible columns */
+  float: left;
+  clear: right;
+  width: 50%;
+}
