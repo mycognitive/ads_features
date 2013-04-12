@@ -13,9 +13,9 @@ function ads_features_taxonomy_default_vocabularies() {
       'name' => 'Categories',
       'machine_name' => 'categories',
       'description' => NULL,
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => '',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -36,9 +36,9 @@ function ads_features_taxonomy_default_vocabularies() {
       'name' => 'Locations',
       'machine_name' => 'locations',
       'description' => NULL,
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => '',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -59,9 +59,9 @@ function ads_features_taxonomy_default_vocabularies() {
       'name' => 'Places',
       'machine_name' => 'places',
       'description' => NULL,
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => '',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
