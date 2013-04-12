@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ads_features.features.field_instance.inc
+ * ads_taxonomy.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function ads_features_field_default_field_instances() {
+function ads_taxonomy_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'taxonomy_term-categories-field_cat_content_type'

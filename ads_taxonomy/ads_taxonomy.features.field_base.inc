@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ads_features.features.field_base.inc
+ * ads_taxonomy.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function ads_features_field_default_field_bases() {
+function ads_taxonomy_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_cat_content_type'

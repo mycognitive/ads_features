@@ -1,10 +1,10 @@
-name = ads_features
-description = Provides essential features for Ads distribution
+name = ads_taxonomy
+description = Provides taxonomy for Ads distribution
 core = 7.x
 package = Ads Features
 php = 5.2.4
 version = 7.x-0.1
-project = ads_features
+project = ads_taxonomy
 dependencies[] = bundle_name_reference
 dependencies[] = features
 dependencies[] = list
