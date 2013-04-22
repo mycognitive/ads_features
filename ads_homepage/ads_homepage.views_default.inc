@@ -93,8 +93,10 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['filters']['tid_raw']['operator'] = 'empty';
   $handler->display->display_options['filters']['tid_raw']['group'] = 2;
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block');
+  /* Display: Ads Categories */
+  $handler = $view->new_display('block', 'Ads Categories', 'block');
+  $handler->display->display_options['display_description'] = 'Display advert categories.';
+  $handler->display->display_options['block_description'] = 'Ads Categories';
   $export['categories_grouped'] = $view;
 
   return $export;
