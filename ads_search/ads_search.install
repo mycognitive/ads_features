@@ -4,5 +4,40 @@
  * Installation file.
  */
 
-// @TODO: Add requirements: At least ads_search_db or ads_search_solr should be enabled.
+/**
+ * Implements hook_requirements().
+ */
+function ads_search_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
 
+  // Test dependencies.
+  if (module_exists('ads_search_db') || module_exists('ads_search_solr')) {
+    // Dependencies met.
+    $requirements['ads_search']['value'] = $t('OK');
+  }
+  else {
+    // Dependencies not met.
+    if (isset($_POST['form_id']) && $_POST['form_id'] == 'features_admin_form') {
+      // Features form saved.
+      // @FIXIT: We need to find a way of accessing POST variable without
+      // coder_review warning.
+      if (array_key_exists('ads_search_db', $_POST['status']) || array_key_exists('ads_search_solr', $_POST['status'])) {
+        // One of the modules has been marked to be enabled.
+        $requirements['ads_search']['value'] = $t('OK');
+      }
+    }
+    else {
+      $requirements['ads_search'] = array(
+        'description' => $t('Module <b>Ads Search</b> requires at least one additional module to be enabled: <b>Ads Search via DB</b> or <b>Ads Search Solr</b>.'),
+        'severity'    => REQUIREMENT_ERROR,
+        'value'       => $t('Disabled'),
+      );
+    }
+  }
+
+  $requirements['ads_search']['title'] = $t('Ads Search');
+
+  return $requirements;
+}
