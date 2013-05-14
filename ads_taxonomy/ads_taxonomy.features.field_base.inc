@@ -10,13 +10,13 @@
 function ads_taxonomy_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ads_cat_image'
-  $field_bases['field_ads_cat_image'] = array(
+  // Exported field_base: 'field_ads_cat_icon'
+  $field_bases['field_ads_cat_icon'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_ads_cat_image',
+    'field_name' => 'field_ads_cat_icon',
     'foreign keys' => array(
       'fid' => array(
         'columns' => array(
@@ -40,13 +40,13 @@ function ads_taxonomy_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ads_cat_icon'
-  $field_bases['field_ads_cat_icon'] = array(
+  // Exported field_base: 'field_ads_cat_image'
+  $field_bases['field_ads_cat_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_ads_cat_icon',
+    'field_name' => 'field_ads_cat_image',
     'foreign keys' => array(
       'fid' => array(
         'columns' => array(

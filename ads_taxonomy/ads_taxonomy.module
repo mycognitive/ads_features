@@ -12,7 +12,7 @@
  *   Array containing paths to taxonomy files to import. May contain keys which
  *   specifies target taxonomy id. Array item may be an array
  */
-function ads_taxonomy_ads_taxonomy_files() {
+function hook_ads_taxonomy_files() {
   return array(
     array(
       drupal_get_path('module', 'my_custom_module') . '/taxonomy.categories-1.csv',
@@ -23,15 +23,25 @@ function ads_taxonomy_ads_taxonomy_files() {
 
 /**
  * Imports taxonomies from modules that defines hook_ads_taxonomy_files() hook.
+ *
+ * @param string $module_name
+ *   Optional. Name of the module to import taxonomies from.
  */
-function ads_taxonomy_import() {
-  $taxonomy_files = module_invoke('ads_taxonomy', 'ads_taxonomy_files');
+function ads_taxonomy_import($module_name = NULL) {
+  if ($module_name === NULL) {
+    // Importing taxonomies from all the modules.
+    $taxonomy_files = module_invoke_all('ads_taxonomy_files');
+  }
+  else {
+    // Importing taxonomies from the specified module.
+    $taxonomy_files = module_invoke($module_name, 'ads_taxonomy_files');
+  }
 
   if (!$taxonomy_files) {
     // No taxonomies to import.
     if (drupal_is_cli()) {
       // Function ran from the drush command.
-      drush_print(dt('ads_taxonomy: No modules found that implements hook_taxonomy_ads_taxonomy_files hook.'));
+      drush_print(dt('ads_taxonomy: No modules found that implements hook_ads_taxonomy_files hook.'));
     }
     return;
   }
@@ -93,18 +103,4 @@ function ads_taxonomy_import() {
   }
 
   drush_backend_batch_process();
-}
-
-/**
- * Imports taxonomy from the specified file path.
- *
- * If taxonomy_name wasn't specified, file name will be used as taxonomy name.
- *
- * @param string $path
- *   Path to the taxonomy file.
- * @param string $taxonomy_name
- *   Optional. Name of the target taxonomy.
- */
-function ads_taxonomy_import_single($path, $taxonomy_name = NULL) {
-
 }

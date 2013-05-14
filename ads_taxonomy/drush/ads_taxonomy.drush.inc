@@ -23,8 +23,8 @@ function ads_taxonomy_drush_command() {
     ),
     'description' => dt('Imports taxonomy content.'),
     'examples' => array(
-      'drush ads-taxonomy-import'                      => dt('Imports taxonomies from all the modules that defines hook_ads_taxonomy_files() function.'),
-      'drush ads-taxonomy-import path [taxonomy_name]' => dt("Imports taxonomy from the specified file path. If taxonomy_name wasn't specified, file name will be used as taxonomy name."),
+      'drush ads-taxonomy-import'             => dt('Imports taxonomies from all the modules that defines hook_ads_taxonomy_files() function.'),
+      'drush ads-taxonomy-import module_name' => dt("Imports taxonomies from the specified module. Module must define hook_ads_taxonomy_files() function."),
     ),
   );
 
@@ -44,22 +44,11 @@ function ads_taxonomy_drush_help($section) {
 /**
  * Drush command (ads-taxonomy-import).
  *
- * Imports taxonomies from all the modules that defines
- * hook_ads_taxonomy_files() function or from the specified file path.
- * If taxonomy_name wasn't specified, file name will be used as taxonomy name.
+ * Imports taxonomies from the specified module.
  *
- * @param string $path
- *   Optional. Path to the taxonomy file.
- * @param string $taxonomy_name
- *   Optional. Name of the target taxonomy.
+ * @param string $module_name
+ *   Optional. Name of the module to import taxonomies from.
  */
-function ads_taxonomy_drush_import($path = NULL, $taxonomy_name = NULL) {
-  if ($path === NULL) {
-    // No path specified, importing taxonomies from all the modules.
-    ads_taxonomy_import();
-  }
-  else {
-    // Importing a single taxonomy file.
-    ads_taxonomy_import_single($path, $taxonomy_name);
-  }
+function ads_taxonomy_drush_import($module_name = NULL) {
+  ads_taxonomy_import($module_name);
 }
