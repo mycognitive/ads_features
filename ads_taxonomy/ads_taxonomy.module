@@ -4,3 +4,107 @@
  * Ads_taxonomy module.
  * Provides taxonomy for Ads distribution.
  */
+
+/**
+ * Hook function. Determines list of files to import by ads_taxonomy_import().
+ *
+ * @return array
+ *   Array containing paths to taxonomy files to import. May contain keys which
+ *   specifies target taxonomy id. Array item may be an array
+ */
+function ads_taxonomy_ads_taxonomy_files() {
+  return array(
+    array(
+      drupal_get_path('module', 'my_custom_module') . '/taxonomy.categories-1.csv',
+      drupal_get_path('module', 'my_custom_module') . '/taxonomy.categories-2.csv',
+    ),
+  );
+}
+
+/**
+ * Imports taxonomies from modules that defines hook_ads_taxonomy_files() hook.
+ */
+function ads_taxonomy_import() {
+  $taxonomy_files = module_invoke('ads_taxonomy', 'ads_taxonomy_files');
+
+  if (!$taxonomy_files) {
+    // No taxonomies to import.
+    if (drupal_is_cli()) {
+      // Function ran from the drush command.
+      drush_print(dt('ads_taxonomy: No modules found that implements hook_taxonomy_ads_taxonomy_files hook.'));
+    }
+    return;
+  }
+
+  $taxonomy_csv_module_dir = drupal_get_path('module', 'taxonomy_csv');
+
+  require_once "$taxonomy_csv_module_dir/import/taxonomy_csv.import.api.inc";
+
+  foreach ($taxonomy_files as $taxonomy_name => $paths) {
+
+    if (!is_array($paths)) {
+      // We operate on the list of paths.
+      $paths = array($paths);
+    }
+
+    foreach ($paths as $path) {
+
+      if (is_numeric($taxonomy_name)) {
+        // Using file name for the taxonomy name.
+        $taxonomy_name = pathinfo($path, PATHINFO_FILENAME);
+      }
+
+      if (!file_exists($path)) {
+
+        if (drupal_is_cli()) {
+          // Function ran from the drush command.
+          drush_print(dt('ads_taxonomy: Error. Import of "@taxonomy" taxonomy failed due to non existing file "@file".', array(
+            '@file'     => $path,
+            '@taxonomy' => $taxonomy_name,
+          )));
+
+          exit(1);
+        }
+
+        return FALSE;
+      }
+
+      if (drupal_is_cli()) {
+        // Function ran from the drush command.
+        drush_print(dt('ads_taxonomy: Importing "@taxonomy" taxonomy from "@file"...', array(
+          '@file'     => $path,
+          '@taxonomy' => $taxonomy_name,
+        )));
+      }
+
+      taxonomy_csv_import(array(
+        'text'              => file_get_contents($path),
+        'vocabulary_id'     => $taxonomy_name,
+        'vocabulary_target' => 'existing',
+        'update_or_ignore'  => 'update',
+        'import_format'     => 'tree',
+        'enclosure'          => '"',
+        'delimiter'         => ',',
+        'set_hierarchy'     => 2,
+        'check_options'     => TRUE,
+        'result_level'      => 'warnings',
+      ));
+    }
+  }
+
+  drush_backend_batch_process();
+}
+
+/**
+ * Imports taxonomy from the specified file path.
+ *
+ * If taxonomy_name wasn't specified, file name will be used as taxonomy name.
+ *
+ * @param string $path
+ *   Path to the taxonomy file.
+ * @param string $taxonomy_name
+ *   Optional. Name of the target taxonomy.
+ */
+function ads_taxonomy_import_single($path, $taxonomy_name = NULL) {
+
+}
