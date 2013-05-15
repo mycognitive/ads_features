@@ -37,18 +37,49 @@ function ads_homepage_views_default_views() {
       'rendered_strip' => 0,
     ),
   );
-  $handler->display->display_options['style_options']['class'] = 'ads-homepage-category-group';
+  $handler->display->display_options['style_options']['row_class'] = 'views-display-columns';
+  $handler->display->display_options['style_options']['class'] = 'views-display-columns';
+  $handler->display->display_options['style_options']['wrapper_class'] = 'item-list views-display-columns masonry-item';
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+    'field_ads_cat_icon_1' => 'field_ads_cat_icon_1',
+    'field_ads_cat_icon' => 'field_ads_cat_icon',
+  );
   /* Relationship: Taxonomy term: Parent term */
   $handler->display->display_options['relationships']['parent']['id'] = 'parent';
   $handler->display->display_options['relationships']['parent']['table'] = 'taxonomy_term_hierarchy';
   $handler->display->display_options['relationships']['parent']['field'] = 'parent';
+  $handler->display->display_options['relationships']['parent']['required'] = TRUE;
   /* Relationship: Taxonomy term: Parent term */
   $handler->display->display_options['relationships']['parent_1']['id'] = 'parent_1';
   $handler->display->display_options['relationships']['parent_1']['table'] = 'taxonomy_term_hierarchy';
   $handler->display->display_options['relationships']['parent_1']['field'] = 'parent';
   $handler->display->display_options['relationships']['parent_1']['relationship'] = 'parent';
   $handler->display->display_options['relationships']['parent_1']['label'] = 'Parent of Parent';
+  /* Field: Taxonomy term: Icon */
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['id'] = 'field_ads_cat_icon_1';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['table'] = 'field_data_field_ads_cat_icon';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['field'] = 'field_ads_cat_icon';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['relationship'] = 'parent';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['label'] = '';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['settings'] = array(
+    'image_style' => 'ads_menu_category_thumbnail',
+    'image_link' => '',
+  );
+  /* Field: Taxonomy term: Icon */
+  $handler->display->display_options['fields']['field_ads_cat_icon']['id'] = 'field_ads_cat_icon';
+  $handler->display->display_options['fields']['field_ads_cat_icon']['table'] = 'field_data_field_ads_cat_icon';
+  $handler->display->display_options['fields']['field_ads_cat_icon']['field'] = 'field_ads_cat_icon';
+  $handler->display->display_options['fields']['field_ads_cat_icon']['label'] = '';
+  $handler->display->display_options['fields']['field_ads_cat_icon']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ads_cat_icon']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ads_cat_icon']['settings'] = array(
+    'image_style' => 'ads_menu_category_thumbnail',
+    'image_link' => '',
+  );
   /* Field: Taxonomy term: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
@@ -66,6 +97,15 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['fields']['name_1']['label'] = '';
   $handler->display->display_options['fields']['name_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['name_1']['element_label_colon'] = FALSE;
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['relationship'] = 'parent';
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name_1']['id'] = 'name_1';
+  $handler->display->display_options['sorts']['name_1']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name_1']['field'] = 'name';
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
