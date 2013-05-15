@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ads Panels For Sale feature.
+ */
+
+include_once 'ads_common_items.features.inc';

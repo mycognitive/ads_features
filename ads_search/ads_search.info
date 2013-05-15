@@ -1,0 +1,10 @@
+name = Ads Search
+description = Common components for searching.
+core = 7.x
+package = Ads Features
+version = 7.x-1.0-alpha1
+project = ads_search
+dependencies[] = entity
+dependencies[] = search_api
+features[features_api][] = api:1
+features[search_api_index][] = ads_adverts

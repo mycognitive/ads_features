@@ -1,0 +1,18 @@
+<?php
+/**
+ * @file
+ * Code for the Ads Search feature.
+ */
+
+include_once 'ads_search.features.inc';
+
+/**
+ * Implements hook_init().
+ */
+function ads_search_init() {
+  if (!module_exists('ads_search_db') && !module_exists('ads_search_solr')) {
+    // Disabling ads_search module as it doesn't work individually.
+    drupal_set_message(t('Module <b>Ads Search</b> has been disabled as it requires at least one additional module to be enabled: <b>Ads Search via DB</b> or <b>Ads Search Solr</b>.'));
+    drupal_register_shutdown_function('module_disable', array('ads_search'));
+  }
+}

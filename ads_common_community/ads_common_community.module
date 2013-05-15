@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ads Panels Community feature.
+ */
+
+include_once 'ads_common_community.features.inc';

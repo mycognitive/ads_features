@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ads Search DB feature.
+ */
+
+include_once 'ads_search_db.features.inc';
