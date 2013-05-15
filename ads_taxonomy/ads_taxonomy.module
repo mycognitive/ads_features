@@ -104,3 +104,15 @@ function ads_taxonomy_import($module_name = NULL) {
 
   drush_backend_batch_process();
 }
+
+/**
+ * Implements hook_modules_installed().
+ */
+function ads_taxonomy_modules_installed($modules) {
+  foreach ($modules as $name) {
+    if (module_hook($name, 'ads_taxonomy_files')) {
+      // Module implements hook_ads_taxonomy_files(). Importing its taxonomies.
+      ads_taxonomy_import($name);
+    }
+  }
+}
