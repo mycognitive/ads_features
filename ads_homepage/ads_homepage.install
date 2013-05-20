@@ -1,0 +1,39 @@
+<?php
+/**
+ * @file
+ * Installation file.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function ads_homepage_requirements($phase) {
+  $requirements = array();
+
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    // Test dependencies.
+    if (($library = libraries_detect('masonry')) && !empty($library['installed'])) {
+      // Dependencies met.
+      $requirements['ads_homepage']['value'] = $t('OK');
+    }
+    else {
+      // Dependencies not met.
+      $requirements['ads_homepage'] = array(
+        'description' => $t('Module <b>Ads Homepage</b> requires !url module to work properly.',
+          array(
+            '!url' => l($t('Masonry'), 'http://drupal.org/project/masonry'),
+          )),
+        'severity'    => REQUIREMENT_ERROR,
+        'value'       => $t('Required module not installed'),
+      );
+    }
+
+    $requirements['ads_homepage']['title'] = $t('Ads Homepage');
+
+  }
+
+  return $requirements;
+}

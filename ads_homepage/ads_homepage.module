@@ -5,3 +5,22 @@
  */
 
 include_once 'ads_homepage.features.inc';
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function ads_homepage_views_pre_view(&$view, &$display_id, &$args) {
+  if ($view->name == 'categories_grouped') {
+    if (($library = libraries_detect('masonry')) && !empty($library['installed'])) {
+      libraries_load('masonry');
+      drupal_add_js('
+        jQuery(function() {jQuery(".view-categories-grouped > .view-content").masonry({
+  	  	  itemSelector: ".masonry-item",
+				  columnWidth: 200,
+				  isAnimated: true,
+        });});',
+        'inline'
+      );
+    }
+  }
+}
