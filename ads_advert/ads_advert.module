@@ -10,7 +10,7 @@ include_once 'ads_advert.features.inc';
  * Implements hook_menu().
  */
 function ads_advert_menu() {
-  $menu['add/advert'] = array(
+  $menu['advert/add'] = array(
     'title'            => 'Advert',
     'description'      => 'Advert',
     'page callback'    => 'ads_advert_form_wizard',
@@ -34,31 +34,35 @@ function ads_advert_form_wizard() {
 	$step = arg(2);
 
 	$form_info = array(
-		'id'              => 'ads_advert_form_basic',
-		'path'            => "add/advert/%step",
+		'id'              => 'ads_advert_edit_form',
+		'path'            => "advert/add/%step",
 		'show trail'      => true,
 		'show back'       => true,
 		'show cancel'     => true,
 		'show return'     => false,
 		'next text'       => 'Proceed to next step',
-		'next callback'   => 'ads_advert_form_basic_add_subtask_next',
-		'finish callback' => 'ads_advert_form_basic_add_subtask_finish',
-		'return callback' => 'ads_advert_form_basic_add_subtask_finish',
-		'cancel callback' => 'ads_advert_form_basic_add_subtask_cancel',
+		'next callback'   => 'ads_advert_edit_form_subtask_next',
+		'finish callback' => 'ads_advert_edit_form_subtask_finish',
+		'return callback' => 'ads_advert_edit_form_subtask_finish',
+		'cancel callback' => 'ads_advert_edit_form_subtask_cancel',
 		'order' => array(
 			'step-1' => t('Basic information'),
 			'step-2' => t('Category selection'),
 		  'step-3' => t('Details'),
+		  'step-4' => t('Preview'),
 		),
 		'forms' => array(
 			'step-1' => array(
-				'form id' => 'ads_advert_form_step_1'
+				'form id' => 'ads_advert_form_step_1',
 			),
 			'step-2' => array(
-				'form id' => 'ads_advert_form_step_2'
+				'form id' => 'ads_advert_form_step_2',
 			),
 			'step-3' => array(
-				'form id' => 'ads_advert_form_step_3'
+				'form id' => 'ads_advert_form_step_3',
+			),
+			'step-4' => array(
+				'form id' => 'ads_advert_form_step_4',
 			),
 		)
 	);
@@ -67,13 +71,13 @@ function ads_advert_form_wizard() {
 		'cache name' => 'advert_cache',
 	);
 
-	$ads_advert_form = ctools_object_cache_get('ads_advert_form_basic', ($form_state['cache name']));
+	$ads_advert_form = ctools_object_cache_get('ads_advert_edit_form', ($form_state['cache name']));
 
 	if (!$ads_advert_form) {
 		$step            = current(array_keys($form_info['order']));
 		$ads_advert_form = new stdClass();
 
-		ctools_object_cache_set('ads_advert_form_basic', $form_state['cache name'], $ads_advert_form);
+		ctools_object_cache_set('ads_advert_edit_form', $form_state['cache name'], $ads_advert_form);
 	};
 
 	if ((array)$ads_advert_form) {
@@ -102,14 +106,26 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
   global $user;
 
-  $node = new stdClass();
-  $node->uid      = $user->uid;
-  $node->name     = isset($user->name) ? $user->name : '';
-  $node->type     = $node_type;
-  $node->feeds    = array();
-  $node->language = LANGUAGE_NONE;
+  // Trying to retrieve advert node from the cache.
+  $node = ctools_object_cache_get('ads_advert_edit_form', 'node');
 
-  node_object_prepare($node);
+  if ($node === NULL) {
+    dsm ('creating node');
+    // Node is not in cache, creating new one.
+    $node = new stdClass();
+    $node->nid      = NULL;
+    $node->title    = '';
+    $node->uid      = $user->uid;
+    $node->name     = isset($user->name) ? $user->name : '';
+    $node->type     = $node_type;
+    $node->feeds    = array();
+    $node->language = LANGUAGE_NONE;
+
+    node_object_prepare($node);
+  }
+
+  // Storing advert node in the cache.
+  ctools_object_cache_set('ads_advert_edit_form', 'node', $node);
 
   // Generating advert node edit form.
   $form = node_form($form, $form_state, $node);
@@ -124,13 +140,16 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
   switch ($step) {
     case 1:
     case 2:
+    case 4:
       // We don't want following fields in step 1 and 2:
       unset($form['author']);
       unset($form['revision_information']);
       unset($form['options']);
       unset($form['additional_settings']);
       break;
+  }
 
+  switch ($step) {
     case 3:
       // Category-related content types step.
       $content_types = ads_advert_get_node_category_content_types($form_state['node']);
@@ -152,13 +171,15 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
         // We are loading node from the cache or creating new one if not already
         // in cache.
-        $content_type_node = ctools_object_cache_get('ads_advert_form_basic_ct', $content_type);
+        $content_type_node = ctools_object_cache_get('ads_advert_ctn_', $content_type);
 
         if ($content_type_node === NULL) {
           // Node isn't cached, creating new one.
           $content_type_node = new stdClass;
 
           // Filling node default settings.
+          $content_type_node->title    = '';
+          $content_type_node->nid      = NULL;
           $content_type_node->type     = $content_type;
           $content_type_node->uid      = $user->uid;
           $content_type_node->name     = isset($user->name) ? $user->name : '';
@@ -168,7 +189,7 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
           node_object_prepare($content_type_node);
 
           // Caching content type node for later use, e.g. in submit callback.
-          ctools_object_cache_set('ads_advert_form_basic_ct', $content_type, $content_type_node);
+          ctools_object_cache_set('ads_advert_ctn_', $content_type, $content_type_node);
         }
 
         // Generating content type node editing form.
@@ -195,6 +216,32 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
         // Clearing references.
         unset ($content_type_form);
         unset ($content_type_form_state);
+      }
+
+      break;
+
+    case 4:
+      // Advert preview step.
+
+      $form['preview_node'] = node_view($node);
+
+      dsm ($form_state['node']);
+
+      $content_types = ads_advert_get_node_category_content_types($node);
+
+      // Traversing all category-related content types in top-bottom direction.
+      foreach ($content_types as $content_type) {
+
+        // Retrieving content type node from the cache.
+        $content_type_node = ctools_object_cache_get('ads_advert_ctn_', $content_type);
+
+        // Generating content type node preview form.
+        $content_type_preview_form = node_view($content_type_node);
+
+        // We don't want any links on the form.
+        unset($content_type_preview_form['links']);
+
+        $form['preview_ct_' . $content_type] = &$content_type_preview_form;
       }
 
       break;
@@ -250,6 +297,9 @@ function ads_advert_form_step_submit(&$form, &$form_state) {
 
   // Building advert node properties from input values.
   $form_state['node'] = node_form_submit_build_node($form, $form_state);
+
+  // Storing node in the cache.
+  ctools_object_cache_set('ads_advert_edit_form', 'node', $form_state['node']);
 };
 
 /**
@@ -331,13 +381,13 @@ function ads_advert_form_step_3_submit(&$form, &$form_state) {
     // $form_state['node'] argument with the node the function should operate
     // on. Our content type node is already cached so we will use its cached
     // version.
-    $content_type_node_form_state['node']   = ctools_object_cache_get('ads_advert_form_basic_ct', $content_type);
+    $content_type_node_form_state['node']   = ctools_object_cache_get('ads_advert_ctn_', $content_type);
 
     // Fill up node properties with the form state input values.
     $content_type_node_form_state['node']   = node_form_submit_build_node($form[$content_type]['form'], $content_type_node_form_state);
 
     // Caching content type node object.
-    ctools_object_cache_set('ads_advert_form_basic_ct', $content_type, $content_type_node_form_state['node']);
+    ctools_object_cache_set('ads_advert_ctn_', $content_type, $content_type_node_form_state['node']);
 
     // We don't want other submit callbacks to be called.
     $form[$content_type]['#submit']      = array();
@@ -345,23 +395,45 @@ function ads_advert_form_step_3_submit(&$form, &$form_state) {
 };
 
 /**
+ * Generates step 3 of advert edit form.
+ */
+function ads_advert_form_step_4($form, &$form_state) {
+  return ads_advert_form_step($form, $form_state, 4);
+};
+
+/**
+ * Implements hook_form_validate().
+ */
+function ads_advert_form_step_4_validate($form, &$form_state) {
+  ads_advert_form_step_validate($form, $form_state);
+};
+
+/**
+ * Implements hook_form_submit().
+ */
+function ads_advert_form_step_4_submit(&$form, &$form_state) {
+}
+
+/**
  * Handles the 'Next' click on the add/edit pane form wizard.
  */
-function ads_advert_form_basic_add_subtask_next(&$form_state) {
+function ads_advert_edit_form_subtask_next(&$form_state) {
 	$ads_advert_form = &$form_state['node'];
 	// Caching the whole advert node edit form.
-	$cache = ctools_object_cache_set('ads_advert_form_basic', $form_state['cache name'], $ads_advert_form);
+	$cache = ctools_object_cache_set('ads_advert_edit_form', $form_state['cache name'], $ads_advert_form);
 };
 
 
 /**
  * Handles the 'Finish' click on the add/edit pane form wizard.
  */
-function ads_advert_form_basic_add_subtask_finish(&$form_state) {
+function ads_advert_edit_form_subtask_finish(&$form_state) {
   // Clearing advert node edit form cache.
-	ctools_object_cache_clear('ads_advert_form_basic', $form_state['cache name']);
+	ctools_object_cache_clear('ads_advert_edit_form', $form_state['cache name']);
 
 	$node = $form_state['node'];
+
+	ctools_object_cache_clear('ads_advert_edit_form', 'node');
 
 	$content_types = ads_advert_get_node_category_content_types($node);
 
@@ -370,13 +442,13 @@ function ads_advert_form_basic_add_subtask_finish(&$form_state) {
 
 	// Traversing all category-related content types in top-bottom direction.
   foreach ($content_types as $content_type) {
-    $content_type_node = ctools_object_cache_get('ads_advert_form_basic_ct', $content_type);
+    $content_type_node = ctools_object_cache_get('ads_advert_ctn_', $content_type);
 
     // Saving content type node.
     node_save($content_type_node);
 
     // Clearing content type node cache.
-    ctools_object_cache_clear('ads_advert_form_basic_ct', $content_type);
+    ctools_object_cache_clear('ads_advert_ctn_', $content_type);
   }
 
   $form_state['redirect'] = '';
@@ -385,18 +457,22 @@ function ads_advert_form_basic_add_subtask_finish(&$form_state) {
 /**
  * Handles the 'Cancel' click on the add/edit pane form wizard.
  */
-function ads_advert_form_basic_add_subtask_cancel(&$form_state) {
+function ads_advert_edit_form_subtask_cancel(&$form_state) {
   // Clearing advert node edit form cache.
-	ctools_object_cache_clear('ads_advert_form_basic', $form_state['cache name']);
+	ctools_object_cache_clear('ads_advert_edit_form', $form_state['cache name']);
 
-	$form_state['redirect'] = 'add/advert';
+	$form_state['redirect'] = 'advert/add';
 
 	// Clearing content type nodes' caches.
-	$content_types = ads_advert_get_node_category_content_types($form_state);
+	$content_types = ads_advert_get_node_category_content_types($form_state['node']);
 
 	// Traversing all category-related content types in top-bottom direction.
   foreach ($content_types as $content_type) {
     // Clearing content type node cache.
-    ctools_object_cache_clear('ads_advert_form_basic_ct', $content_type);
+    ctools_object_cache_clear('ads_advert_ctn_', $content_type);
   }
+
+  // Removing advert node from the cache.
+  ctools_object_cache_clear('ads_advert_edit_form', 'node');
+
 };
