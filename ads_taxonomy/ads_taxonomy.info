@@ -1,5 +1,5 @@
-name = ads_taxonomy
-description = Provides taxonomy for Ads distribution
+name = Ads Taxonomy
+description = Provides default taxonomies for Ads distribution
 core = 7.x
 package = Ads Features
 php = 5.2.4

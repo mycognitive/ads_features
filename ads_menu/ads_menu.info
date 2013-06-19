@@ -1,5 +1,5 @@
-name = ads_menu
-description = Provides taxonomy menu functionality for Ads distribution
+name = Ads Menu
+description = Provides menu functionality for Ads distribution
 core = 7.x
 package = Ads Features
 php = 5.2.4
