@@ -1,5 +1,5 @@
 name = Ads Search via DB
-description = Uses a normal database to index data.
+description = Extends ADS search functionality by using a normal database to index data.
 core = 7.x
 package = Ads Features
 version = 7.x-1.0-alpha1
