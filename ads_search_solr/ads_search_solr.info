@@ -1,5 +1,5 @@
 name = Ads Search Solr
-description = Uses a Solr to index data.
+description = Extends ADS search functionality by using Apache Solr to index data.
 core = 7.x
 package = Ads Features
 version = 7.x-1.0-alpha1
