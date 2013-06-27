@@ -371,6 +371,11 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
   $content_type_nodes       = array();
   $node_saved_content_types = array();
 
+  if (!isset($node->field_ad_category_node_ref[$node->language])) {
+    // No categories-related content type node references in advert node.
+    return array();
+  }
+
   foreach ($node->field_ad_category_node_ref[$node->language] as $index => $record) {
     $entity = node_load($record['target_id']);
     $node_saved_content_types[$entity->type] = $index;
