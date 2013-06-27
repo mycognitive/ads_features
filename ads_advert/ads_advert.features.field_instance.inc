@@ -10,6 +10,42 @@
 function ads_advert_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-advert-field_ad_category_node_ref'
+  $field_instances['node-advert-field_ad_category_node_ref'] = array(
+    'bundle' => 'advert',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_category_node_ref',
+    'label' => 'Category node references',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 12,
+    ),
+  );
+
   // Exported field_instance: 'node-level_1-body'
   $field_instances['node-level_1-body'] = array(
     'bundle' => 'level_1',
@@ -193,6 +229,7 @@ function ads_advert_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Category node references');
   t('Level 1 Field');
   t('Level 2 Field');
 
