@@ -335,6 +335,9 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 function ads_advert_get_node_preview($node, $use_cache = FALSE) {
   ctools_include('object-cache');
 
+  // We need that call to make attachments work.
+  _field_invoke_multiple('load', 'node', array($node->nid => $node));
+
   $preview = node_view($node);
 
   $content_type_nodes = ads_advert_get_node_content_type_nodes($node, TRUE);
