@@ -5,6 +5,7 @@ package = Ads Features
 php = 5.2.4
 version = 7.x-1.0
 project = ads_advert
+dependencies[] = ads_content_types
 dependencies[] = ctools
 dependencies[] = entityreference
 dependencies[] = features
