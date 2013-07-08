@@ -23,6 +23,12 @@ function ads_advert_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 7,
       ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -58,6 +64,12 @@ function ads_advert_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'teaser' => array(
@@ -109,6 +121,12 @@ function ads_advert_field_default_field_instances() {
         'type' => 'number_decimal',
         'weight' => 1,
       ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -148,6 +166,12 @@ function ads_advert_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'teaser' => array(
@@ -198,6 +222,12 @@ function ads_advert_field_default_field_instances() {
         ),
         'type' => 'number_decimal',
         'weight' => 1,
+      ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',

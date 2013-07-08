@@ -24,13 +24,11 @@ function ads_advert_field_group_info() {
     'weight' => '0',
     'children' => array(
       0 => 'body',
-      1 => 'field_ad_image',
-      2 => 'field_ad_link',
-      3 => 'field_ad_link_source',
-      4 => 'field_ad_phone',
-      5 => 'field_ad_price',
-      6 => 'feeds',
-      7 => 'title',
+      1 => 'field_ad_link',
+      2 => 'field_ad_link_source',
+      3 => 'field_ad_phone',
+      4 => 'field_ad_price',
+      5 => 'title',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -63,6 +61,7 @@ function ads_advert_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'field_ad_category',
+      1 => 'field_ad_image',
     ),
     'format_type' => 'div',
     'format_settings' => array(
