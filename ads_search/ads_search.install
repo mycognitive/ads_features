@@ -28,7 +28,19 @@ function ads_search_requirements($phase) {
         $requirements['ads_search']['value'] = $t('OK');
       }
     }
-    else {
+    elseif (drupal_is_cli() && function_exists('drush_main')) {
+      // Is it a Drush "pm-enable"?
+      $context   = drush_get_context();
+      $command   = $context['command']['command'];
+      $arguments = $context['command']['arguments'];
+
+      if ($context['command']['command'] == 'pm-enable' && (in_array('ads_search_db', $arguments) || in_array('ads_search_solr', $arguments))) {
+        // One of the modules has been marked to be enabled by drush.
+        $requirements['ads_search']['value'] = $t('OK');
+      }
+    }
+
+    if (!isset($requirements['ads_search']['value'])) {
       $requirements['ads_search'] = array(
         'description' => $t('Module <b>Ads Search</b> requires at least one additional module to be enabled: <b>Ads Search via DB</b> or <b>Ads Search Solr</b>.'),
         'severity'    => REQUIREMENT_ERROR,
