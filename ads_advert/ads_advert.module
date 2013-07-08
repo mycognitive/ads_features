@@ -109,6 +109,7 @@ function ads_advert_form_wizard() {
   if ((array) $ads_advert_form) {
     $form_state['node'] = $ads_advert_form;
   }
+
   $output = ctools_wizard_multistep_form($form_info, $step, $form_state);
 
   return $output;
@@ -131,7 +132,6 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
   $node_type = 'advert';
   $form_id   = $node_type . '_node_form';
   $action    = arg(1) == 'add' ? 'add' : 'edit';
-
   if ($action === 'edit') {
     $nid = arg(1);
   }
@@ -520,6 +520,9 @@ function ads_advert_form_step_3($form, &$form_state) {
  * Implements hook_form_validate().
  */
 function ads_advert_form_step_3_validate($form, &$form_state) {
+
+  $form_state['values']['changed'] = REQUEST_TIME;
+
   ads_advert_form_step_validate($form, $form_state);
 };
 
@@ -527,6 +530,8 @@ function ads_advert_form_step_3_validate($form, &$form_state) {
  * Implements hook_form_submit().
  */
 function ads_advert_form_step_3_submit(&$form, &$form_state) {
+
+
 
   $content_types = ads_advert_get_node_category_content_types($form_state['node']);
 

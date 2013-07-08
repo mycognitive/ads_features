@@ -16,3 +16,13 @@ function ads_search_init() {
     drupal_register_shutdown_function('module_disable', array('ads_search'));
   }
 }
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ads_search_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['search_results_item'] = array(
+    'label' => t('Search Results Item'),
+    'custom settings' => TRUE,
+  );
+}
