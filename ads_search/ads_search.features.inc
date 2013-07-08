@@ -5,6 +5,23 @@
  */
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function ads_search_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "facetapi" && $api == "facetapi_defaults") {
+    return array("version" => "1");
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function ads_search_views_api() {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_default_search_api_index().
  */
 function ads_search_default_search_api_index() {
@@ -20,9 +37,14 @@ function ads_search_default_search_api_index() {
       "cron_limit" : "50",
       "fields" : {
         "title" : { "type" : "text", "boost" : "5.0" },
+        "status" : { "type" : "integer" },
+        "author" : { "type" : "integer", "entity_type" : "user" },
+        "field_ad_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "search_api_language" : { "type" : "string" },
         "body:value" : { "type" : "text" },
-        "body:summary" : { "type" : "text" }
+        "body:summary" : { "type" : "text" },
+        "field_ad_category:parent" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ad_category:parents_all" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" }
       },
       "data_alter_callbacks" : {
         "search_api_alter_bundle_filter" : {
