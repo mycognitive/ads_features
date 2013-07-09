@@ -40,6 +40,7 @@ function ads_search_default_search_api_index() {
         "status" : { "type" : "integer" },
         "author" : { "type" : "integer", "entity_type" : "user" },
         "field_ad_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
+        "field_ad_price" : { "type" : "decimal" },
         "search_api_language" : { "type" : "string" },
         "body:value" : { "type" : "text" },
         "body:summary" : { "type" : "text" },
