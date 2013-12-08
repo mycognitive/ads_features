@@ -9,9 +9,10 @@
  * @ingroup views_templates
  */
  
- $data  = $view->result[reset(array_keys($rows))];
- $icon  = $data->field_field_ads_cat_icon_1;
- $icon  = empty($icon) ? '' : render($icon);
+ $rows_keys = array_keys($rows);
+ $data      = $view->result[reset($rows_keys)];
+ $icon      = $data->field_field_ads_cat_icon_1;
+ $icon      = empty($icon) ? '' : render($icon);
 ?>
 <?php print $wrapper_prefix; ?>
   <?php if (!empty($title)) : ?>
