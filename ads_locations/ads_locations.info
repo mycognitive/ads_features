@@ -1,0 +1,9 @@
+name = ADS Locations
+description = Provides locations for a single country/region.
+core = 7.x
+package = Ads Features
+version = 7.x-1.0
+project = ads_locations
+dependencies[] = ads_taxonomy
+features[features_api][] = api:1
+project path = sites/all/modules/ads/ads_features
