@@ -6,7 +6,6 @@ php = 5.2.4
 version = 7.x-1.0-alpha1
 project = ads_content_types
 dependencies[] = ads_advert
-dependencies[] = ads_migrate
 dependencies[] = ads_taxonomy
 dependencies[] = entityreference
 dependencies[] = features
