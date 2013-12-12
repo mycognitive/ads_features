@@ -60,7 +60,7 @@ function ads_content_types_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => -4,
     ),
   );
 
@@ -226,7 +226,7 @@ function ads_content_types_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 5,
+      'weight' => 0,
     ),
   );
 
@@ -285,7 +285,57 @@ function ads_content_types_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 6,
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance: 'node-advert-field_ad_location'
+  $field_instances['node-advert-field_ad_location'] = array(
+    'bundle' => 'advert',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 8,
+      ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_location',
+    'label' => 'Location',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'shs',
+      'settings' => array(
+        'shs' => array(
+          'create_new_levels' => 0,
+          'create_new_terms' => 0,
+          'force_deepest' => 0,
+          'node_count' => 0,
+        ),
+      ),
+      'type' => 'taxonomy_shs',
+      'weight' => -1,
     ),
   );
 
@@ -595,7 +645,7 @@ function ads_content_types_field_default_field_instances() {
         'use_tel_input' => 1,
       ),
       'type' => 'phone',
-      'weight' => 3,
+      'weight' => -3,
     ),
   );
 
@@ -936,7 +986,7 @@ function ads_content_types_field_default_field_instances() {
         'decimals_display_mode' => 'field',
       ),
       'type' => 'money_widget',
-      'weight' => 4,
+      'weight' => -2,
     ),
   );
 
@@ -946,6 +996,7 @@ function ads_content_types_field_default_field_instances() {
   t('Description');
   t('Image');
   t('Link');
+  t('Location');
   t('Phone');
   t('Price');
   t('Source');

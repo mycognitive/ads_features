@@ -16,6 +16,8 @@ function ads_taxonomy_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => '',
       'weight' => 0,
+      'language' => 'und',
+      'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -36,9 +38,11 @@ function ads_taxonomy_taxonomy_default_vocabularies() {
       'name' => 'Locations',
       'machine_name' => 'locations',
       'description' => NULL,
-      'hierarchy' => 0,
+      'hierarchy' => 1,
       'module' => '',
       'weight' => 0,
+      'language' => 'und',
+      'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -62,6 +66,8 @@ function ads_taxonomy_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => '',
       'weight' => 0,
+      'language' => 'und',
+      'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
