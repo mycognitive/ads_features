@@ -4,6 +4,8 @@
  * Ads Theme module.
  */
 
+global $ads_theme_css_list;
+
 /**
  * Finds location of a CSS/LESS styles in the specified directory.
  *
@@ -21,7 +23,7 @@ function ads_theme_find_styles($module_name, $folder, $name) {
   if (!$cache) {
     $cache = cache_get($cache_id, 'cache');
     if ($cache && !empty($cache->data[$module_name][$folder][$name])) {
-      return drupal_add_css($cache->data[$module_name][$folder][$name]);
+      return $cache->data[$module_name][$folder][$name];
     }
 
     if (!is_array($cache)) {
@@ -36,27 +38,66 @@ function ads_theme_find_styles($module_name, $folder, $name) {
   foreach ($suggestions as $suggestion) {
     $theme_path = drupal_get_path('theme', $theme) . '/' . $suggestion . $name;
     if (file_exists($theme_path)) {
-      drupal_add_css($theme_path);
       $cache[$module_name][$folder][$name] = $theme_path;
-      return cache_set($cache_id, $cache);
+      cache_set($cache_id, $cache);
+      return $theme_path;
     }
   }
 
   foreach ($suggestions as $suggestion) {
     $local_path  = $folder . '/' . $suggestion . $name;
     if (file_exists($local_path)) {
-      drupal_add_css($local_path);
       $cache[$module_name][$folder][$name] = $local_path;
-      return cache_set($cache_id, $cache);
+      cache_set($cache_id, $cache);
+      return $local_path;
     }
   }
 
   foreach ($suggestions as $suggestion) {
     $module_path = drupal_get_path('module', $module_name) . '/' . $suggestion . $name;
     if (file_exists($module_path)) {
-      drupal_add_css($module_path);
       $cache[$module_name][$folder][$name] = $module_path;
-      return cache_set($cache_id, $cache);
+      cache_set($cache_id, $cache);
+      return $module_path;
     }
   }
+}
+
+function ads_theme_init() {
+  global $theme;
+
+  ads_theme_add_css(drupal_get_path('theme', $theme) . '/less/page.less', array(
+    'preprocess' => FALSE,
+    'group' => CSS_THEME,
+  ));
+}
+
+function ads_theme_add_css($path, $is_root = TRUE) {
+  global $theme;
+
+  $relative_path  = '';
+  $root           = '';
+
+  if ($is_root) {
+    $root = drupal_get_path('theme', $theme);
+
+    for ($i = count(explode('/', $path)); $i>1; $i--) {
+      $relative_path .= "../";
+    }
+  }
+
+  $relative_path .= $root . '/less/';
+
+  drupal_add_css($path, array(
+    'group' => CSS_THEME,
+    'preprocess' => FALSE,
+    'less' => array(
+      'variables' => array(
+        '@theme'      => '"' . $relative_path . 'page.less"',
+        '@mixins'     => '"' . $relative_path . 'mixins.less"',
+        '@layout'     => '"' . $relative_path . 'elements/layout.less"',
+        '@typography' => '"' . $relative_path . 'elements/typography.less"',
+      ),
+    )
+  ));
 }
