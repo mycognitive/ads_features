@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Ads Theme module.
+ */
+
+/**
+ * Finds location of a CSS/LESS styles in the specified directory.
+ *
+ * @param string $module_name
+ *   Name of the source module.
+ * @param string $folder
+ *   Path to the styles file, relative to the source module folder.
+ * @param string $name
+ *   Full name of the styles file.
+ */
+function ads_theme_find_styles($module_name, $folder, $name) {
+  $cache    = &drupal_static(__FUNCTION__);
+  $cache_id = 'theme_registry:ads_theme_find_styles_cache';
+
+  if (!$cache) {
+    $cache = cache_get($cache_id, 'cache');
+    if ($cache && !empty($cache->data[$module_name][$folder][$name])) {
+      return drupal_add_css($cache->data[$module_name][$folder][$name]);
+    }
+
+    if (!is_array($cache)) {
+      $cache = array();
+    }
+  }
+
+  $suggestions = array('less/', 'less/overrides/', 'less/overrides/' . $module_name . '/');
+
+  global $theme;
+
+  foreach ($suggestions as $suggestion) {
+    $theme_path = drupal_get_path('theme', $theme) . '/' . $suggestion . $name;
+    if (file_exists($theme_path)) {
+      drupal_add_css($theme_path);
+      $cache[$module_name][$folder][$name] = $theme_path;
+      return cache_set($cache_id, $cache);
+    }
+  }
+
+  foreach ($suggestions as $suggestion) {
+    $local_path  = $folder . '/' . $suggestion . $name;
+    if (file_exists($local_path)) {
+      drupal_add_css($local_path);
+      $cache[$module_name][$folder][$name] = $local_path;
+      return cache_set($cache_id, $cache);
+    }
+  }
+
+  foreach ($suggestions as $suggestion) {
+    $module_path = drupal_get_path('module', $module_name) . '/' . $suggestion . $name;
+    if (file_exists($module_path)) {
+      drupal_add_css($module_path);
+      $cache[$module_name][$folder][$name] = $module_path;
+      return cache_set($cache_id, $cache);
+    }
+  }
+}
