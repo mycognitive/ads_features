@@ -56,7 +56,7 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['relationships']['parent_1']['field'] = 'parent';
   $handler->display->display_options['relationships']['parent_1']['relationship'] = 'parent';
   $handler->display->display_options['relationships']['parent_1']['label'] = 'Parent of Parent';
-  /* Field: Taxonomy term: Icon */
+  /* Field: Taxonomy term: Category Icon */
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['id'] = 'field_ads_cat_icon_1';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['table'] = 'field_data_field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['field'] = 'field_ads_cat_icon';
@@ -69,7 +69,7 @@ function ads_homepage_views_default_views() {
     'image_style' => 'ads_menu_category_thumbnail',
     'image_link' => '',
   );
-  /* Field: Taxonomy term: Icon */
+  /* Field: Taxonomy term: Category Icon */
   $handler->display->display_options['fields']['field_ads_cat_icon']['id'] = 'field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon']['table'] = 'field_data_field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon']['field'] = 'field_ads_cat_icon';
@@ -135,6 +135,18 @@ function ads_homepage_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $translatables['categories_grouped'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Parent'),
+    t('Parent of Parent'),
+    t('Block'),
+  );
   $export['categories_grouped'] = $view;
 
   return $export;

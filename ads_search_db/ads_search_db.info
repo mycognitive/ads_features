@@ -2,6 +2,7 @@ name = Ads Search via DB
 description = Extends ADS search functionality by using a normal database to index data.
 core = 7.x
 package = Ads Features
+php = 5.2.4
 version = 7.x-1.0-alpha1
 project = ads_search_db
 dependencies[] = ads_search

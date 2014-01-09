@@ -11,6 +11,7 @@ include_once 'ads_homepage.features.inc';
  */
 function ads_homepage_views_pre_view(&$view, &$display_id, &$args) {
   if ($view->name == 'categories_grouped') {
+
     if (($library = libraries_detect('masonry')) && !empty($library['installed'])) {
       libraries_load('masonry');
       drupal_add_js('
@@ -23,4 +24,40 @@ function ads_homepage_views_pre_view(&$view, &$display_id, &$args) {
       );
     }
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ads_homepage_theme($existing, $type, $theme, $path) {
+  return array(
+    'ads_homepage_categories_grouped' => array(
+      'template' => 'ads-homepage-categories-grouped',
+      'path' => $path . '/theme',
+      'type' => 'theme',
+    ),
+  );
+}
+
+/**
+ * Preprocesses ads_homepage_categories_grouped template variables.
+ *
+ * @param array $vars
+ *   Source variables: ['view' => class view]
+ */
+function ads_homepage_preprocess_ads_homepage_categories_grouped(&$vars) {
+  global $theme;
+
+  ads_theme_add_css(ads_theme_find('ads_homepage', $vars['directory'], 'ads-homepage.scss', ADS_THEME_FIND_SASS));
+
+  $rows      = $vars['rows'];
+  $rows_keys = array_keys($rows);
+  $data      = $vars['view']->result[reset($rows_keys)];
+  $icon      = @$data->field_field_ads_cat_icon_1;
+  $icon      = empty($icon) ? '' : render($icon[0]['rendered']);
+
+  $vars['title'] = @$vars['title'];
+  $vars['data']  = $data;
+  $vars['icon']  = $icon;
+  $vars['rows']  = $rows;
 }

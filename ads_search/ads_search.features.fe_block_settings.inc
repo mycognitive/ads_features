@@ -21,9 +21,15 @@ function ads_search_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads',
+        'weight' => 0,
+      ),
       'bartik' => array(
-        'region' => 'sidebar_first',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'bartik',
         'weight' => 0,
       ),
@@ -34,7 +40,7 @@ function ads_search_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => 'Price',
+    'title' => '',
     'visibility' => 0,
   );
 
@@ -44,13 +50,18 @@ function ads_search_default_fe_block_settings() {
     'delta' => 'iAso1tFuLKWJpoxMT485z17Hkjtn3kKG',
     'module' => 'facetapi',
     'node_types' => array(),
-    'pages' => 'search/results
-search/results/*',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads',
+        'weight' => 0,
+      ),
       'bartik' => array(
-        'region' => 'sidebar_first',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'bartik',
         'weight' => 0,
       ),
@@ -61,8 +72,8 @@ search/results/*',
         'weight' => 0,
       ),
     ),
-    'title' => 'Category',
-    'visibility' => 1,
+    'title' => '',
+    'visibility' => 0,
   );
 
   $export['views-988bf951e4ed835a8625c382c2cf668e'] = array(
@@ -74,6 +85,12 @@ search/results/*',
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'ads',
+        'weight' => 0,
+      ),
       'bartik' => array(
         'region' => 'header',
         'status' => 1,
@@ -87,7 +104,7 @@ search/results/*',
         'weight' => 0,
       ),
     ),
-    'title' => 'Search',
+    'title' => '<none>',
     'visibility' => 0,
   );
 

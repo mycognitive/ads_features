@@ -1,0 +1,95 @@
+@import theme/all;
+@import theme/mixins/gradients;
+@import theme/mixins/images;
+@import compass/css3/text-shadow;
+@import compass/css3/border-radius;
+@import compass/typography/text/nowrap;
+@import compass/typography/links/link-colors;
+@import compass/css3/opacity;
+@import compass/typography/lists/bullets;
+@import compass/utilities/general/clearfix;
+
+$locationsListCountryFontSize:	$baseFontSize;
+$locationsListCountryPadding:		6px 8px;
+$locationsListRegionPadding:		2px 8px;
+$locationsListRegionFontSize:		11px;
+$locationsListCityPadding:			2px 8px 2px 8px;
+$locationsListCityFontSize:			11px;
+
+.module-ads-locations {
+
+	padding: 12px;
+	min-height: 500px;
+	
+	@include vertical-gradient(#7af, #8bf);
+
+  .country-title {
+  
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    padding: $locationsListCountryPadding;
+    font-size: $locationsListCountryFontSize;
+    
+    @include vertical-gradient(#d73, #c61);
+    @include border-radius(5px, 5px);
+    @include nowrap;
+    
+    .title {
+    }
+    
+    .arrow {
+      @include image-float-right("../images/icon-plus-white.gif", 16px, 16px, 5px, 6px);
+    }
+
+    &.open .arrow {
+      @include image-float-right("../images/icon-minus-white.gif", 16px, 16px, 5px, 6px);
+    }
+    
+    &:hover {
+      @include vertical-gradient(#d73 * 1.3, #c61 * 1.3);
+    }
+    &:active {
+      @include vertical-gradient(#d73 * 0.6, #c61 * 0.8);
+    }
+  }
+  
+  .regions {
+    padding: 4px 0;
+  
+    .region-title {
+    	line-height: $baseLineHeight;
+    	padding: $locationsListRegionPadding;
+    	font-size: $locationsListRegionFontSize;
+    	
+    	&.open {
+    	  font-weight: bold;
+    	}
+    	
+    	.arrow {
+        @include image-float-normal("../images/icon-arrow-right-black.gif", 16px, 16px, 2px);
+      }
+      
+      &.open .arrow {
+        @include image-float-normal("../images/icon-arrow-down-black.gif", 16px, 16px, 2px);
+      }
+      
+      &:hover {
+        cursor: pointer;
+        color: #333;
+      }
+    }
+
+    .cities {
+      padding: 4px 0;
+      .city-title {
+        a {
+          color: #fff;
+        }
+      	line-height: $locationsListCityFontSize + 4px;
+      	padding: $locationsListCityPadding;
+      	font-size: $locationsListCityFontSize;
+      }
+    }
+  }
+}

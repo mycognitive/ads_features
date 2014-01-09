@@ -5,6 +5,8 @@
  * Provides locations for a single country/region.
  */
 
+include_once 'ads_locations.features.inc';
+
 /**
  * Implements ads_configure().
  *
@@ -99,4 +101,68 @@ function ads_locations_shs_term_get_children_alter(&$terms, $options) {
       unset($terms_ref[$tid]);
     }
   }
+}
+
+/**
+ * Implements hook_init().
+ */
+function ads_locations_init() {
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ads_locations_theme($existing, $type, $theme, $path) {
+  return array(
+      'ads_locations_selection' => array(
+        'template' => 'ads-locations-selection',
+        'path' => $path . '/theme',
+        'type' => 'theme',
+      ),
+  );
+}
+
+/**
+ * Preprocesses ads_locations_selection template variables.
+ *
+ * @param array $vars
+ *   Source variables: ['view' => class view]
+ */
+function ads_locations_preprocess_ads_locations_selection(&$vars) {
+
+  global $theme;
+
+  ads_theme_add_js(ads_theme_find('ads_locations', $vars['directory'], 'ads-locations.js', ADS_THEME_FIND_JS));
+  ads_theme_add_css(ads_theme_find('ads_locations', $vars['directory'], 'ads-locations-selection.scss', ADS_THEME_FIND_SASS));
+
+  $tree      = array();
+  $countries = countries_get_countries('name');
+
+  foreach ($vars['view']->result as $row) {
+    $level1_tid   = $row->taxonomy_term_data_taxonomy_term_hierarchy_1_tid;
+    $level1_title = $row->taxonomy_term_data_taxonomy_term_hierarchy_1_name;
+    $level2_tid   = $row->taxonomy_term_data_taxonomy_term_hierarchy_tid;
+    $level2_title = $row->taxonomy_term_data_taxonomy_term_hierarchy_name;
+    $level3_tid   = $row->tid;
+    $level3_title = $row->taxonomy_term_data_name;
+
+    // Titles.
+    $tree[$level1_tid]['title'] = $countries[$level1_title];
+
+    // Urls to the taxonomy terms for each level.
+    $level1_url = drupal_get_path_alias('taxonomy/term/' . $level1_tid);
+    $level2_url = drupal_get_path_alias('taxonomy/term/' . $level2_tid);
+    $level3_url = drupal_get_path_alias('taxonomy/term/' . $level3_tid);
+
+    $tree[$level1_tid]['url'] = $level1_url;
+    $tree[$level1_tid]['children'][$level2_tid]['url'] = $level2_url;
+    $tree[$level1_tid]['children'][$level2_tid]['children'][$level3_tid]['url'] = $level3_url;
+
+    // Titles continued.
+    $tree[$level1_tid]['children'][$level2_tid]['title'] = $level2_title;
+    $tree[$level1_tid]['children'][$level2_tid]['children'][$level3_tid]['title'] = $level3_title;
+  }
+
+  $vars['tree'] = $tree;
 }

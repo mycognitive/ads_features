@@ -6,6 +6,9 @@
 
 global $ads_theme_css_list;
 
+define ('ADS_THEME_FIND_SASS', 'sass');
+define ('ADS_THEME_FIND_JS', 'js');
+
 /**
  * Finds location of a CSS/LESS styles in the specified directory.
  *
@@ -16,7 +19,7 @@ global $ads_theme_css_list;
  * @param string $name
  *   Full name of the styles file.
  */
-function ads_theme_find_styles($module_name, $folder, $name) {
+function ads_theme_find($module_name, $folder, $name, $type) {
   $cache    = &drupal_static(__FUNCTION__);
   $cache_id = 'theme_registry:ads_theme_find_styles_cache';
 
@@ -31,7 +34,12 @@ function ads_theme_find_styles($module_name, $folder, $name) {
     }
   }
 
-  $suggestions = array('less/', 'less/overrides/', 'less/overrides/' . $module_name . '/');
+  if ($type == ADS_THEME_FIND_SASS) {
+    $suggestions = array('sass/', 'sass/overrides/', 'sass/overrides/' . $module_name . '/');
+  }
+  elseif ($type == ADS_THEME_FIND_JS) {
+    $suggestions = array('js/', 'js/' . $module_name . '/');
+  }
 
   global $theme;
 
@@ -63,41 +71,37 @@ function ads_theme_find_styles($module_name, $folder, $name) {
   }
 }
 
-function ads_theme_init() {
-  global $theme;
-
-  ads_theme_add_css(drupal_get_path('theme', $theme) . '/less/page.less', array(
-    'preprocess' => FALSE,
-    'group' => CSS_THEME,
-  ));
+function ads_theme_add_css($path) {
+  drupal_add_css($path);
 }
 
-function ads_theme_add_css($path, $is_root = TRUE) {
+function ads_theme_add_js($path) {
+  drupal_add_js($path);
+}
+
+/**
+ * Implements hook_sassy_reolve_path_HOOK().
+ *
+ * Allows @import theme/path_to_file_under_current_theme_sass_folder
+ */
+function ads_theme_sassy_resolve_path_theme($filename) {
   global $theme;
 
-  $relative_path  = '';
-  $root           = '';
+  $path      = drupal_get_path('theme', $theme) . '/sass/' . $filename;
+  $file_name = pathinfo($path, PATHINFO_FILENAME);
+  $path      = dirname($path);
 
-  if ($is_root) {
-    $root = drupal_get_path('theme', $theme);
+  $files     = array(
+    $path . '/' . $file_name,
+    $path . '/_' . $file_name,
+  );
 
-    for ($i = count(explode('/', $path)); $i>1; $i--) {
-      $relative_path .= "../";
+  foreach (array('', '.scss', '.sass') as $ext) {
+    foreach ($files as $file) {
+      if (file_exists($file . $ext)) {
+        return $file . $ext;
+      }
     }
   }
-
-  $relative_path .= $root . '/less/';
-
-  drupal_add_css($path, array(
-    'group' => CSS_THEME,
-    'preprocess' => FALSE,
-    'less' => array(
-      'variables' => array(
-        '@theme'      => '"' . $relative_path . 'page.less"',
-        '@mixins'     => '"' . $relative_path . 'mixins.less"',
-        '@layout'     => '"' . $relative_path . 'elements/layout.less"',
-        '@typography' => '"' . $relative_path . 'elements/typography.less"',
-      ),
-    )
-  ));
+  return FALSE;
 }

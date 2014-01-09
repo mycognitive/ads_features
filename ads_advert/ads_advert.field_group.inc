@@ -28,7 +28,8 @@ function ads_advert_field_group_info() {
       2 => 'field_ad_link_source',
       3 => 'field_ad_phone',
       4 => 'field_ad_price',
-      5 => 'title',
+      5 => 'field_ad_location',
+      6 => 'title',
     ),
     'format_type' => 'div',
     'format_settings' => array(
