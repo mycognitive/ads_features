@@ -20,19 +20,14 @@ define ('ADS_THEME_FIND_JS', 'js');
  *   Full name of the styles file.
  */
 function ads_theme_find($module_name, $folder, $name, $type) {
-  $cache    = &drupal_static(__FUNCTION__);
   $cache_id = 'theme_registry:ads_theme_find_styles_cache';
 
-  if (!$cache) {
-    $cache = cache_get($cache_id, 'cache');
-    if ($cache && !empty($cache->data[$module_name][$folder][$name])) {
-      return $cache->data[$module_name][$folder][$name];
-    }
-
-    if (!is_array($cache)) {
-      $cache = array();
-    }
+  $cache = cache_get($cache_id, 'cache');
+  if ($cache && !empty($cache->data[$module_name][$folder][$name])) {
+    return $cache->data[$module_name][$folder][$name];
   }
+
+  $cache = array();
 
   if ($type == ADS_THEME_FIND_SASS) {
     $suggestions = array('sass/', 'sass/overrides/', 'sass/overrides/' . $module_name . '/');
