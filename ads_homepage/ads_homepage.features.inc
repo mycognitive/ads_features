@@ -24,6 +24,6 @@ function ads_homepage_ctools_plugin_api() {
 function ads_homepage_views_api() {
   return array(
     "api" => "3.0",
-    'template path' => drupal_get_path('module', 'ads_homepage') . '/templates',
+    'template path' => drupal_get_path('module', 'ads_homepage') . '/theme',
   );
 }

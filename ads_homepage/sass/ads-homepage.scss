@@ -1,0 +1,71 @@
+@import theme/all;
+
+// We don't want right column to appear.
+body.page-homepage .panel-col-last {
+	display: none;
+}
+
+body.page-homepage .panel-col-first {
+  width: 20%;
+}
+
+body.page-homepage .panel-col {
+  width: 80%;
+}
+
+.view-categories-grouped {
+
+  padding: 10px 0 0 0;
+
+  > .view-content > div.item-list {
+    /* Forcing categories to fill all possible columns */
+    margin: 0 auto;
+    width: 200px;
+    overflow: hidden;
+  }
+
+  /* Category icon. */
+  img {
+  	margin-right: 5px;
+  	vertical-align: -15%;
+  }
+
+  // Category title.
+  .title {
+    color: #000;
+    font-weight: bold;
+    margin: 14px 0px 4px 0px;
+    padding: 6px 8px 8px 5px;
+    white-space: nowrap;
+    word-wrap: normal;
+  
+  }
+
+  // Category icon.
+  li img {
+  	float: left;
+  	padding-right: 6px;
+  }
+
+  // Category names.
+  ul {
+    margin: 4px 0 16px 0;
+    list-style: none;
+    padding: 0px 6px 0 6px;
+  }
+
+  // Category name.
+  li {
+    clear: left;
+    margin-left: 23px;
+    
+    a {
+      line-height: $fontNormalSize + 8px;
+      font-size: $fontNormalSize;
+    }
+    
+  }
+  
+  
+}
+

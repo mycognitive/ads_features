@@ -23,6 +23,16 @@ function ads_search_db_default_search_api_server() {
             "type" : "text",
             "boost" : "5.0"
           },
+          "status" : {
+            "table" : "search_api_db_ads_adverts_status",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "author" : {
+            "table" : "search_api_db_ads_adverts_author",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
           "search_api_language" : {
             "table" : "search_api_db_ads_adverts_search_api_language",
             "type" : "string",

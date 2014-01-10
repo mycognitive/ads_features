@@ -1,0 +1,102 @@
+<?php
+/**
+ * @file
+ * Ads Theme module.
+ */
+
+global $ads_theme_css_list;
+
+define ('ADS_THEME_FIND_SASS', 'sass');
+define ('ADS_THEME_FIND_JS', 'js');
+
+/**
+ * Finds location of a CSS/LESS styles in the specified directory.
+ *
+ * @param string $module_name
+ *   Name of the source module.
+ * @param string $folder
+ *   Path to the styles file, relative to the source module folder.
+ * @param string $name
+ *   Full name of the styles file.
+ */
+function ads_theme_find($module_name, $folder, $name, $type) {
+  $cache_id = 'theme_registry:ads_theme_find_styles_cache';
+
+  $cache = cache_get($cache_id, 'cache');
+  if ($cache && !empty($cache->data[$module_name][$folder][$name])) {
+    return $cache->data[$module_name][$folder][$name];
+  }
+
+  $cache = array();
+
+  if ($type == ADS_THEME_FIND_SASS) {
+    $suggestions = array('sass/', 'sass/overrides/', 'sass/overrides/' . $module_name . '/');
+  }
+  elseif ($type == ADS_THEME_FIND_JS) {
+    $suggestions = array('js/', 'js/' . $module_name . '/');
+  }
+
+  global $theme;
+
+  foreach ($suggestions as $suggestion) {
+    $theme_path = drupal_get_path('theme', $theme) . '/' . $suggestion . $name;
+    if (file_exists($theme_path)) {
+      $cache[$module_name][$folder][$name] = $theme_path;
+      cache_set($cache_id, $cache);
+      return $theme_path;
+    }
+  }
+
+  foreach ($suggestions as $suggestion) {
+    $local_path  = $folder . '/' . $suggestion . $name;
+    if (file_exists($local_path)) {
+      $cache[$module_name][$folder][$name] = $local_path;
+      cache_set($cache_id, $cache);
+      return $local_path;
+    }
+  }
+
+  foreach ($suggestions as $suggestion) {
+    $module_path = drupal_get_path('module', $module_name) . '/' . $suggestion . $name;
+    if (file_exists($module_path)) {
+      $cache[$module_name][$folder][$name] = $module_path;
+      cache_set($cache_id, $cache);
+      return $module_path;
+    }
+  }
+}
+
+function ads_theme_add_css($path) {
+  drupal_add_css($path);
+}
+
+function ads_theme_add_js($path) {
+  drupal_add_js($path);
+}
+
+/**
+ * Implements hook_sassy_reolve_path_HOOK().
+ *
+ * Allows @import theme/path_to_file_under_current_theme_sass_folder
+ */
+function ads_theme_sassy_resolve_path_theme($filename) {
+  global $theme;
+
+  $path      = drupal_get_path('theme', $theme) . '/sass/' . $filename;
+  $file_name = pathinfo($path, PATHINFO_FILENAME);
+  $path      = dirname($path);
+
+  $files     = array(
+    $path . '/' . $file_name,
+    $path . '/_' . $file_name,
+  );
+
+  foreach (array('', '.scss', '.sass') as $ext) {
+    foreach ($files as $file) {
+      if (file_exists($file . $ext)) {
+        return $file . $ext;
+      }
+    }
+  }
+  return FALSE;
+}

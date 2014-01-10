@@ -89,6 +89,29 @@ function ads_search_views_default_views() {
   $handler = $view->new_display('page', 'Search results', 'ads_search_results');
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'search/results';
+  $translatables['ads_search_results'] = array(
+    t('Master'),
+    t('Search results'),
+    t('more'),
+    t('Search'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('No adverts found.'),
+    t('<h2>Your search returned no results.</h2>
+<p>Please use the <b>keyword</b> and <b>location</b> search on the left to search again.<br>'),
+    t('Title'),
+    t('Keywords:'),
+    t('Location:'),
+  );
   $export['ads_search_results'] = $view;
 
   return $export;

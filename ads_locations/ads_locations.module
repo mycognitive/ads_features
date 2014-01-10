@@ -1,0 +1,168 @@
+<?php
+/**
+ * @file
+ * ADS Locations module.
+ * Provides locations for a single country/region.
+ */
+
+include_once 'ads_locations.features.inc';
+
+/**
+ * Implements ads_configure().
+ *
+ * @TODO: Country uninstallation support.
+ */
+function ads_locations_ads_configure($properties) {
+
+  // Importing taxonomy_csv module's functions.
+  $taxonomy_csv_module_dir = drupal_get_path('module', 'taxonomy_csv');
+  require_once "$taxonomy_csv_module_dir/import/taxonomy_csv.import.api.inc";
+
+  $countries = @$properties['locations']['countries'];
+
+  if ($countries === NULL) {
+    $countries = 'ad';
+  }
+
+  $countries = explode(',', drupal_strtoupper($countries));
+
+  if (drupal_is_cli()) {
+    // Function ran from the drush command.
+    drush_print(dt('ads_locations: Trying to import locations for the following countries: [!countries]', array(
+    '!countries' => implode(', ', $countries)
+    )));
+  }
+
+  foreach ($countries as $country_name) {
+    // Country installation.
+    if (!ads_setup_is_installed('location', $country_name)) {
+      // Installing country only if it's not already installed.
+      $file_path = drupal_get_path('module', 'ads_locations')
+        . '/data/countries/' . $country_name . '.csv';
+
+      // Checking for vocabulary file existence.
+      if (!file_exists($file_path)) {
+        // Country not found.
+        throw new Exception(t("Cannot import locations for country '!name', couldn't locate '!path' file", array(
+          '!name' => $country_name,
+          '!path' => $file_path
+        )));
+      }
+
+      taxonomy_csv_import(array(
+        'text'              => file_get_contents($file_path),
+        'vocabulary_id'     => 'locations',
+        'vocabulary_target' => 'existing',
+        'update_or_ignore'  => 'update',
+        'import_format'     => 'tree',
+        'enclosure'          => '"',
+        'delimiter'         => ',',
+        'set_hierarchy'     => 2,
+        'check_options'     => TRUE,
+        'source_choice'     => 'text',
+        'result_level'      => 'warnings',
+      ));
+
+      drush_backend_batch_process();
+
+      ads_setup_mark_installed('location', $country_name);
+    }
+    else {
+      // Country is already imported, nothing to do.
+    }
+  }
+}
+
+/**
+ * Implements shs_term_get_children_alter().
+ */
+function ads_locations_shs_term_get_children_alter(&$terms, $options) {
+  $vocabulary = taxonomy_vocabulary_load($options['vid']);
+
+  // Checking if the taxonomy vocabulary is the "locations" one and script wants
+  // to retrieve root level terms.
+  if ($vocabulary->machine_name !== 'locations' || $options['parent'] != 0) {
+    return;
+  }
+
+  $terms_ref = &$terms[$options['vid']][0][0];
+
+  // We're allowing only the countries that exists in the "countries" module and
+  // have been enabled by the user.
+  $countries = countries_get_countries('name');
+
+  foreach ($terms_ref as $tid => &$term) {
+    if (array_key_exists($term, $countries) && country_load($term)->enabled) {
+      // Country exists in "countries" module and has been enabled.
+      $term = $countries[$term];
+    }
+    else {
+      // We don't want that country in our list.
+      unset($terms_ref[$tid]);
+    }
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function ads_locations_init() {
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ads_locations_theme($existing, $type, $theme, $path) {
+  return array(
+      'ads_locations_selection' => array(
+        'template' => 'ads-locations-selection',
+        'path' => $path . '/theme',
+        'type' => 'theme',
+      ),
+  );
+}
+
+/**
+ * Preprocesses ads_locations_selection template variables.
+ *
+ * @param array $vars
+ *   Source variables: ['view' => class view]
+ */
+function ads_locations_preprocess_ads_locations_selection(&$vars) {
+
+  global $theme;
+
+  ads_theme_add_js(ads_theme_find('ads_locations', $vars['directory'], 'ads-locations.js', ADS_THEME_FIND_JS));
+  ads_theme_add_css(ads_theme_find('ads_locations', $vars['directory'], 'ads-locations-selection.scss', ADS_THEME_FIND_SASS));
+
+  $tree      = array();
+  $countries = countries_get_countries('name');
+
+  foreach ($vars['view']->result as $row) {
+    $level1_tid   = $row->taxonomy_term_data_taxonomy_term_hierarchy_1_tid;
+    $level1_title = $row->taxonomy_term_data_taxonomy_term_hierarchy_1_name;
+    $level2_tid   = $row->taxonomy_term_data_taxonomy_term_hierarchy_tid;
+    $level2_title = $row->taxonomy_term_data_taxonomy_term_hierarchy_name;
+    $level3_tid   = $row->tid;
+    $level3_title = $row->taxonomy_term_data_name;
+
+    // Titles.
+    $tree[$level1_tid]['title'] = $countries[$level1_title];
+
+    // Urls to the taxonomy terms for each level.
+    $level1_url = drupal_get_path_alias('taxonomy/term/' . $level1_tid);
+    $level2_url = drupal_get_path_alias('taxonomy/term/' . $level2_tid);
+    $level3_url = drupal_get_path_alias('taxonomy/term/' . $level3_tid);
+
+    $tree[$level1_tid]['url'] = $level1_url;
+    $tree[$level1_tid]['children'][$level2_tid]['url'] = $level2_url;
+    $tree[$level1_tid]['children'][$level2_tid]['children'][$level3_tid]['url'] = $level3_url;
+
+    // Titles continued.
+    $tree[$level1_tid]['children'][$level2_tid]['title'] = $level2_title;
+    $tree[$level1_tid]['children'][$level2_tid]['children'][$level3_tid]['title'] = $level3_title;
+  }
+
+  $vars['tree'] = $tree;
+}

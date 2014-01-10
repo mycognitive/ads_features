@@ -121,6 +121,8 @@ function ads_advert_form_wizard() {
 function ads_advert_form_step($form, &$form_state, $step = 1) {
 
   module_load_include('inc', 'node', 'node.pages');
+  
+  ctools_include('object-cache');
 
   $user = $GLOBALS['user'];
 

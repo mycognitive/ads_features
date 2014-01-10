@@ -96,6 +96,7 @@ function ads_taxonomy_import($module_name = NULL) {
         'enclosure'          => '"',
         'delimiter'         => ',',
         'set_hierarchy'     => 2,
+        'source_choice'     => 'text',
         'check_options'     => TRUE,
         'result_level'      => 'warnings',
       ));
@@ -106,12 +107,29 @@ function ads_taxonomy_import($module_name = NULL) {
 }
 
 /**
+ * Imports tree-based CSV source into the specified vocabulary.
+ *
+ * @param string $vocabulary_name
+ *   Machine name of the target vocabulary.
+ *
+ * @param string $source
+ *   CSV file content.
+ *
+ * Options:
+ *  - rootTID - Taxonomy term ID to be used as the parent of all 1st level
+ *    terms.
+ */
+function ads_taxonomy_import_ex($vocabulary_name, $source, $options = array()) {
+}
+
+/**
  * Implements hook_modules_installed().
  */
 function ads_taxonomy_modules_installed($modules) {
   foreach ($modules as $name) {
     if (module_hook($name, 'ads_taxonomy_files')) {
-      // Module implements hook_ads_taxonomy_files(). Importing its taxonomies.
+      // Importing taxonomies from modules that implemented
+      // hook_ads_taxonomy_files().
       ads_taxonomy_import($name);
     }
   }

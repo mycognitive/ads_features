@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * ADS Setup module.
+ * Provides post-installation setup screen for Ads distribution and module
+ * configuration hook with access to the build.properties file.
+ */
+
+/**
+ * Checks whether specified feature is already installed in the system.
+ *
+ * @param string $feature_name
+ *   Name of the feature
+ *
+ * @param string $arg1
+ *   Optional indentifier appended to the constructed feature key.
+ *
+ * @return bool
+ *   TRUE if feature is already installed or FALSE elsewhere.
+ */
+function ads_setup_is_installed($feature_name, $arg1 = NULL) {
+  return variable_get('ASF_' . $feature_name . '_' . ($arg1 !== NULL ? $arg1 : ''), FALSE);
+}
+
+/**
+ * Marks specified feature as already installed in the system.
+ *
+ * @param string $feature_name
+ *   Name of the feature
+ *
+ * @param string $arg1
+ *   Optional indentifier appended to the constructed feature key.
+ */
+function ads_setup_mark_installed($feature_name, $arg1 = NULL) {
+  variable_set('ASF_' . $feature_name . '_' . ($arg1 !== NULL ? $arg1 : ''), TRUE);
+}
+
+/**
+ * Invokes ads_configure hook for all the modules or the specified one.
+ *
+ * @param string $properties_path
+ *   Optional. Name of the module to [re]configure.
+ *
+ * @param string $module_name
+ *   Optional. Name of the module to [re]configure.
+ */
+function ads_setup_configure($properties_path, $module_name = NULL) {
+  $properties = json_decode(file_get_contents($properties_path), TRUE);
+
+  if ($module_name != NULL) {
+    $modules = array($module_name);
+  }
+  else {
+    $modules = module_implements('ads_configure', TRUE);
+  }
+
+  foreach ($modules as $module_name) {
+    module_invoke($module_name, 'ads_configure', $properties);
+  }
+}
