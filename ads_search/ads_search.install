@@ -28,6 +28,17 @@ function ads_search_requirements($phase) {
         $requirements['ads_search']['value'] = $t('OK');
       }
     }
+    elseif (!empty($_POST['form_build_id'])) {
+      // Features form saved (after dependendies confirmation).
+      $form_state = array();
+      form_get_cache($_POST['form_build_id'], $form_state);
+      $additional_modules = &$form_state['storage']['more_required'];
+
+      if (array_key_exists('ads_search_db', $additional_modules) || array_key_exists('ads_search_solr', $additional_modules)) {
+        // One of the modules has been marked to be enabled.
+        $requirements['ads_search']['value'] = $t('OK');
+      }
+    }
     elseif (drupal_is_cli() && function_exists('drush_main')) {
       // Is it a Drush "pm-enable"?
       $context   = drush_get_context();
