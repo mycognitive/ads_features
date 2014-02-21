@@ -15,6 +15,9 @@ function ads_search_solr_default_search_api_server() {
     "description" : "Uses a Solr to index data. It has great performance, is suitable even for use on large commercial websites and supports facets and multi-index searches.",
     "class" : "search_api_solr_service",
     "options" : {
+      "clean_ids_form" : [],
+      "clean_ids" : false,
+      "scheme" : "http",
       "host" : "localhost",
       "port" : "8983",
       "path" : "\\/solr",

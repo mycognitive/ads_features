@@ -7,17 +7,6 @@
 include_once 'ads_search.features.inc';
 
 /**
- * Implements hook_init().
- */
-function ads_search_init() {
-  if (!module_exists('ads_search_db') && !module_exists('ads_search_solr')) {
-    // Disabling ads_search module as it doesn't work individually.
-    drupal_set_message(t('Module <b>Ads Search</b> has been disabled as it requires at least one additional module to be enabled: <b>Ads Search via DB</b> or <b>Ads Search Solr</b>.'));
-    drupal_register_shutdown_function('module_disable', array('ads_search'));
-  }
-}
-
-/**
  * Implements hook_entity_info_alter().
  */
 function ads_search_entity_info_alter(&$entity_info) {
@@ -25,4 +14,87 @@ function ads_search_entity_info_alter(&$entity_info) {
     'label' => t('Search Results Item'),
     'custom settings' => TRUE,
   );
+}
+
+/**
+ * Enabled/disables/deletes specified Search API indexes.
+ */
+function ads_search_index_change_status($server_machine_name, $status) {
+  $query = db_select('search_api_index', 'i');
+
+  if ($server_machine_name === NULL) {
+    $query->isNull('i.server');
+  }
+  else {
+    $query->condition('i.server', $server_machine_name);
+  }
+  $index_ids = $query
+    ->fields('i', array('id'))
+    ->execute()
+    ->fetchAll();
+
+  foreach ($index_ids as $index) {
+    if ($status == 'disable') {
+      search_api_index_disable($index->id);
+    }
+    elseif ($status == 'enable') {
+      search_api_index_enable($index->id);
+    }
+    elseif ($status == 'delete') {
+      search_api_index_delete($index->id);
+    }
+  }
+}
+
+/**
+ * Enabled/disables/deletes specified Search API server.
+ */
+function ads_search_server_change_status($machine_name, $status) {
+  $server_id = db_select('search_api_server', 's')
+    ->condition('s.machine_name', $machine_name)
+    ->fields('s', array('id'))
+    ->execute()
+    ->fetchField();
+
+  if ($server_id) {
+    $index_ids = db_select('search_api_index', 'i')
+      ->condition('i.server', $machine_name)
+      ->fields('i', array('id'))
+      ->execute()
+      ->fetchAll();
+
+    foreach ($index_ids as $index) {
+      if ($status == 'disable') {
+        search_api_index_disable($index->id);
+      }
+      elseif ($status == 'enable') {
+        search_api_index_enable($index->id);
+      }
+      elseif ($status == 'delete') {
+        search_api_index_delete($index->id);
+      }
+    }
+
+    if ($status == 'disable') {
+      search_api_server_disable($server_id);
+    }
+    elseif ($status == 'enable') {
+      search_api_server_enable($server_id);
+    }
+    elseif ($status == 'delete') {
+      search_api_server_delete($server_id);
+    }
+  }
+}
+
+function ads_search_features_revert($modules) {
+  module_load_include('inc', 'features', 'features.export');
+  features_include();
+
+  foreach ($modules as $module) {
+    if (($feature = feature_load($module, TRUE))) {
+      // Forcefully revert all components of a feature.
+      features_revert(array($module => array_keys($feature->info['features'])));
+    }
+  }
 }

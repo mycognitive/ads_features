@@ -8,6 +8,7 @@ project = ads_homepage
 dependencies[] = ads_taxonomy
 dependencies[] = ctools
 dependencies[] = jquery_update
+dependencies[] = masonry
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = strongarm

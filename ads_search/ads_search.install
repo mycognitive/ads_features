@@ -5,6 +5,17 @@
  */
 
 /**
+ * Implements hook_modules_disabled().
+ */
+function ads_search_modules_disabled($modules) {
+  if (!module_exists('ads_search_db') && !module_exists('ads_search_solr')) {
+    // Disabling ads_search module as it doesn't work individually.
+    module_disable(array('ads_search'), FALSE);
+    drupal_set_message(t('Module <b>Ads Search</b> has been disabled as it requires at least one additional module to be enabled: <b>Ads Search via DB</b> or <b>Ads Search Solr</b>.'));
+  }
+}
+
+/**
  * Implements hook_requirements().
  */
 function ads_search_requirements($phase) {
