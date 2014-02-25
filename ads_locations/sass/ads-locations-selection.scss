@@ -11,7 +11,7 @@
 
 $locationsListCountryFontSize:	$baseFontSize;
 $locationsListCountryPadding:		6px 8px;
-$locationsListRegionPadding:		2px 8px;
+$locationsListRegionPadding:		3px 8px;
 $locationsListRegionFontSize:		11px;
 $locationsListCityPadding:			2px 8px 2px 8px;
 $locationsListCityFontSize:			11px;
@@ -21,7 +21,7 @@ $locationsListCityFontSize:			11px;
 	padding: 12px;
 	min-height: 500px;
 	
-	@include vertical-gradient(#7af, #8bf);
+	@include vertical-gradient(#91c556, #91c556);
 
   .country-title {
   
@@ -31,8 +31,8 @@ $locationsListCityFontSize:			11px;
     padding: $locationsListCountryPadding;
     font-size: $locationsListCountryFontSize;
     
-    @include vertical-gradient(#d73, #c61);
-    @include border-radius(5px, 5px);
+    @include vertical-gradient(#6bae48, #6bae48);
+    @include border-radius(4px, 4px);
     @include nowrap;
     
     .title {
@@ -47,10 +47,10 @@ $locationsListCityFontSize:			11px;
     }
     
     &:hover {
-      @include vertical-gradient(#d73 * 1.3, #c61 * 1.3);
+      @include vertical-gradient(#6bae48 * 1.1, #6bae48 * 1.0);
     }
     &:active {
-      @include vertical-gradient(#d73 * 0.6, #c61 * 0.8);
+      @include vertical-gradient(#6bae48 * 0.8, #6bae48 * 0.9);
     }
   }
   
@@ -61,27 +61,29 @@ $locationsListCityFontSize:			11px;
     	line-height: $baseLineHeight;
     	padding: $locationsListRegionPadding;
     	font-size: $locationsListRegionFontSize;
+      font-weight: bold;
+      color: #fff;
     	
     	&.open {
-    	  font-weight: bold;
+    	  
     	}
     	
     	.arrow {
-        @include image-float-normal("../images/icon-arrow-right-black.gif", 16px, 16px, 2px);
+        @include image-float-normal("../images/icon-arrow-right-white.gif", 16px, 16px, 2px);
       }
       
       &.open .arrow {
-        @include image-float-normal("../images/icon-arrow-down-black.gif", 16px, 16px, 2px);
+        @include image-float-normal("../images/icon-arrow-down-white.gif", 16px, 16px, 2px);
       }
       
       &:hover {
         cursor: pointer;
-        color: #333;
+        text-decoration: underline;
       }
     }
 
     .cities {
-      padding: 4px 0;
+      padding: 4px 0 10px 0;
       .city-title {
         a {
           color: #fff;

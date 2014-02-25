@@ -60,6 +60,8 @@ function ctools_ads_include_page_content_type_edit_form($form, &$form_state) {
     $pages[$page_object->name] = $page_object->admin_title . ' (' . $page_object->path . ')';
   }
 
+  ksort($pages);
+
   $form['page_name'] = array(
     '#type' => 'select',
     '#title' => t('Page'),
