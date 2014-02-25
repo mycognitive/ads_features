@@ -94,8 +94,6 @@ function ads_locations_shs_term_get_children_alter(&$terms, $options) {
   foreach ($terms_ref as $tid => &$term) {
     if (array_key_exists($term, $countries) && country_load($term)->enabled) {
       // Country exists in "countries" module and has been enabled.
-            die($term);
-
       $term = $countries[$term];
     }
     else {
