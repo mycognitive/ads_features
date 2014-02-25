@@ -2,7 +2,7 @@
 
 // We don't want right column to appear.
 body.page-homepage .panel-col-last {
-	display: none;
+	width: 20%;
 }
 
 body.page-homepage .panel-col-first {
@@ -10,7 +10,7 @@ body.page-homepage .panel-col-first {
 }
 
 body.page-homepage .panel-col {
-  width: 80%;
+  width: 60%;
 }
 
 .view-categories-grouped {

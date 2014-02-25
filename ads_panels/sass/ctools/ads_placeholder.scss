@@ -1,0 +1,76 @@
+/**
+ * Stoneridge Debug module styles.
+ */
+
+div.pane-ads-placeholder {
+  padding: 8px 14px 16px 14px;
+  margin: 8px 0;
+  min-width: 80px;
+}
+
+div.pane-ads-placeholder:first-child {
+  margin-top: 0;
+}
+
+div.pane-ads-placeholder:last-child {
+  margin-bottom: 0;
+}
+
+div.pane-ads-placeholder h2 {
+  color: #000;
+}
+
+div.pane-ads-placeholder:hover h2 {
+  color: #000;
+}
+
+div.pane-ads-placeholder {
+  background: #ffc;
+}
+
+div.pane-ads-placeholder:hover {
+  background: #f3e596;
+}
+
+div.pane-ads-placeholder h2 {
+	font-size: 16px;
+}
+
+div.pane-ads-placeholder div {
+  font-size: 12px;
+  color: #333;
+}
+
+div.pane-ads-placeholder:hover div {
+  color: #333;
+}
+
+div.pane-ads-placeholder div.massive_debug_placeholder.tiny {
+}
+
+div.pane-ads-placeholder div.massive_debug_placeholder.small {
+  min-height: 50px;
+}
+
+div.pane-ads-placeholder div.massive_debug_placeholder.medium {
+  min-height: 100px;
+}
+
+div.pane-ads-placeholder div.massive_debug_placeholder.big {
+  min-height: 200px;
+}
+
+div.pane-ads-placeholder div.massive_debug_placeholder.huge {
+  min-height: 400px;
+}
+
+div.pane-ads-placeholder div.massive_debug_placeholder.tiny span {
+  display: none;
+}
+
+div.blocks div.pane-ads-placeholder {
+  width: 170px;
+  height: 170px;
+  float: left;
+  margin: 4px !important;
+}

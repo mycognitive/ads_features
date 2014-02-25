@@ -22,8 +22,9 @@ function ads_search_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Search results';
+  $handler->display->display_options['title'] = 'Search Filters Facets';
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -85,13 +86,27 @@ function ads_search_views_default_views() {
     3 => 0,
   );
 
-  /* Display: Search results */
-  $handler = $view->new_display('page', 'Search results', 'ads_search_results');
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'search_results_content_pane');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['link_url'] = 'search/results';
   $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'search/results';
+  $handler->display->display_options['pane_category']['name'] = 'ADS Views';
+  $handler->display->display_options['pane_category']['weight'] = '0';
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 'path_override';
+  $handler->display->display_options['allow']['title_override'] = 0;
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
+  $handler->display->display_options['link_to_view'] = '1';
+  $handler->display->display_options['inherit_panels_path'] = '1';
   $translatables['ads_search_results'] = array(
     t('Master'),
-    t('Search results'),
+    t('Search Filters Facets'),
     t('more'),
     t('Search'),
     t('Reset'),
@@ -111,6 +126,8 @@ function ads_search_views_default_views() {
     t('Title'),
     t('Keywords:'),
     t('Location:'),
+    t('Content pane'),
+    t('ADS Views'),
   );
   $export['ads_search_results'] = $view;
 

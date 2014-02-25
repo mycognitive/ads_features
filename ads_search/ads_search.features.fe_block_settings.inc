@@ -12,6 +12,58 @@ function ads_search_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
+  $export['facetapi-46tgU9JMiTyvBDk1VJn9mdzx1mySNZT1'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => '46tgU9JMiTyvBDk1VJn9mdzx1mySNZT1',
+    'module' => 'facetapi',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['facetapi-GLow6e2NSrErmpH4NJVR8daltTHNsTAb'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'GLow6e2NSrErmpH4NJVR8daltTHNsTAb',
+    'module' => 'facetapi',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
   $export['facetapi-MkAg0o0zD2xtOTg6OF3FtfffXC6lCe0p'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -21,12 +73,6 @@ function ads_search_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'ads',
-        'weight' => 0,
-      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,
@@ -44,21 +90,15 @@ function ads_search_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['facetapi-iAso1tFuLKWJpoxMT485z17Hkjtn3kKG'] = array(
+  $export['facetapi-SBanNTe1UW8gM1VWyEREptvK02VzIJzN'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => 'iAso1tFuLKWJpoxMT485z17Hkjtn3kKG',
+    'delta' => 'SBanNTe1UW8gM1VWyEREptvK02VzIJzN',
     'module' => 'facetapi',
     'node_types' => array(),
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'ads',
-        'weight' => 0,
-      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,
@@ -76,24 +116,18 @@ function ads_search_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['views-988bf951e4ed835a8625c382c2cf668e'] = array(
+  $export['facetapi-ZGjhzLnk6NO4nm0c33F1ZVHYUybad190'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => '988bf951e4ed835a8625c382c2cf668e',
-    'module' => 'views',
+    'delta' => 'ZGjhzLnk6NO4nm0c33F1ZVHYUybad190',
+    'module' => 'facetapi',
     'node_types' => array(),
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => 'header',
-        'status' => 1,
-        'theme' => 'ads',
-        'weight' => 0,
-      ),
       'bartik' => array(
-        'region' => 'header',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'bartik',
         'weight' => 0,
       ),
@@ -104,7 +138,33 @@ function ads_search_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => '<none>',
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-892bf6e56abdd4696e4aeadf07055edb'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => '892bf6e56abdd4696e4aeadf07055edb',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
     'visibility' => 0,
   );
 
