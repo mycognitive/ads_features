@@ -5,6 +5,7 @@ package = Ads Features
 php = 5.2.4
 version = 7.x-1.0-alpha1
 project = ads_search
+dependencies[] = ads_panels
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = fe_block
