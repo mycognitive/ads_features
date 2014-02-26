@@ -9,19 +9,19 @@
 @import compass/typography/lists/bullets;
 @import compass/utilities/general/clearfix;
 
-$locationsListCountryFontSize:	$baseFontSize;
-$locationsListCountryPadding:		6px 8px;
-$locationsListRegionPadding:		3px 8px;
-$locationsListRegionFontSize:		11px;
-$locationsListCityPadding:			2px 8px 2px 8px;
-$locationsListCityFontSize:			11px;
+$locationsListCountryFontSize:  $baseFontSize;
+$locationsListCountryPadding:    6px 8px;
+$locationsListRegionPadding:    3px 8px;
+$locationsListRegionFontSize:    11px;
+$locationsListCityPadding:      2px 8px 2px 8px;
+$locationsListCityFontSize:      11px;
 
 .module-ads-locations {
 
-	padding: 12px;
-	min-height: 500px;
-	
-	@include vertical-gradient(#91c556, #91c556);
+  padding: 12px;
+  min-height: 500px;
+  
+  @include vertical-gradient(#91c556, #91c556);
 
   .country-title {
   
@@ -58,17 +58,17 @@ $locationsListCityFontSize:			11px;
     padding: 4px 0;
   
     .region-title {
-    	line-height: $baseLineHeight;
-    	padding: $locationsListRegionPadding;
-    	font-size: $locationsListRegionFontSize;
+      line-height: $baseLineHeight;
+      padding: $locationsListRegionPadding;
+      font-size: $locationsListRegionFontSize;
       font-weight: bold;
       color: #fff;
-    	
-    	&.open {
-    	  
-    	}
-    	
-    	.arrow {
+      
+      &.open {
+        
+      }
+      
+      .arrow {
         @include image-float-normal("../images/icon-arrow-right-white.gif", 16px, 16px, 2px);
       }
       
@@ -88,9 +88,9 @@ $locationsListCityFontSize:			11px;
         a {
           color: #fff;
         }
-      	line-height: $locationsListCityFontSize + 4px;
-      	padding: $locationsListCityPadding;
-      	font-size: $locationsListCityFontSize;
+        line-height: $locationsListCityFontSize + 4px;
+        padding: $locationsListCityPadding;
+        font-size: $locationsListCityFontSize;
       }
     }
   }

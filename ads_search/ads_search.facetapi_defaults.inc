@@ -55,7 +55,7 @@ function ads_search_facetapi_default_facet_settings() {
     'facet_missing' => '0',
     'flatten' => 0,
     'query_type' => 'term',
-    'default_true' => TRUE,
+    'default_true' => '1',
     'facet_search_ids' => array(),
   );
   $export['search_api@ads_adverts::field_ad_price'] = $facet;
@@ -501,7 +501,7 @@ function ads_search_facetapi_default_facet_settings() {
     'nofollow' => 1,
     'show_expanded' => 0,
     'name' => '',
-    'prefix' => '',
+    'prefix' => '£',
     'suffix' => '',
     'auto-submit-delay' => '1500',
     'range_simple' => '10',

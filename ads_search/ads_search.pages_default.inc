@@ -207,7 +207,7 @@ function ads_search_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -360,6 +360,27 @@ function ads_search_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-9'] = $pane;
     $display->panels['center'][0] = 'new-9';
+    $pane = new stdClass();
+    $pane->pid = 'new-10';
+    $pane->panel = 'center';
+    $pane->type = 'block';
+    $pane->subtype = 'facetapi-MkAg0o0zD2xtOTg6OF3FtfffXC6lCe0p';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-10'] = $pane;
+    $display->panels['center'][1] = 'new-10';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -410,8 +431,129 @@ function ads_search_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display();
-  $display->layout = 'threecol_25_50_25_stacked';
-  $display->layout_settings = array();
+  $display->layout = 'flexible';
+  $display->layout_settings = array(
+    'items' => array(
+      'canvas' => array(
+        'type' => 'row',
+        'contains' => 'column',
+        'children' => array(
+          0 => 'main',
+        ),
+        'parent' => NULL,
+      ),
+      'main' => array(
+        'type' => 'column',
+        'width' => 100,
+        'width_type' => '%',
+        'children' => array(
+          0 => 2,
+          1 => 1,
+          2 => 7,
+        ),
+        'parent' => 'canvas',
+        'class' => '',
+      ),
+      1 => array(
+        'type' => 'row',
+        'contains' => 'column',
+        'children' => array(
+          0 => 3,
+          1 => 4,
+        ),
+        'parent' => 'main',
+        'class' => '',
+      ),
+      2 => array(
+        'type' => 'row',
+        'contains' => 'region',
+        'children' => array(
+          0 => 'top',
+        ),
+        'parent' => 'main',
+        'class' => '',
+      ),
+      3 => array(
+        'type' => 'column',
+        'width' => 50,
+        'width_type' => '%',
+        'parent' => '1',
+        'children' => array(
+          0 => 5,
+        ),
+        'class' => 'search-results-left-column',
+      ),
+      4 => array(
+        'type' => 'column',
+        'width' => 50,
+        'width_type' => '%',
+        'parent' => '1',
+        'children' => array(
+          0 => 6,
+        ),
+        'class' => 'search-results-right-column',
+      ),
+      5 => array(
+        'type' => 'row',
+        'contains' => 'region',
+        'children' => array(
+          0 => 'left',
+        ),
+        'parent' => '3',
+        'class' => '',
+      ),
+      6 => array(
+        'type' => 'row',
+        'contains' => 'region',
+        'children' => array(
+          0 => 'right',
+        ),
+        'parent' => '4',
+        'class' => '',
+      ),
+      'left' => array(
+        'type' => 'region',
+        'title' => 'Left',
+        'width' => 100,
+        'width_type' => '%',
+        'parent' => '5',
+        'class' => '',
+      ),
+      'right' => array(
+        'type' => 'region',
+        'title' => 'Right',
+        'width' => 100,
+        'width_type' => '%',
+        'parent' => '6',
+        'class' => '',
+      ),
+      7 => array(
+        'type' => 'row',
+        'contains' => 'region',
+        'children' => array(
+          0 => 'bottom',
+        ),
+        'parent' => 'main',
+        'class' => '',
+      ),
+      'bottom' => array(
+        'type' => 'region',
+        'title' => 'Bottom',
+        'width' => 100,
+        'width_type' => '%',
+        'parent' => '7',
+        'class' => '',
+      ),
+      'top' => array(
+        'type' => 'region',
+        'title' => 'Top',
+        'width' => 100,
+        'width_type' => '%',
+        'parent' => '2',
+        'class' => '',
+      ),
+    ),
+  );
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
@@ -436,7 +578,7 @@ function ads_search_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-11';
     $pane->panel = 'left';
     $pane->type = 'ads_include_page';
     $pane->subtype = 'ads_include_page';
@@ -455,17 +597,29 @@ function ads_search_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['left'][0] = 'new-10';
+    $display->content['new-11'] = $pane;
+    $display->panels['left'][0] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-12';
     $pane->panel = 'left';
-    $pane->type = 'block';
-    $pane->subtype = 'views-b4951aacba0a9fb24bb170bd4f6c7a7e';
+    $pane->type = 'views';
+    $pane->subtype = 'ads_locations_grouped';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_pager_settings' => 0,
+      'use_pager' => 0,
+      'nodes_per_page' => '0',
+      'pager_id' => '0',
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 0,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'default',
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -476,11 +630,11 @@ function ads_search_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['left'][1] = 'new-11';
+    $display->content['new-12'] = $pane;
+    $display->panels['left'][1] = 'new-12';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
-    $pane->panel = 'middle';
+    $pane->pid = 'new-13';
+    $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'ads_search_results-search_results_content_pane';
     $pane->shown = TRUE;
@@ -496,10 +650,10 @@ function ads_search_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['middle'][0] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['right'][0] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-14';
     $pane->panel = 'top';
     $pane->type = 'ads_include_page';
     $pane->subtype = 'ads_include_page';
@@ -518,8 +672,8 @@ function ads_search_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['top'][0] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['top'][0] = 'new-14';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

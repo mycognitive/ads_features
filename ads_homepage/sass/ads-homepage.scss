@@ -2,7 +2,7 @@
 
 // We don't want right column to appear.
 body.page-homepage .panel-col-last {
-	width: 20%;
+  width: 20%;
 }
 
 body.page-homepage .panel-col-first {
@@ -26,8 +26,8 @@ body.page-homepage .panel-col {
 
   /* Category icon. */
   img {
-  	margin-right: 5px;
-  	vertical-align: -15%;
+    margin-right: 5px;
+    vertical-align: -15%;
   }
 
   // Category title.
@@ -43,8 +43,8 @@ body.page-homepage .panel-col {
 
   // Category icon.
   li img {
-  	float: left;
-  	padding-right: 6px;
+    float: left;
+    padding-right: 6px;
   }
 
   // Category names.
