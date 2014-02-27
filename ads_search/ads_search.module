@@ -149,13 +149,14 @@ function ads_search_ctools_render_alter($info, $page, $context) {
   if ($page) {
     switch ($context['handler']->name) {
       case 'page_search_filters_top_bar_panel_context':
+        ads_theme_add_css(ads_theme_find('ads_search', drupal_get_path('module', 'ads_search'), 'ads-search.scss', ADS_THEME_FIND_SASS));
+        ads_theme_add_css(ads_theme_find('ads_search', drupal_get_path('module', 'ads_search'), 'ads-search-filters-top-bar.scss', ADS_THEME_FIND_SASS));
+        break;
+
       case 'page_search_results_panel_context':
-        // "Search Results" page requires some styles.
         ads_theme_add_css(ads_theme_find('ads_search', drupal_get_path('module', 'ads_search'), 'ads-search.scss', ADS_THEME_FIND_SASS));
         break;
     }
-
-
   }
 }
 

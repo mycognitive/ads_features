@@ -28,7 +28,9 @@ function ctools_ads_include_page_content_type_render($subtype, &$conf, $panel_ar
 
   module_load_include("inc", "page_manager", "plugins/tasks/page");
 
-  $block->content = page_manager_page_execute($page_name);
+  $page      = page_manager_page_execute($page_name);
+
+  $block->content = '<div class="' . $page_name . '">' . drupal_render($page) . '</div>';
 
   $conf['override_title_text'] = '';
 

@@ -1,21 +1,32 @@
 @import theme/all;
 
-// We don't want right column to appear.
-body.page-homepage .panel-col-last {
-  width: 20%;
-}
-
-body.page-homepage .panel-col-first {
-  width: 20%;
-}
-
-body.page-homepage .panel-col {
-  width: 60%;
+body.page-homepage {
+	.panel-col-first {
+  	width: 24%;
+  	margin: 0;
+  	padding: 0;
+  	
+    > .inside {
+    	margin: 0;
+    }
+  }
+  
+  .panel-col-last {
+ 	  width: 76%;
+    margin: 0;
+    padding: 0;
+    
+    > .inside {
+    	padding: 16px 16px;
+    	margin: 0;
+    }
+  }
 }
 
 .view-categories-grouped {
 
   padding: 10px 0 0 0;
+  
 
   > .view-content > div.item-list {
     /* Forcing categories to fill all possible columns */
