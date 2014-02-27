@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the ADS Recruiter feature.
+ */
+
+include_once 'ads_recruiter.features.inc';
