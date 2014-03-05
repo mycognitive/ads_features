@@ -28,9 +28,19 @@ function ctools_ads_include_page_content_type_render($subtype, &$conf, $panel_ar
 
   module_load_include("inc", "page_manager", "plugins/tasks/page");
 
-  $page      = page_manager_page_execute($page_name);
+  if (page_manager_page_load($page_name)) {
+    $page      = page_manager_page_execute($page_name);
 
-  $block->content = '<div class="' . $page_name . '">' . drupal_render($page) . '</div>';
+    if (is_array($page))
+      $page_html = drupal_render($page);
+    else
+      $page_html = $page;
+  }
+  else {
+    $page_html = '<div style="padding: 20px; background: #ff3; color:#fff; text-align: center; font-size: 16px;">Page ' . $page_name . ' not found</div>';
+  }
+
+  $block->content = '<div class="' . $page_name . '">' . $page_html . '</div>';
 
   $conf['override_title_text'] = '';
 
