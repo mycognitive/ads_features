@@ -1,0 +1,10 @@
+name = ADS Internationalization
+description = Provides multilanguage support for ADS.
+core = 7.x
+package = Ads Features
+version = 7.x-1.0
+project = ads_i18n
+dependencies[] = i18n
+dependencies[] = locale
+features[features_api][] = api:1
+project path = sites/all/modules/ads/ads_features

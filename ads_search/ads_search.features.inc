@@ -12,13 +12,57 @@ function ads_search_ctools_plugin_api() {
   if ($module == "facetapi" && $api == "facetapi_defaults") {
     return array("version" => "1");
   }
+  list($module, $api) = func_get_args();
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+  list($module, $api) = func_get_args();
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
 }
 
 /**
  * Implements hook_views_api().
  */
 function ads_search_views_api() {
-  return array("api" => "3.0");
+  return array(
+    "api" => "3.0",
+    'template path' => drupal_get_path('module', 'ads_search') . '/theme',
+  );
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function ads_search_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: ads_thumbnail_listing.
+  $styles['ads_thumbnail_listing'] = array(
+    'name' => 'ads_thumbnail_listing',
+    'label' => 'ads_thumbnail_listing',
+    'effects' => array(
+      2 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => 75,
+          'upscale' => 1,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
 }
 
 /**
@@ -36,29 +80,100 @@ function ads_search_default_search_api_index() {
       "index_directly" : 1,
       "cron_limit" : "50",
       "fields" : {
-        "title" : { "type" : "text", "boost" : "5.0" },
-        "status" : { "type" : "integer" },
-        "author" : { "type" : "integer", "entity_type" : "user" },
-        "field_ad_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ad_price" : { "type" : "decimal" },
-        "search_api_language" : { "type" : "string" },
-        "body:value" : { "type" : "text" },
-        "body:summary" : { "type" : "text" },
-        "field_ad_category:parent" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ad_category:parents_all" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" }
+        "title" : {
+          "type" : "text",
+          "boost" : 0.1,
+          "name" : "Title",
+          "description" : "The title of the node.",
+          "indexed" : true
+        },
+        "status" : {
+          "type" : "integer",
+          "boost" : 0.1,
+          "name" : "Status",
+          "description" : "Whether the node is published or unpublished.",
+          "indexed" : true
+        },
+        "author" : {
+          "type" : "integer",
+          "entity_type" : "user",
+          "name" : "Author",
+          "description" : "The author of the node.",
+          "boost" : 1,
+          "indexed" : true
+        },
+        "field_ad_category" : {
+          "type" : "integer",
+          "entity_type" : "taxonomy_term",
+          "name" : "Category",
+          "description" : "Field \\u0022field_ad_category\\u0022.",
+          "boost" : 1,
+          "indexed" : true
+        },
+        "field_ad_price" : {
+          "type" : "decimal",
+          "boost" : 0.1,
+          "name" : "Price",
+          "description" : "Field \\u0022field_ad_price\\u0022.",
+          "indexed" : true
+        },
+        "search_api_language" : {
+          "type" : "string",
+          "name" : "Item language",
+          "description" : "A field added by the search framework to let components determine an item\\u0027s language. Is always indexed.",
+          "boost" : 1,
+          "indexed" : true
+        },
+        "body:value" : {
+          "type" : "text",
+          "boost" : 0.1,
+          "name" : "The main body text \\u00bb Text",
+          "description" : null,
+          "indexed" : true
+        },
+        "body:summary" : {
+          "type" : "text",
+          "boost" : 0.1,
+          "name" : "The main body text \\u00bb Summary",
+          "description" : null,
+          "indexed" : true
+        },
+        "field_ad_category:parent" : {
+          "type" : "list\\u003Cinteger\\u003E",
+          "entity_type" : "taxonomy_term",
+          "name" : "Category \\u00bb Parent terms",
+          "description" : "The parent terms of the taxonomy term.",
+          "boost" : 1,
+          "indexed" : true
+        },
+        "field_ad_location:tid" : {
+          "type" : "integer",
+          "name" : "Location \\u00bb Term ID",
+          "description" : "The unique ID of the taxonomy term.",
+          "boost" : 1,
+          "indexed" : true
+        },
+        "field_ad_location:name" : {
+          "type" : "string",
+          "boost" : 0.1,
+          "name" : "Location \\u00bb Name",
+          "description" : "The name of the taxonomy term.",
+          "indexed" : true
+        }
       },
       "data_alter_callbacks" : {
+        "search_api_ranges_alter" : { "status" : 0, "weight" : "-50", "settings" : { "fields" : [] } },
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
           "settings" : { "default" : "0", "bundles" : { "advert" : "advert" } }
         },
-        "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_node_status" : { "status" : 1, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
         "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] }
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } }
       },
       "processors" : {
         "search_api_case_ignore" : {

@@ -52,7 +52,7 @@ function ads_homepage_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display();
-  $display->layout = 'threecol_25_50_25_stacked';
+  $display->layout = 'twocol_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -100,7 +100,29 @@ function ads_homepage_default_page_manager_pages() {
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'middle';
+    $pane->panel = 'right';
+    $pane->type = 'ads_include_page';
+    $pane->subtype = 'ads_include_page';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'page_name' => 'search_filters_top_bar',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
     $pane->type = 'block';
     $pane->subtype = 'views-categories_grouped-block';
     $pane->shown = TRUE;
@@ -116,36 +138,12 @@ function ads_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
-    $pane = new stdClass();
-    $pane->pid = 'new-3';
-    $pane->panel = 'top';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '<div class="page-title">Welcome to <b>ADS123</b></div>',
-      'format' => 'full_html',
-      'substitute' => TRUE,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $display->content['new-3'] = $pane;
-    $display->panels['top'][0] = 'new-3';
+    $display->panels['right'][1] = 'new-3';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-2';
+  $display->title_pane = 'new-3';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['homepage'] = $page;

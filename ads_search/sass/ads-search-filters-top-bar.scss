@@ -1,0 +1,56 @@
+@import theme/all;
+@import theme/mixins/gradients;
+
+
+div.search-filters-top-bar {
+
+	padding: 11px 20px 22px 20px;
+	color: #fff;
+
+  @include vertical-gradient(#95C858, #6BAE48);
+
+	.title {
+		font-size: 16px;
+		line-height: 36px;
+	}
+	
+	span {
+		line-height: 35px;
+		font-size: 14px;
+	}
+	
+	input[type=text],
+	select {
+		font-size: 12px;
+		border: 1px solid;
+		border-color: #777 #fff #fff #777;
+    color: rgba(0, 0, 0, 0.6);
+    @include vertical-gradient(#fdfdfd, #e5e5e5);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box; 
+    height: 30px;
+    padding: 0px 6px;
+    vertical-align: middle;
+    margin-right: 0px;
+    margin-left: 0px;
+	}
+	
+	input[type=submit] {
+	  @include vertical-gradient(#F9972A, #EF5112);
+    border: 1px solid #EF5112;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.05), 2px 2px 3px -0.5px rgba(0, 0, 0, 0.15);
+    color: #FFFFFF;
+    display: inline;
+    height: 30px;
+	}
+	
+	select {
+		padding: 5px 6px;
+	}
+	
+	input {
+		padding: 0px 6px;
+	}
+
+}

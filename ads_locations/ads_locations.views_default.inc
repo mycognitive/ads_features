@@ -15,7 +15,7 @@ function ads_locations_views_default_views() {
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'taxonomy_term_data';
-  $view->human_name = 'ads_locations_grouped';
+  $view->human_name = 'Ads Locations - Grouped';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -51,6 +51,11 @@ function ads_locations_views_default_views() {
     'field_ads_cat_icon_1' => 'field_ads_cat_icon_1',
     'field_ads_cat_icon' => 'field_ads_cat_icon',
   );
+  /* No results behavior: Global: Unfiltered text */
+  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
   /* Relationship: Taxonomy term: Parent term */
   $handler->display->display_options['relationships']['parent']['id'] = 'parent';
   $handler->display->display_options['relationships']['parent']['table'] = 'taxonomy_term_hierarchy';

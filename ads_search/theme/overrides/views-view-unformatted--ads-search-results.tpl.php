@@ -1,0 +1,1 @@
+<?php print theme('ads_search_results_listing', array('view' => $view));

@@ -22,8 +22,9 @@ function ads_search_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Search results';
+  $handler->display->display_options['title'] = 'Search Filters Facets';
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -31,7 +32,7 @@ function ads_search_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
   $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'mini';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '300';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['style_plugin'] = 'list';
@@ -46,11 +47,61 @@ function ads_search_views_default_views() {
   $handler->display->display_options['empty']['area']['content'] = '<h2>Your search returned no results.</h2>
 <p>Please use the <b>keyword</b> and <b>location</b> search on the left to search again.<br>';
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
+  /* Relationship: Indexed Node: Location */
+  $handler->display->display_options['relationships']['field_ad_location']['id'] = 'field_ad_location';
+  $handler->display->display_options['relationships']['field_ad_location']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['relationships']['field_ad_location']['field'] = 'field_ad_location';
   /* Field: Indexed Node: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'search_api_index_ads_adverts';
   $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_entity'] = 0;
+  /* Field: Indexed Node: Image */
+  $handler->display->display_options['fields']['field_ad_image']['id'] = 'field_ad_image';
+  $handler->display->display_options['fields']['field_ad_image']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['field_ad_image']['field'] = 'field_ad_image';
+  $handler->display->display_options['fields']['field_ad_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ad_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ad_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ad_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  $handler->display->display_options['fields']['field_ad_image']['delta_offset'] = '0';
+  /* Field: Indexed Node: Date changed */
+  $handler->display->display_options['fields']['changed']['id'] = 'changed';
+  $handler->display->display_options['fields']['changed']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['label'] = '';
+  $handler->display->display_options['fields']['changed']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['changed']['date_format'] = 'time ago';
+  $handler->display->display_options['fields']['changed']['link_to_entity'] = 0;
+  /* Field: Indexed Node: Price */
+  $handler->display->display_options['fields']['field_ad_price']['id'] = 'field_ad_price';
+  $handler->display->display_options['fields']['field_ad_price']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['field_ad_price']['field'] = 'field_ad_price';
+  $handler->display->display_options['fields']['field_ad_price']['label'] = '';
+  $handler->display->display_options['fields']['field_ad_price']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ad_price']['click_sort_column'] = 'amount';
+  /* Field: Location: Name (indexed) */
+  $handler->display->display_options['fields']['field_ad_location_name']['id'] = 'field_ad_location_name';
+  $handler->display->display_options['fields']['field_ad_location_name']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['field_ad_location_name']['field'] = 'field_ad_location_name';
+  $handler->display->display_options['fields']['field_ad_location_name']['label'] = '';
+  $handler->display->display_options['fields']['field_ad_location_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ad_location_name']['link_to_entity'] = 0;
+  /* Field: Indexed Node: The main body text */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['body']['type'] = 'text_summary_or_trimmed';
+  $handler->display->display_options['fields']['body']['settings'] = array(
+    'trim_length' => '300',
+  );
   /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_ads_adverts';
@@ -85,13 +136,35 @@ function ads_search_views_default_views() {
     3 => 0,
   );
 
-  /* Display: Search results */
-  $handler = $view->new_display('page', 'Search results', 'ads_search_results');
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'search_results_content_pane');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['link_url'] = 'search/results';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['uses_fields'] = TRUE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'search/results';
+  $handler->display->display_options['pane_category']['name'] = 'ADS Views';
+  $handler->display->display_options['pane_category']['weight'] = '0';
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 'path_override';
+  $handler->display->display_options['allow']['title_override'] = 0;
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
+  $handler->display->display_options['link_to_view'] = '1';
+  $handler->display->display_options['inherit_panels_path'] = '1';
   $translatables['ads_search_results'] = array(
     t('Master'),
-    t('Search results'),
+    t('Search Filters Facets'),
     t('more'),
     t('Search'),
     t('Reset'),
@@ -108,9 +181,11 @@ function ads_search_views_default_views() {
     t('No adverts found.'),
     t('<h2>Your search returned no results.</h2>
 <p>Please use the <b>keyword</b> and <b>location</b> search on the left to search again.<br>'),
-    t('Title'),
+    t('Location'),
     t('Keywords:'),
     t('Location:'),
+    t('Content pane'),
+    t('ADS Views'),
   );
   $export['ads_search_results'] = $view;
 

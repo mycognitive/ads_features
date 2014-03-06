@@ -16,9 +16,9 @@ function ads_homepage_views_pre_view(&$view, &$display_id, &$args) {
       libraries_load('masonry');
       drupal_add_js('
         jQuery(function() {jQuery(".view-categories-grouped > .view-content").masonry({
-  	  	  itemSelector: ".masonry-item",
-				  columnWidth: 200,
-				  isAnimated: true,
+          itemSelector: ".masonry-item",
+          columnWidth: 200,
+          isAnimated: true,
         });});',
         'inline'
       );

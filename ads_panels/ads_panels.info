@@ -1,0 +1,11 @@
+name = ADS Panels
+description = Provides panels extensions
+core = 7.x
+package = Ads Features
+php = 5.2.4
+version = 7.x-1.0
+project = ads_panels
+dependencies[] = ctools
+dependencies[] = panels
+features[features_api][] = api:1
+project path = sites/all/modules/ads/ads_features

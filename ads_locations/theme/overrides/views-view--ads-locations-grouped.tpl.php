@@ -1,1 +1,1 @@
-<?php print theme('ads_locations_selection', array('view' => $view)); ?>
+<?php print theme('ads_locations_selection', array('view' => $view));

@@ -5,6 +5,16 @@
  */
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function ads_search_solr_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+}
+
+/**
  * Implements hook_default_search_api_server().
  */
 function ads_search_solr_default_search_api_server() {
@@ -15,6 +25,9 @@ function ads_search_solr_default_search_api_server() {
     "description" : "Uses a Solr to index data. It has great performance, is suitable even for use on large commercial websites and supports facets and multi-index searches.",
     "class" : "search_api_solr_service",
     "options" : {
+      "clean_ids_form" : [],
+      "clean_ids" : false,
+      "scheme" : "http",
       "host" : "localhost",
       "port" : "8983",
       "path" : "\\/solr",

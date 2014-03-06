@@ -7,17 +7,6 @@
 include_once 'ads_search.features.inc';
 
 /**
- * Implements hook_init().
- */
-function ads_search_init() {
-  if (!module_exists('ads_search_db') && !module_exists('ads_search_solr')) {
-    // Disabling ads_search module as it doesn't work individually.
-    drupal_set_message(t('Module <b>Ads Search</b> has been disabled as it requires at least one additional module to be enabled: <b>Ads Search via DB</b> or <b>Ads Search Solr</b>.'));
-    drupal_register_shutdown_function('module_disable', array('ads_search'));
-  }
-}
-
-/**
  * Implements hook_entity_info_alter().
  */
 function ads_search_entity_info_alter(&$entity_info) {
@@ -25,4 +14,214 @@ function ads_search_entity_info_alter(&$entity_info) {
     'label' => t('Search Results Item'),
     'custom settings' => TRUE,
   );
+}
+
+/**
+ * Enables/disables/deletes specified Search API indexes.
+ *
+ * @param string $server_machine_name
+ *   Machine name of the source server.
+ *
+ * @param string $status
+ *   New status: "disable" or "enable" or "delete".
+ */
+function ads_search_index_change_status($server_machine_name, $status) {
+  $query = db_select('search_api_index', 'i');
+
+  if ($server_machine_name === NULL) {
+    $query->isNull('i.server');
+  }
+  else {
+    $query->condition('i.server', $server_machine_name);
+  }
+  $index_ids = $query
+    ->fields('i', array('id'))
+    ->execute()
+    ->fetchAll();
+
+  foreach ($index_ids as $index) {
+    if ($status == 'disable') {
+      search_api_index_disable($index->id);
+    }
+    elseif ($status == 'enable') {
+      search_api_index_enable($index->id);
+    }
+    elseif ($status == 'delete') {
+      search_api_index_delete($index->id);
+    }
+  }
+}
+
+/**
+ * Enables/disables/deletes specified Search API server.
+ *
+ * @param string $server_machine_name
+ *   Machine name of the server.
+ *
+ * @param string $status
+ *   New status: "disable" or "enable" or "delete".
+ */
+function ads_search_server_change_status($machine_name, $status) {
+  $server_id = db_select('search_api_server', 's')
+    ->condition('s.machine_name', $machine_name)
+    ->fields('s', array('id'))
+    ->execute()
+    ->fetchField();
+
+  if ($server_id) {
+    $index_ids = db_select('search_api_index', 'i')
+      ->condition('i.server', $machine_name)
+      ->fields('i', array('id'))
+      ->execute()
+      ->fetchAll();
+
+    foreach ($index_ids as $index) {
+      if ($status == 'disable') {
+        search_api_index_disable($index->id);
+      }
+      elseif ($status == 'enable') {
+        search_api_index_enable($index->id);
+      }
+      elseif ($status == 'delete') {
+        search_api_index_delete($index->id);
+      }
+    }
+
+    if ($status == 'disable') {
+      search_api_server_disable($server_id);
+    }
+    elseif ($status == 'enable') {
+      search_api_server_enable($server_id);
+    }
+    elseif ($status == 'delete') {
+      search_api_server_delete($server_id);
+    }
+  }
+}
+
+/**
+ * Performs feature revert for a given modules
+ *
+ * @TODO: Move it to better suited module.
+ *
+ * @param array $modules
+ *   List of modules to revert.
+ */
+function ads_search_features_revert($modules) {
+  module_load_include('inc', 'features', 'features.export');
+  features_include();
+
+  foreach ($modules as $module) {
+    if (($feature = feature_load($module, TRUE))) {
+      // Forcefully revert all components of a feature.
+      features_revert(array($module => array_keys($feature->info['features'])));
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ads_search_theme($existing, $type, $theme, $path) {
+  return array(
+    'ads_search_results_listing' => array(
+      'template' => 'ads-search-results-listing',
+      'path' => $path . '/theme',
+      'type' => 'theme',
+    ),
+    'ads_search_filters_home_page' => array(
+      'template' => 'ads-search-filters-home-page',
+      'path' => $path . '/theme',
+      'type' => 'theme',
+    ),
+    'ads_search_filters_top_bar' => array(
+      'template' => 'ads-search-filters-top-bar',
+      'path' => $path . '/theme',
+      'type' => 'theme',
+    ),
+  );
+}
+
+/**
+ * Implements ctools_render_alter().
+ */
+function ads_search_ctools_render_alter($info, $page, $context) {
+  if ($page) {
+    switch ($context['handler']->name) {
+      case 'page_search_filters_top_bar_panel_context':
+        ads_theme_add_css(ads_theme_find('ads_search', drupal_get_path('module', 'ads_search'), 'ads-search.scss', ADS_THEME_FIND_SASS));
+        ads_theme_add_css(ads_theme_find('ads_search', drupal_get_path('module', 'ads_search'), 'ads-search-filters-top-bar.scss', ADS_THEME_FIND_SASS));
+        break;
+
+      case 'page_search_results_panel_context':
+        ads_theme_add_css(ads_theme_find('ads_search', drupal_get_path('module', 'ads_search'), 'ads-search.scss', ADS_THEME_FIND_SASS));
+        break;
+    }
+  }
+}
+
+/**
+ * Preprocesses ads_search_results_listing template variables.
+ *
+ * @param array $vars
+ */
+function ads_search_preprocess_ads_search_results_listing(&$vars) {
+  ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-results-listing.scss', ADS_THEME_FIND_SASS));
+
+  $items = array();
+
+  foreach ($vars['view']->result as $row) {
+    $entity        = $row->_entity_properties['entity object'];
+    $image         = @$entity->field_ad_image[$entity->language][0];
+    $price         = @$entity->field_ad_price[$entity->language][0];
+
+    if ($price['currency']) {
+      $currency    = new Currency();
+      $currency->resourceLoad($price['currency']);
+      $price_html  = $currency->format($price['amount']);
+    }
+    else {
+      $price_html  = '';
+    }
+
+    $location_html = $row->_entity_properties['field_ad_location:name'];
+    $time_ago_html = t('!time <span class="label-ago">ago</span>', array('!time' => format_interval(time() - $entity->changed, 1)));
+
+    $teaser_html   = views_trim_text(array('html' => TRUE, 'max_length' => 300), $entity->body[LANGUAGE_NONE][0]['value']);
+
+    $items[] = array(
+      'nid' => $entity->nid,
+      'language' => $entity->language,
+      'url' => ads_i18n_make_url_to_node($entity->nid),
+      'title' => $entity->title,
+      'teaser' => $teaser_html,
+      'price' => $price_html,
+      'image' => !$image ? '' : theme('image_style', array(
+        'style_name' => 'ads_thumbnail_listing',
+        'path' => $image['uri'],
+      )),
+      'location' => $location_html,
+      'date_added' => $time_ago_html,
+    );
+  }
+
+  $vars['items'] = $items;
+}
+
+/**
+ * Preprocesses ads_search_filters_home_page template variables.
+ *
+ * @param array $vars
+ */
+function ads_search_preprocess_ads_search_filters_home_page(&$vars) {
+  ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-filters-home-page.scss', ADS_THEME_FIND_SASS));
+}
+
+/**
+ * Preprocesses ads_search_filters_top_bar template variables.
+ *
+ * @param array $vars
+ */
+function ads_search_preprocess_ads_search_filters_top_bar(&$vars) {
+  ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-filters-top-bar.scss', ADS_THEME_FIND_SASS));
 }

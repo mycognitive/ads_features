@@ -1,0 +1,82 @@
+<?php
+/**
+ * @file
+ * ADS Internationalization module.
+ * Provides multilanguage support for ADS.
+ */
+
+/**
+ * Returns current language code.
+ */
+function ads_i18n_get_current_language() {
+  return i18n_language_content()->language;
+}
+
+/**
+ * Returns path prefix for the selected language.
+ *
+ * @param string $language
+ *   Language code.
+ *
+ * @return string
+ *   Path prefix for to page in the specified or current language.
+ */
+function ads_i18n_get_lang_path_prefix($language = NULL) {
+
+  if ($language === NULL) {
+    $language = ads_i18n_get_current_language();
+  }
+
+  if ($language !== 'en' && $language !== 'und') {
+    return $language . '/';
+  }
+
+  return '';
+}
+
+/**
+ * Creates URL to node with language prefix.
+ *
+ * @param integer $nid
+ *   Node nid.
+ *
+ * @param string $language
+ *   Language code or NULL to use currently selected language.
+ *
+ * @return string
+ *   Path prefix for to node in the specified language.
+ */
+function ads_i18n_make_url_to_node($nid, $language = NULL) {
+
+  if ($language === NULL) {
+    $language = ads_i18n_get_current_language();
+  }
+
+  $path = drupal_lookup_path('alias', 'node/' . $nid);
+
+  if ($language === 'en' || $language === 'und' || $language === ads_i18n_get_current_language()) {
+    return $path;
+  }
+
+  return $language . '/' . $path;
+}
+
+/**
+ * Creates URL with language prefix.
+ *
+ * @param string $path
+ *   Destination URL.
+ *
+ * @param string $language
+ *   Language code.
+ *
+ * @return string
+ *   Path prefixed for the specified language.
+ */
+function ads_i18n_make_url($path, $language = '') {
+  if ($language === 'en' || $language === 'und' || $language === ads_i18n_get_current_language()) {
+    return $path;
+  }
+
+  return $language . '/' . $path;
+}

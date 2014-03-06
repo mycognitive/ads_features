@@ -1,0 +1,34 @@
+#search-api-ranges-block-slider-view-form-field-ad-price {
+  p.text-range {
+    display: none;
+  }
+  
+  div.ui-slider {
+    width: 100px;
+  }
+  
+  div.range-box-left {
+    float: left;
+  }
+  
+  div.range-slider-box {
+    float: left;
+    margin: 6px 16px;
+  }
+  
+  div.range-box-right {
+    float: left;
+  }
+  
+  input {
+    width: 40px;
+  }
+}
+
+div.search-results-left-column {
+  width: 30%;
+}
+
+div.search-results-right-column {
+  width: 70%;
+}
