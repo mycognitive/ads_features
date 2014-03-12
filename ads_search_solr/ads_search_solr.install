@@ -19,9 +19,7 @@ function ads_search_solr_modules_enabled($modules) {
     return;
   }
 
-  ads_search_server_change_status('ads_search_server', 'enable');
-
-  // Revert ads_search features for index and other things.
+  // Revert ads_search_solr features for index and other things.
   ads_search_features_revert(array('ads_search_solr'));
 
   // Revert ads_search features for index and other things.
