@@ -4,6 +4,11 @@
  * Install hooks for ADS Search SOLR module.
  */
 
+function ads_search_solr_init() {
+  if (!module_exists('ads_search'))
+    module_enable(array('ads_search'));
+}
+
 /**
  * Implements hook_enable().
  */
@@ -18,18 +23,15 @@ function ads_search_solr_modules_enabled($modules) {
   if (!in_array('ads_search_solr', $modules)) {
     return;
   }
-
-  // Revert ads_search_solr features for index and other things.
-  ads_search_features_revert(array('ads_search_solr'));
-
-  // Revert ads_search features for index and other things.
-  ads_search_features_revert(array('ads_search'));
 }
 
 /**
  * Implements hook_disable().
  */
 function ads_search_solr_disable() {
-  // Deleting server and its indexes.
-  ads_search_server_change_status('ads_search_server', 'delete');
+  module_disable(array('ads_search'), FALSE);
+
+  require_once __DIR__ . '/../ads_search/ads_search.module';
+
+  ads_search_index_change_status('ads_search_server', 'clear');
 }
