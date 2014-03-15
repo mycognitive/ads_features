@@ -1,0 +1,17 @@
+name = ADS Perms
+description = Provides user permissions for ADS distribution.
+core = 7.x
+package = ADS Features
+version = 7.x-1.0
+project = ads_perms
+dependencies[] = features
+dependencies[] = node
+dependencies[] = user
+features[features_api][] = api:1
+features[user_permission][] = access user profiles
+features[user_permission][] = create advert content
+features[user_permission][] = delete any advert content
+features[user_permission][] = delete own advert content
+features[user_permission][] = edit any advert content
+features[user_permission][] = edit own advert content
+project path = /sites/all/modules/ads/ads_features
