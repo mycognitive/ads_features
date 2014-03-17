@@ -22,6 +22,7 @@ features[field_base][] = body
 features[field_base][] = field_ad_category_node_ref
 features[field_base][] = field_level_1_field
 features[field_base][] = field_level_2_field
+features[field_group][] = group_advert_hidden|node|advert|form
 features[field_group][] = group_advert_step_1|node|advert|form
 features[field_group][] = group_advert_step_2|node|advert|form
 features[field_group][] = group_advert_step_3|node|advert|form

@@ -13,6 +13,40 @@ function ads_advert_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_advert_hidden|node|advert|form';
+  $field_group->group_name = 'group_advert_hidden';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'advert';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Hidden',
+    'weight' => '3',
+    'children' => array(
+      0 => 'field_ad_link_source',
+      1 => 'field_ad_category_node_ref',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Hidden',
+      'instance_settings' => array(
+        'required_fields' => 0,
+        'id' => '',
+        'classes' => 'hidden',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_advert_hidden|node|advert|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_advert_step_1|node|advert|form';
   $field_group->group_name = 'group_advert_step_1';
   $field_group->entity_type = 'node';
@@ -20,21 +54,15 @@ function ads_advert_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => '1st step',
+    'label' => 'Basic details',
     'weight' => '0',
     'children' => array(
       0 => 'body',
-      1 => 'field_ad_link',
-      2 => 'field_ad_link_source',
-      3 => 'field_ad_phone',
-      4 => 'field_ad_price',
-      5 => 'field_ad_location',
-      6 => 'title',
+      1 => 'title',
     ),
     'format_type' => 'multistep',
     'format_settings' => array(
-      'formatter' => '',
-      'instance_settings' => 0,
+      'label' => 'Basic details',
     ),
   );
   $export['group_advert_step_1|node|advert|form'] = $field_group;
@@ -49,16 +77,17 @@ function ads_advert_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => '2st step',
-    'weight' => '2',
+    'label' => 'Additional details',
+    'weight' => '1',
     'children' => array(
       0 => 'field_ad_category',
       1 => 'field_ad_image',
+      2 => 'field_ad_price',
+      3 => 'field_ad_location',
     ),
     'format_type' => 'multistep',
     'format_settings' => array(
-      'formatter' => '',
-      'instance_settings' => 0,
+      'label' => 'Additional details',
     ),
   );
   $export['group_advert_step_2|node|advert|form'] = $field_group;
@@ -73,13 +102,17 @@ function ads_advert_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => '3rd step',
-    'weight' => '3',
-    'children' => array(),
+    'label' => 'Contact and more details',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_ad_link',
+      1 => 'field_ad_phone',
+      2 => 'field_ad_email',
+      3 => 'field_ad_contact_method',
+    ),
     'format_type' => 'multistep',
     'format_settings' => array(
-      'formatter' => '',
-      'instance_settings' => 0,
+      'label' => 'Contact and more details',
     ),
   );
   $export['group_advert_step_3|node|advert|form'] = $field_group;
