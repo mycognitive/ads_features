@@ -57,7 +57,9 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
       }
     }
 
-    $searcher_name = 'search_api@ads_adverts';
+    $index_name = 'ads_adverts';
+
+    $searcher_name = 'search_api@' . $index_name;
 
     if (in_array($searcher_name, facetapi_get_active_searchers())) {
 
@@ -85,10 +87,27 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
 
     }
 
-    /** @var $query SearchApiQuery **/
+    // Cloning query and limiting it to the first three categories found.
+    // We need that query to retrieve facets related only to those categories.
+
     $query = clone $query;
     $query->setOption('search id', 'ads_advert_categories_facets_search');
     $query->setOption('limit', ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH);
+
+/*
+    @FIXIT: This doesn't work, dunno why.
+
+    $or = $query->createFilter('OR');
+
+    foreach ($category_tids as $category_tid) {
+      dsm ($category_tid);
+      $or->setConjunction('OR');
+      $or->condition('is_field_ad_category', $category_tid);
+      $or->condition('im_field_ad_category:parent', $category_tid);
+    }
+
+    $query->filter($or);
+*/
 
     $result = $query->execute();
 
@@ -96,39 +115,8 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
 
     $facets_rendered = $adapter->buildRealm('block');
 
-
     echo render($facets_rendered);
   }
-}
-
-function ads_advert_test () {
-  $node = node_load(104);
-
-
-  echo '<pre>';
-
-//  print_r($content_types_fields);
-/*
-  $query = search_api_query('ads_adverts');
-  $query_filter = $query->createFilter();
-  $query_filter->condition('title', 'job');
-  $query_filter->condition('type', 'advert');
-  $query->filter($query_filter);
-  $query->range(0, 10);
-  $result = $query->execute();
-
-  print_r($result);
-
-  $index = search_api_index_load('ads_adverts');
-  foreach ($index->loadItems(array_keys($result['results'])) as $item) {
-    print_r($item);
-
-  }
-*/
-
-
-  exit;
-
 }
 
 /**
