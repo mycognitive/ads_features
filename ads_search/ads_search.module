@@ -49,6 +49,11 @@ function ads_search_index_change_status($server_machine_name, $status) {
     elseif ($status == 'delete') {
       search_api_index_delete($index->id);
     }
+    elseif ($status == 'clear') {
+      db_query("UPDATE {search_api_index} SET server='' WHERE id=:id", array(
+        ':id' => $index->id,
+      ));
+    }
   }
 }
 

@@ -4,7 +4,128 @@
  * Code for the Ads Advert feature.
  */
 
+// Number of items of which categories will be used to create query for facets.
+define('ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH', 3);
+
 include_once 'ads_advert.features.inc';
+
+/**
+ * Implements hook_search_api_solr_search_results_alter().
+ *
+ * @param $results
+ * @param SearchApiQuery $query
+ */
+function ads_advert_search_api_solr_search_results_alter(&$results, $query, $response) {
+
+  $original_options = $query->getOptions();
+
+  if (strpos($original_options['search id'], 'search_api_views:ads_search_results') === 0) {
+
+    $original_facet_counts = &$response->facet_counts;
+
+    $content_types_fields = array();
+    $category_tids        = array();
+    $nodes                = array();
+
+    for ($i = 0; $i < min(ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH, count($results['results']) - 1); ++$i) {
+      $record       = array_slice($results['results'], $i, 1);
+      $category_tid = @current(current(node_load($record[0]['id'])->field_ad_category[LANGUAGE_NONE]));
+
+      if ($category_tid !== NULL) {
+        $category_tids[] = $category_tid;
+      }
+    }
+
+    foreach ($category_tids as $category_tid) {
+      $content_types        = ads_advert_get_category_content_types($category_tid);
+
+
+      foreach ($content_types as $content_type_name) {
+        $fields = field_info_instances('node', $content_type_name);
+
+        // We want only custom fields.
+        foreach ($fields as $name => $field) {
+          if (substr($name, 0, 6) !== 'field_') {
+            unset($fields[$name]);
+          }
+
+          $fields_used[$name] = TRUE;
+        }
+
+        $content_types_fields[$content_type_name] = array_merge($content_types_fields, $fields);
+
+      }
+    }
+
+    $index_name = 'ads_adverts';
+
+    $searcher_name = 'search_api@' . $index_name;
+
+    if (in_array($searcher_name, facetapi_get_active_searchers())) {
+
+      $facet_realms  = facetapi_get_realm_info();
+      $facets_info   = facetapi_get_facet_info($searcher_name);
+      $facets_needed = array();
+
+      /** @var $adapter SearchApiFacetapiAdapter **/
+      $adapter      = facetapi_adapter_load($searcher_name);
+
+      foreach ($facets_info as $facet_name => $facet_info) {
+
+        //$facet = facetapi_facet_load($facet_name, $searcher_name);
+        if (@$fields_used[reset(explode(':', $facet_info['field'], 2))]) {
+          $facets_needed[$facet_info['name']] = array(
+            'field' => $facet_info['field'],
+            'limit' => '100',
+            'operator' => 'and',
+            'min_count' => 1,
+            'missing' => 0,
+          );
+        }
+
+      }
+
+    }
+
+    // Cloning query and limiting it to the first three categories found.
+    // We need that query to retrieve facets related only to those categories.
+
+    $search_id = 'ads_advert_categories_facets_search';
+
+    $query = clone $query;
+    $query->setOption('search id', $search_id);
+    $query->setOption('limit', ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH);
+
+
+    $or = $query->createFilter('OR');
+
+    if (!empty($category_tids)) {
+      foreach ($category_tids as $category_tid) {
+        $or->condition('field_ad_category', $category_tid);
+        $or->condition('field_ad_category:parent', $category_tid);
+      }
+
+      $query->filter($or);
+    }
+
+    $result = $query->execute();
+
+    search_api_current_search($search_id, $query, $result);
+
+    $adapter->initActiveFilters($query);
+
+    $facets_rendered = $adapter->buildRealm('block');
+
+    echo render($facets_rendered);
+  }
+}
+
+/**
+ * Returns facets HTML for the specified query.
+ */
+function ads_advert_render_facet_filters($query) {
+  return '';
+}
 
 /**
  * Implements hook_menu().
@@ -121,7 +242,7 @@ function ads_advert_form_wizard() {
 function ads_advert_form_step($form, &$form_state, $step = 1) {
 
   module_load_include('inc', 'node', 'node.pages');
-  
+
   ctools_include('object-cache');
 
   $user = $GLOBALS['user'];
@@ -188,6 +309,8 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
       field_group_hide_field_groups($form, array('group_advert_step_' . $i));
     }
   }
+
+  field_group_hide_field_groups($form, array('group_advert_hidden'));
 
   switch ($step) {
     case 1:
@@ -385,6 +508,8 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
 
   $content_types = ads_advert_get_node_category_content_types($node);
 
+  ctools_include('object-cache');
+
   // Trying to retrieve content type nodes from the cache.
   $cached_content_type_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
 
@@ -422,13 +547,24 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
 function ads_advert_get_node_category_content_types($node) {
   $category      = current($node->field_ad_category[LANGUAGE_NONE]);
 
+  return ads_advert_get_category_content_types($category);
+}
+
+/**
+ * Returns list of content type names related with advert category tid.
+ *
+ * @param int $category_tid
+ *   Category tid.
+ */
+function ads_advert_get_category_content_types($category_tid) {
+
   // List of current and parent terms' related content types.
   $content_types = array();
 
-  if ($category) {
+  if ($category_tid) {
     // Category has been selected. Retrieving current and all the parent
     // terms. Note that a single term may be related to many content types.
-    foreach (taxonomy_get_parents_all($category['tid']) as $parent_term) {
+    foreach (taxonomy_get_parents_all($category_tid) as $parent_term) {
       if (is_array($parent_term->field_cat_content_type) && !empty($parent_term->field_cat_content_type)) {
         // Term defines related content type, adding it to the list in
         // parent -> child order.

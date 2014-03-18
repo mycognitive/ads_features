@@ -9,29 +9,22 @@
  */
 function ads_search_db_enable() {
   module_disable(array('ads_search_solr'));
+
+  drupal_register_shutdown_function(function () {
+    if (!module_exists('ads_search')) {
+      module_enable(array('ads_search'));
+
+      require_once __DIR__ . '/../ads_search/ads_search.module';
+
+      ads_search_features_revert(array('ads_search'));
+    }
+  });
 }
 
-/**
- * Implements hook_modules_enabled().
- */
-function ads_search_db_modules_enabled($modules) {
-  if (!in_array('ads_search_db', $modules)) {
-    return;
-  }
-
-  ads_search_server_change_status('ads_search_server', 'enable');
-
-  // Revert ads_search features for index and other things.
-  ads_search_features_revert(array('ads_search_db'));
-
-  // Revert ads_search features for index and other things.
-  ads_search_features_revert(array('ads_search'));
-}
 
 /**
  * Implements hook_disable().
  */
 function ads_search_db_disable() {
-  // Deleting server and its indexes.
-  ads_search_server_change_status('ads_search_server', 'delete');
+  module_disable(array('ads_search'), FALSE);
 }
