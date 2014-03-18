@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ads Panels Travel feature.
- */
-
-include_once 'ads_common_travel.features.inc';
