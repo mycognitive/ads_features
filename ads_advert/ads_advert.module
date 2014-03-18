@@ -325,6 +325,8 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
     }
   }
 
+  field_group_hide_field_groups($form, array('group_advert_hidden'));
+
   switch ($step) {
     case 1:
     case 2:
