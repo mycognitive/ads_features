@@ -52,6 +52,82 @@ function ads_advert_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-advert-field_ad_contact_method'
+  $field_instances['node-advert-field_ad_contact_method'] = array(
+    'bundle' => 'advert',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Choose your preferred method of contact for this advert.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_contact_method',
+    'label' => 'Preferred method of contact',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-advert-field_ad_email'
+  $field_instances['node-advert-field_ad_email'] = array(
+    'bundle' => 'advert',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Your e-mail address for advert contact.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_email',
+    'label' => 'E-mail',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance: 'node-level_1-body'
   $field_instances['node-level_1-body'] = array(
     'bundle' => 'level_1',
@@ -260,8 +336,12 @@ function ads_advert_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Category node references');
+  t('Choose your preferred method of contact for this advert.');
+  t('E-mail');
   t('Level 1 Field');
   t('Level 2 Field');
+  t('Preferred method of contact');
+  t('Your e-mail address for advert contact.');
 
   return $field_instances;
 }
