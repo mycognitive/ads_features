@@ -5,7 +5,7 @@
  */
 
 // Number of items of which categories will be used to create query for facets.
-define('ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH', 0);
+define('ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH', 3);
 
 include_once 'ads_advert.features.inc';
 
@@ -90,26 +90,27 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
     // Cloning query and limiting it to the first three categories found.
     // We need that query to retrieve facets related only to those categories.
 
+    $search_id = 'ads_advert_categories_facets_search';
+
     $query = clone $query;
-    $query->setOption('search id', 'ads_advert_categories_facets_search');
+    $query->setOption('search id', $search_id);
     $query->setOption('limit', ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH);
 
-/*
-    @FIXIT: This doesn't work, dunno why.
 
     $or = $query->createFilter('OR');
 
-    foreach ($category_tids as $category_tid) {
-      dsm ($category_tid);
-      $or->setConjunction('OR');
-      $or->condition('is_field_ad_category', $category_tid);
-      $or->condition('im_field_ad_category:parent', $category_tid);
+    if (!empty($category_tids)) {
+      foreach ($category_tids as $category_tid) {
+        $or->condition('field_ad_category', $category_tid);
+        $or->condition('field_ad_category:parent', $category_tid);
+      }
+
+      $query->filter($or);
     }
 
-    $query->filter($or);
-*/
-
     $result = $query->execute();
+
+    search_api_current_search($search_id, $query, $result);
 
     $adapter->initActiveFilters($query);
 
@@ -120,20 +121,16 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
 }
 
 /**
+ * Returns facets HTML for the specified query.
+ */
+function ads_advert_render_facet_filters($query) {
+  return '';
+}
+
+/**
  * Implements hook_menu().
  */
 function ads_advert_menu() {
-
-
-
-  $menu['advert/test'] = array(
-    'title'            => 'Advert',
-    'description'      => 'Advert',
-    'page callback'    => 'ads_advert_test',
-    'page arguments'   => array(2),
-    'access arguments' => array('access content'),
-  );
-
   $menu['advert/add'] = array(
     'title'            => 'Advert',
     'description'      => 'Advert',
