@@ -5,9 +5,33 @@
  */
 
 // Number of items of which categories will be used to create query for facets.
-define('ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH', 3);
+define('ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH', 10);
 
 include_once 'ads_advert.features.inc';
+
+/**
+ * Implements hook_search_api_solr_query_alter().
+ */
+function ads_advert_search_api_solr_query_alter(&$call_args, SearchApiQueryInterface $query) {
+
+  $options = &$query->getOptions();
+
+  list ($field_ad_category_node_ref, $nid)
+    = ads_search_get_search_api_final_field_name($query->getIndex(), array(
+      'field_ad_category_node_ref',
+      'nid',
+    ));
+
+  $search_id_segments = explode(':', $options['search id']);
+
+  if ($search_id_segments[0] === 'ads_advert_categories_facets_search') {
+    $call_args['query'] = '{!join from=' . $field_ad_category_node_ref . ' to=' . $nid . ' cache=false}{!edismax}' . $call_args['query'];
+    foreach ($call_args['params']['fq'] as &$row) {
+      $row = '{!join from=' . $field_ad_category_node_ref . ' to=' . $nid . ' cache=false}' . $row;
+    }
+  }
+
+}
 
 /**
  * Implements hook_search_api_solr_search_results_alter().
@@ -23,11 +47,13 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
 
     $original_facet_counts = &$response->facet_counts;
 
-    $content_types_fields = array();
-    $category_tids        = array();
-    $nodes                = array();
+    // Adding original facets to the $facets_tree.
 
-    for ($i = 0; $i < min(ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH, count($results['results']) - 1); ++$i) {
+    $facets_tree   = array();
+    $category_tids = array();
+    $nodes         = array();
+
+    for ($i = 0; $i < min(ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH, count($results['results'])); ++$i) {
       $record       = array_slice($results['results'], $i, 1);
       $category_tid = @current(current(node_load($record[0]['id'])->field_ad_category[LANGUAGE_NONE]));
 
@@ -37,8 +63,9 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
     }
 
     foreach ($category_tids as $category_tid) {
-      $content_types        = ads_advert_get_category_content_types($category_tid);
+      $content_types = ads_advert_get_category_content_types($category_tid);
 
+      $category_term = taxonomy_term_load($category_tid);
 
       foreach ($content_types as $content_type_name) {
         $fields = field_info_instances('node', $content_type_name);
@@ -50,15 +77,21 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
           }
 
           $fields_used[$name] = TRUE;
-        }
 
-        $content_types_fields[$content_type_name] = array_merge($content_types_fields, $fields);
+          $facets_tree[$category_term->name][$name] = array(
+            'category_tid' => $category_tid,
+            'category_title' => $category_term->name,
+            'field_name' => $name,
+            'content_type_name' => $content_type_name,
+          );
+        }
 
       }
     }
 
-    $index_name = 'ads_adverts';
+    // @TODO: Sort categories by parents -> children and then by number of facet values.
 
+    $index_name    = 'ads_adverts';
     $searcher_name = 'search_api@' . $index_name;
 
     if (in_array($searcher_name, facetapi_get_active_searchers())) {
@@ -92,10 +125,11 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
 
     $search_id = 'ads_advert_categories_facets_search';
 
+    $original_query = $query;
+
     $query = clone $query;
     $query->setOption('search id', $search_id);
     $query->setOption('limit', ADS_ADVERT_NUM_CATEGORIES_CT_SEARCH);
-
 
     $or = $query->createFilter('OR');
 
@@ -108,23 +142,76 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
       $query->filter($or);
     }
 
-    $result = $query->execute();
+    // We need our search to be stored somewhere.
 
-    search_api_current_search($search_id, $query, $result);
+    // @TODO: Generate and pass id to the template.
+    $stored_search_id = 'id';
 
-    $adapter->initActiveFilters($query);
+    $_SESSION['search_api_queries'][$stored_search_id]['last_facets']
+      = ads_advert_render_facet_filters($original_query, $results);
 
-    $facets_rendered = $adapter->buildRealm('block');
+    $_SESSION['search_api_queries'][$stored_search_id]['serialized']
+      = ads_search_search_api_query_serialize($query);
 
-    echo render($facets_rendered);
+    $_SESSION['search_api_queries'][$stored_search_id]['facets_tree']
+      = $facets_tree;
   }
 }
 
 /**
  * Returns facets HTML for the specified query.
+ *
+ * @param array $info
  */
-function ads_advert_render_facet_filters($query) {
-  return '';
+function ads_advert_render_facet_filters(SearchApiQuery $query, $result, $facets_tree = array()) {
+
+  if (empty($_SERVER['HTTP_REFERER'])) {
+    return '';
+  }
+
+  $index_name    = 'ads_adverts';
+  $searcher_name = 'search_api@' . $index_name;
+
+  /** @var $adapter SearchApiFacetapiAdapter **/
+  $adapter = facetapi_adapter_load($searcher_name);
+  $adapter->initActiveFilters($query);
+
+  // @TODO: We need to change $_GET['q'] before rendering.
+  $facets_rendered = $adapter->buildRealm('block');
+
+  // Adding rendered version of facets into $facets_tree.
+
+  $field_references = array();
+
+  foreach ($facets_tree as $category_title => &$fields) {
+    foreach ($fields as $field_name => &$info) {
+      $field_references[$field_name] = &$info;
+    }
+  }
+
+  foreach ($facets_rendered as $field_name => $field) {
+    if ($field_name{0} === '#') {
+      continue;
+    }
+
+    $name_segments = explode(':', $field_name, 2);
+
+    $field_references[$name_segments[0]]['rendered'] = render($field[$field_name]);
+  }
+
+  foreach ($facets_tree as $category => &$fields) {
+    foreach ($fields as $name => $field) {
+      if (empty($field['facets'])) {
+        unset($fields[$name]);
+      }
+    }
+
+    if (empty($facets_tree[$category])) {
+      unset($facets_tree[$category]);
+    }
+  }
+
+  echo theme('ads_search_filters_refine', array('tree' => $facets_tree));
 }
 
 /**
@@ -155,7 +242,50 @@ function ads_advert_menu() {
     'access arguments' => array('access content'),
   );
 
+  $menu['advert/facets/ajax/%'] = array(
+    'page callback' => 'ads_advert_advert_facets_get_ajax', // Render HTML
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+  );
+
   return $menu;
+}
+
+/**
+ * Ajax callback. Renders facets for the specified stored query id.
+ */
+function ads_advert_advert_facets_get_ajax($query_id) {
+  $query_string = $_SESSION['search_api_queries'][$query_id]['serialized'];
+  $last_facets_html = $_SESSION['search_api_queries'][$query_id]['last_facets'];
+  $facets_tree = $_SESSION['search_api_queries'][$query_id]['facets_tree'];
+
+  // Unserializing stored SearchApiQuery object.
+  list($query, $custom_data) = ads_search_search_api_query_unserialize($query_string);
+
+  $result = $query->execute();
+
+  // Filling $facets_tree with facet counts.
+
+  $field_references = array();
+
+  foreach ($facets_tree as $category_title => &$fields) {
+    foreach ($fields as $field_name => &$info) {
+      $field_references[$field_name] = &$info;
+    }
+  }
+
+  foreach ($result['search_api_facets'] as $field_name => $items) {
+    $name_segments = explode(':', $field_name, 2);
+    $field_references[$name_segments[0]]['facets'] = $items;
+  }
+
+  echo $last_facets_html;
+
+  // Rendering facets.
+  echo ads_advert_render_facet_filters($query, $result, $facets_tree);
+
+  // We no longer need that query.
+  unset($_SESSION['search_api_queries'][$query_id]);
 }
 
 /**
@@ -547,7 +677,7 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
 function ads_advert_get_node_category_content_types($node) {
   $category      = current($node->field_ad_category[LANGUAGE_NONE]);
 
-  return ads_advert_get_category_content_types($category);
+  return ads_advert_get_category_content_types($category['tid']);
 }
 
 /**
@@ -681,6 +811,13 @@ function ads_advert_form_step_3_submit(&$form, &$form_state) {
     // We have ready content type's form state in $form_state[$content_type]
     // array.
     $content_type_node_form_state = &$form_state[$content_type];
+
+    foreach ($form_state['values'] as $key => $value) {
+      if (!empty($form_state['input'][$key])) {
+        $form_state['input'][$key] = $value;
+      }
+    }
+
 
     // As $form_state['values'] belongs to advert node, we have to use
     // $form_state['input'] for content type node creation.
