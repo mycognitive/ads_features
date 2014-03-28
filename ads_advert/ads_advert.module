@@ -82,13 +82,13 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
       // category.
       $content_types = ads_advert_get_category_content_types($category_tid);
 
-      $category_term = taxonomy_term_load($category_tid);
-
       // For every content type...
-      foreach ($content_types as $content_type_name) {
+      foreach ($content_types as $content_type_category_tid => $content_type_name) {
         // ... We retrieve list of fields in that content type which names
         // starts with "field_" so we know it's a custom field.
         $fields = field_info_instances('node', $content_type_name);
+
+        $category_term = taxonomy_term_load($content_type_category_tid);
 
         // We want only custom fields.
         foreach ($fields as $name => $field) {
@@ -103,17 +103,17 @@ function ads_advert_search_api_solr_search_results_alter(&$results, $query, $res
           //
           // $fields_used[$name] = TRUE;
 
-          $facets_tree[$category_tid]['category_title'] = $category_term->name;
-          $facets_tree[$category_tid]['category_tid'] = $category_tid;
+          $facets_tree[$content_type_category_tid]['category_title'] = $category_term->name;
+          $facets_tree[$content_type_category_tid]['category_tid']   = $content_type_category_tid;
 
           // @NOTE: For PHP 5.5+ we may use:
           // = array_reverse(array_column(taxonomy_get_parents_all($category_tid), 'tid')).
-          $facets_tree[$category_tid]['category_parents_tids']
+          $facets_tree[$content_type_category_tid]['category_parents_tids']
             = array_reverse(array_map(function($category) {
                 return $category->tid;
-              }, taxonomy_get_parents_all($category_tid)));
+              }, taxonomy_get_parents_all($content_type_category_tid)));
 
-          $facets_tree[$category_tid]['fields'][$name] = array(
+          $facets_tree[$content_type_category_tid]['fields'][$name] = array(
             'category_title' => $category_term->name,
             'field_name' => $name,
             'content_type_name' => $content_type_name,
@@ -798,7 +798,7 @@ function ads_advert_get_category_content_types($category_tid) {
         $terms = reset($parent_term->field_cat_content_type);
 
         foreach ($terms as $term) {
-          $content_types = array_merge(array($term['value']), $content_types);
+          $content_types[$parent_term->tid] = $term['value'];
         }
       }
     }
