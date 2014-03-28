@@ -60,9 +60,19 @@ function ads_advert_field_group_info() {
       0 => 'body',
       1 => 'title',
     ),
-    'format_type' => 'multistep',
+    'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'Basic details',
+      'formatter' => 'open',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => '',
+        'required_fields' => 1,
+        'id' => '',
+      ),
     ),
   );
   $export['group_advert_step_1|node|advert|form'] = $field_group;
@@ -85,9 +95,19 @@ function ads_advert_field_group_info() {
       2 => 'field_ad_price',
       3 => 'field_ad_location',
     ),
-    'format_type' => 'multistep',
+    'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'Additional details',
+      'formatter' => 'open',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => '',
+        'required_fields' => 1,
+        'id' => '',
+      ),
     ),
   );
   $export['group_advert_step_2|node|advert|form'] = $field_group;
@@ -107,12 +127,20 @@ function ads_advert_field_group_info() {
     'children' => array(
       0 => 'field_ad_link',
       1 => 'field_ad_phone',
-      2 => 'field_ad_email',
-      3 => 'field_ad_contact_method',
     ),
-    'format_type' => 'multistep',
+    'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'Contact and more details',
+      'formatter' => 'open',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => '',
+        'required_fields' => 1,
+        'id' => '',
+      ),
     ),
   );
   $export['group_advert_step_3|node|advert|form'] = $field_group;
