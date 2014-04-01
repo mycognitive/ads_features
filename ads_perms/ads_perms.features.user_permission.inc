@@ -15,8 +15,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'access content',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -26,8 +24,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'user',
   );
@@ -37,8 +33,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'create advert content',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -57,7 +51,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'delete own advert content',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -76,7 +69,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'edit own advert content',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -86,8 +78,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'view own unpublished content',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
