@@ -66,5 +66,15 @@ function ads_perms_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: view own unpublished content.
+  $permissions['view own unpublished content'] = array(
+    'name' => 'view own unpublished content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
   return $permissions;
 }
