@@ -5,3 +5,14 @@
  */
 
 include_once 'ads_search_db.features.inc';
+
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function ads_search_db_modules_enabled($modules) {
+  if (!in_array('ads_search_db', $modules)) {
+    return;
+  }
+}
+

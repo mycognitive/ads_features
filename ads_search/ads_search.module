@@ -6,6 +6,8 @@
 
 include_once 'ads_search.features.inc';
 
+define('ADS_SEARCH_SEARCH_API_SERVER_NAME', 'ads_search_server');
+
 /**
  * Implements hook_entity_info_alter().
  */
@@ -14,6 +16,93 @@ function ads_search_entity_info_alter(&$entity_info) {
     'label' => t('Search Results Item'),
     'custom settings' => TRUE,
   );
+}
+
+/**
+ * Returns an array containing information needed to create similar query later.
+ *
+ * @param SearchApiQuery $query
+ *   Source query.
+ *
+ * @return array
+ */
+function ads_search_search_api_query_serialize(SearchApiQuery $query, $custom_data = array()) {
+  $data = array();
+
+  $data['index_id'] = $query->getIndex()->machine_name;
+  $data['filter']   = $query->getFilter();
+  $data['options']  = $query->getOptions();
+  $data['fields']   = $query->getFields();
+  $data['keys']     = $query->getKeys();
+  $data['sort']     = $query->getSort();
+  $data['custom']   = $custom_data;
+
+  return serialize($data);
+}
+
+/**
+ * Unserialized SearchApiQuery from the serialized form.
+ *
+ * @param string $serialized
+ *   Result from ads_search_search_api_query_serialize() call.
+ *
+ * @return SearchApiQuery
+ */
+function ads_search_search_api_query_unserialize($serialized) {
+  $data = unserialize($serialized);
+
+  $query = search_api_query($data['index_id'], $data['options']);
+
+  $query->filter($data['filter']);
+  $query->fields($data['fields']);
+  $query->keys($data['keys']);
+
+  foreach ($data['sort'] as $name => $type) {
+    $query->sort($name, $type);
+  }
+
+  return array($query, $data['custom_data']);
+}
+
+/**
+ * Returns final name of the field (the name used on the server).
+ *
+ * @param SearchApiIndex $index
+ *   SearchApiIndex object. You can get it from SearchApiQuery::getIndex().
+ *
+ * @param string|array $drupal_field_name
+ *   Name of the source field or array of names. They will be returned as list of strings.
+ *
+ * @return string|array
+ *   Name of list of names used on the server.
+ */
+function ads_search_get_search_api_final_field_name(SearchApiIndex $index, $drupal_field_name) {
+  $server = search_api_server_load(ADS_SEARCH_SEARCH_API_SERVER_NAME);
+
+  // We need reflection here as there are no other way to get service class
+  // object without creating its instance. Maybe someone know a better way?
+  $reflection = new ReflectionProperty(get_class($server), 'proxy');
+  $reflection->setAccessible(TRUE);
+
+  /** @var $service SearchApiAbstractService **/
+  $service = $reflection->getValue($server);
+
+  $field_names = $service->getFieldNames($index);
+
+  if (!is_array($drupal_field_name))
+    $drupal_field_name = array($drupal_field_name);
+
+  $final_names = array();
+
+  foreach ($drupal_field_name as $name) {
+    if (!isset($field_names[$name])) {
+      return NULL;//throw new Exception("Field '$name' not found");
+    }
+
+    $final_names[] = $field_names[$name];
+  }
+
+  return is_array($drupal_field_name) ? $final_names : $final_names[0];
 }
 
 /**
@@ -48,6 +137,11 @@ function ads_search_index_change_status($server_machine_name, $status) {
     }
     elseif ($status == 'delete') {
       search_api_index_delete($index->id);
+    }
+    elseif ($status == 'clear') {
+      db_query("UPDATE {search_api_index} SET server='' WHERE id=:id", array(
+        ':id' => $index->id,
+      ));
     }
   }
 }
@@ -139,6 +233,11 @@ function ads_search_theme($existing, $type, $theme, $path) {
       'path' => $path . '/theme',
       'type' => 'theme',
     ),
+    'ads_search_filters_refine' => array(
+      'template' => 'ads-search-filters-refine',
+      'path' => $path . '/theme',
+      'type' => 'theme',
+    ),
   );
 }
 
@@ -224,4 +323,13 @@ function ads_search_preprocess_ads_search_filters_home_page(&$vars) {
  */
 function ads_search_preprocess_ads_search_filters_top_bar(&$vars) {
   ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-filters-top-bar.scss', ADS_THEME_FIND_SASS));
+}
+
+/**
+ * Preprocesses ads_search_filters_refine template variables.
+ *
+ * @param array $vars
+ */
+function ads_search_preprocess_ads_search_filters_refine(&$vars) {
+  ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-filters-refine.scss', ADS_THEME_FIND_SASS));
 }

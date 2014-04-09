@@ -12,6 +12,7 @@ $plugin = array(
   'icon' => 'icon_node_form.png',
   'category' => t('ADS'),
   'render callback'  => 'ctools_ads_include_page_content_type_render',
+  'render last' => TRUE,
   'edit form' => 'ctools_ads_include_page_content_type_edit_form',
   'defaults' => array('page_name' => NULL),
 );
