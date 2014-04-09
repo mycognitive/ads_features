@@ -66,6 +66,12 @@ function ads_advert_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 10,
       ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -102,6 +108,12 @@ function ads_advert_field_default_field_instances() {
         'settings' => array(),
         'type' => 'email_default',
         'weight' => 9,
+      ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
