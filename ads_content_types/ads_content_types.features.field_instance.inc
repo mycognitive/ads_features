@@ -119,12 +119,9 @@ function ads_content_types_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
+        'module' => 'lightbox2',
+        'settings' => array(),
+        'type' => 'lightbox2__lightbox__medium__original',
         'weight' => 3,
       ),
       'search_results_item' => array(

@@ -11,6 +11,7 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = i18n_taxonomy
 dependencies[] = image
+dependencies[] = lightbox2
 dependencies[] = link
 dependencies[] = money
 dependencies[] = phone
