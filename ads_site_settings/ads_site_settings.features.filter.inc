@@ -22,7 +22,7 @@ function ads_site_settings_filter_default_formats() {
         'weight' => -10,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
+          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <img>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 1,
         ),
@@ -38,6 +38,11 @@ function ads_site_settings_filter_default_formats() {
         'settings' => array(
           'filter_url_length' => 72,
         ),
+      ),
+      'media_filter' => array(
+        'weight' => 2,
+        'status' => 1,
+        'settings' => array(),
       ),
       'filter_htmlcorrector' => array(
         'weight' => 10,

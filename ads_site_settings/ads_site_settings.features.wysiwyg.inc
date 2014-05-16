@@ -60,6 +60,9 @@ function ads_site_settings_wysiwyg_default_profiles() {
           'SpellChecker' => 1,
           'Scayt' => 1,
         ),
+        'drupal' => array(
+          'media' => 1,
+        ),
       ),
       'toolbar_loc' => 'top',
       'toolbar_align' => 'left',
@@ -76,10 +79,9 @@ function ads_site_settings_wysiwyg_default_profiles() {
       'css_path' => '',
       'css_classes' => '',
     ),
-    'rdf_mapping' => array(),
   );
 
-  // Exported profile: advert_html
+  // Exported profile: filtered_html
   $profiles['filtered_html'] = array(
     'format' => 'filtered_html',
     'editor' => 'ckeditor',
@@ -145,7 +147,6 @@ function ads_site_settings_wysiwyg_default_profiles() {
       'css_path' => '',
       'css_classes' => '',
     ),
-    'rdf_mapping' => array(),
   );
 
   // Exported profile: full_html
@@ -153,7 +154,6 @@ function ads_site_settings_wysiwyg_default_profiles() {
     'format' => 'full_html',
     'editor' => 'ckeditor',
     'settings' => FALSE,
-    'rdf_mapping' => array(),
   );
 
   return $profiles;
