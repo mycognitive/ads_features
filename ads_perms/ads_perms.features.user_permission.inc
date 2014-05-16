@@ -3,7 +3,6 @@
  * @file
  * ads_perms.features.user_permission.inc
  */
-
 /**
  * Implements hook_user_default_permissions().
  */

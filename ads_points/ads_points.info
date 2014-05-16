@@ -1,0 +1,15 @@
+name = Ads Points
+description = Add points to user for add advert
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = ads_points
+dependencies[] = entity
+dependencies[] = features
+dependencies[] = rules
+dependencies[] = userpoints
+dependencies[] = userpoints_rules
+features[features_api][] = api:1
+features[rules_config][] = rules_ads_points
+features[user_permission][] = view own userpoints
+features[user_permission][] = view userpoints

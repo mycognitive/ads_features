@@ -1,4 +1,9 @@
-ads_features
-============
+ADS Features
+===========
 
-Provides features for ads distribution
+Provides common Travel features for ADS Drupal distribution.
+
+Build status
+------------
+ADS build status:
+[![ADS Build](https://travis-ci.org/mycognitive/ads_features.png "ADS Build")](https://travis-ci.org/mycognitive/ads_features)
