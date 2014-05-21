@@ -10,6 +10,17 @@
 function ads_perms_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: access content.
+  $permissions['access content'] = array(
+    'name' => 'access content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: access user profiles.
   $permissions['access user profiles'] = array(
     'name' => 'access user profiles',
@@ -25,6 +36,7 @@ function ads_perms_user_default_permissions() {
   $permissions['create advert content'] = array(
     'name' => 'create advert content',
     'roles' => array(
+      'administrator' => 'administrator',
       'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
@@ -34,7 +46,9 @@ function ads_perms_user_default_permissions() {
   // Exported permission: delete any advert content.
   $permissions['delete any advert content'] = array(
     'name' => 'delete any advert content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -43,6 +57,7 @@ function ads_perms_user_default_permissions() {
     'name' => 'delete own advert content',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -52,7 +67,6 @@ function ads_perms_user_default_permissions() {
     'name' => 'edit any advert content',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -62,6 +76,17 @@ function ads_perms_user_default_permissions() {
     'name' => 'edit own advert content',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: view own unpublished content.
+  $permissions['view own unpublished content'] = array(
+    'name' => 'view own unpublished content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );

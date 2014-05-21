@@ -31,19 +31,10 @@ function ads_advert_field_group_info() {
       5 => 'field_ad_location',
       6 => 'title',
     ),
-    'format_type' => 'div',
+    'format_type' => 'multistep',
     'format_settings' => array(
-      'label' => '1st step',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => 'group-advert-step-1 field-group-div ',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => 0,
     ),
   );
   $export['group_advert_step_1|node|advert|form'] = $field_group;
@@ -64,19 +55,10 @@ function ads_advert_field_group_info() {
       0 => 'field_ad_category',
       1 => 'field_ad_image',
     ),
-    'format_type' => 'div',
+    'format_type' => 'multistep',
     'format_settings' => array(
-      'label' => '2st step',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => 'group-advert-step-2 field-group-div ',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => 0,
     ),
   );
   $export['group_advert_step_2|node|advert|form'] = $field_group;
@@ -94,19 +76,10 @@ function ads_advert_field_group_info() {
     'label' => '3rd step',
     'weight' => '3',
     'children' => array(),
-    'format_type' => 'div',
+    'format_type' => 'multistep',
     'format_settings' => array(
-      'label' => '3rd step',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => 'group-advert-step-3 field-group-div ',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => 0,
     ),
   );
   $export['group_advert_step_3|node|advert|form'] = $field_group;
