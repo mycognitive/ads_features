@@ -184,6 +184,18 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['sorts']['field_fivestar_rating_rating']['table'] = 'field_data_field_fivestar_rating';
   $handler->display->display_options['sorts']['field_fivestar_rating_rating']['field'] = 'field_fivestar_rating_rating';
   $handler->display->display_options['sorts']['field_fivestar_rating_rating']['order'] = 'DESC';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Content: Fivestar (field_fivestar:rating) */
+  $handler->display->display_options['sorts']['field_fivestar_rating']['id'] = 'field_fivestar_rating';
+  $handler->display->display_options['sorts']['field_fivestar_rating']['table'] = 'field_data_field_fivestar';
+  $handler->display->display_options['sorts']['field_fivestar_rating']['field'] = 'field_fivestar_rating';
+  $handler->display->display_options['sorts']['field_fivestar_rating']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['field_fivestar_rating']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_fivestar_rating']['expose']['label'] = 'Sort Score';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -197,6 +209,12 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['field'] = 'field_fivestar_rating_rating';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['operator'] = '>=';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['value']['value'] = '1';
+  /* Filter criterion: Content: Fivestar (field_fivestar:rating) */
+  $handler->display->display_options['filters']['field_fivestar_rating']['id'] = 'field_fivestar_rating';
+  $handler->display->display_options['filters']['field_fivestar_rating']['table'] = 'field_data_field_fivestar';
+  $handler->display->display_options['filters']['field_fivestar_rating']['field'] = 'field_fivestar_rating';
+  $handler->display->display_options['filters']['field_fivestar_rating']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_fivestar_rating']['value']['value'] = '1';
 
   /* Display: Popular adverts */
   $handler = $view->new_display('block', 'Popular adverts', 'block');
@@ -209,6 +227,7 @@ function ads_homepage_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Sort Score'),
   );
   $export['fivestar'] = $view;
 
