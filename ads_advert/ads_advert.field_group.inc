@@ -29,7 +29,8 @@ function ads_advert_field_group_info() {
       3 => 'field_ad_phone',
       4 => 'field_ad_price',
       5 => 'field_ad_location',
-      6 => 'title',
+      6 => 'field_fivestar_rating',
+      7 => 'title',
     ),
     'format_type' => 'div',
     'format_settings' => array(
