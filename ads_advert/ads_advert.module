@@ -396,6 +396,8 @@ function ads_advert_form_wizard() {
   ctools_include('wizard');
   ctools_include('object-cache');
 
+  ads_theme_add_js(ads_theme_find('ads_advert', 'js', 'ads_advert.js', ADS_THEME_FIND_JS));
+
   $action = arg(1) == 'add' ? 'add' : 'edit';
 
   $form_info = array(
