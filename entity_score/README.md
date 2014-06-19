@@ -11,4 +11,4 @@ drush en entity score
 CONFIGURATION
 =============
 
-Please go to __/admin/config/entity_score/boosts__ and choose field used to store entity score. The field must be of type __Float__ and may be used across several entity/node types. Boosts will be automatically updated when entity is created/saved.
+Please go to __/admin/config/entity_score/boosts__ and choose field used to store entity score. The field must be of type __Float__ and may be used across several entity/node types. Scores will be automatically updated when entities are created/saved.
