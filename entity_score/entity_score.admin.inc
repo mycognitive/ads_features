@@ -5,11 +5,12 @@
  */
 
 /**
- * Generates form to configure interface.
+ * Generates form to configure boosts.
+ *
+ * @see entity_score_settings_form_submit()
  */
-function ads_score_settings_form() {
-
-  ads_theme_add_js(ads_theme_find('ads_score', 'js', 'ads_score.js', ADS_THEME_FIND_JS));
+function entity_score_settings_form() {
+  drupal_add_js(drupal_get_path('module', 'entity_score') . '/js/entity_score.js');
 
   $form = array();
 
@@ -20,13 +21,13 @@ function ads_score_settings_form() {
   );
 
   $form['globals'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('General Settings'),
-    );
+    '#type' => 'fieldset',
+    '#title' => t('General Settings'),
+  );
 
   $numeric_fields = array('0' => '(None)');
 
-  foreach(field_info_fields() as $name => $info) {
+  foreach (field_info_fields() as $name => $info) {
 
     if ($info['type'] !== 'number_float') {
       continue;
@@ -48,18 +49,18 @@ function ads_score_settings_form() {
     $numeric_fields[$name] = $title;
   }
 
-  $form['globals']['ads_score_score_field_name'] = array(
+  $form['globals']['entity_score_score_field_name'] = array(
     '#type' => 'select',
-    '#title' => t('Field used to store final score of the entity'),
-    '#default_value' => variable_get('ads_score_score_field_name', ''),
-    '#description' => t('Field must be of type <strong>Float</strong>. After selecting field please save configuration to see supported fields only.'),
+    '#title' => t('Field used to store entity score'),
+    '#default_value' => variable_get('entity_score_score_field_name', ''),
+    '#description' => t('Field must be of type <strong>Float</strong>. After selecting field please <strong>save configuration</strong> to see supported fields only.'),
     '#options' => $numeric_fields,
   );
 
-  $form['globals']['ads_score_score_field_hide'] = array(
+  $form['globals']['entity_score_score_field_hide'] = array(
     '#type' => 'checkbox',
     '#title' => t('Hide score field'),
-    '#default_value' => (bool)variable_get('ads_score_score_field_hide', FALSE),
+    '#default_value' => (bool) variable_get('entity_score_score_field_hide', FALSE),
     '#description' => t('Hides score field when displaying entity and in add/edit forms.'),
   );
 
@@ -98,26 +99,28 @@ function ads_score_settings_form() {
 
   drupal_add_library('system', 'drupal.collapse');
 
-  $boost_operations = array (
-    ADS_SCORE_BOOST_OP_ADD_EACH => t('Add value for each occurence (default)'),
-    ADS_SCORE_BOOST_OP_ADD_ONCE => t('Add value only once if there is any occurence'),
-    ADS_SCORE_BOOST_OP_MUL_ONCE => t('Multiply final boost by value only once if there is any occurence'),
-    ADS_SCORE_BOOST_OP_MUL_EACH => t('Multiply final boost by number of occurencies and value'),
+  $boost_operations = array(
+    ENTITY_SCORE_BOOST_OP_ADD_EACH => t('Add value for each occurence (default)'),
+    ENTITY_SCORE_BOOST_OP_ADD_ONCE => t('Add value only once if there is any occurence'),
+    ENTITY_SCORE_BOOST_OP_MUL_ONCE => t('Multiply final boost by value only once if there is any occurence'),
+    ENTITY_SCORE_BOOST_OP_MUL_EACH => t('Multiply final boost by number of occurencies and value'),
   );
 
-  $boost_callback_operations = array (
-    ADS_SCORE_BOOST_OP_CALLBACK => t('Leave final score computation in hands of boost callback function'),
+  $boost_callback_operations = array(
+    ENTITY_SCORE_BOOST_OP_CALLBACK => t('Leave final score computation in hands of boost callback function'),
   );
 
-  foreach (ads_score_entity_score_boosts_list() as $group_name => $group) {
+  $boosts_list = entity_score_entity_score_boosts_list();
+
+  foreach ($boosts_list as $group_name => $group) {
 
     $form['groups'][$group_name] = array(
       '#type' => 'fieldset',
-      '#title' => $group['title'],
-      '#attributes' => array (
+      '#title' => check_plain($group['title']),
+      '#attributes' => array(
         'class' => array(
-          'collapsible'
-        )
+          'collapsible',
+        ),
       ),
     );
 
@@ -125,14 +128,14 @@ function ads_score_settings_form() {
 
     foreach ($group['boosts'] as $boost_name => $boost) {
 
-      $is_enabled    = variable_get('ads_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
+      $is_enabled    = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
       $default_boost = isset($boost['default_value']) ? $boost['default_value'] : 0;
-      $boost_value   = variable_get('ads_score_' . $group_name . '_' . $boost_name . '_value', $default_boost);
+      $boost_value   = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', $default_boost);
 
       $enabled_field = array(
         '#title' => '',
         '#type' => 'checkbox',
-        '#name' => 'ads_score_' . $group_name . '_' . $boost_name . '_enabled',
+        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_enabled',
         '#checked' => $is_enabled,
         '#attributes' => array(
           'class' => array('groups-boost-enabled'),
@@ -142,7 +145,7 @@ function ads_score_settings_form() {
       $boost_field = array(
         '#title' => '',
         '#type' => 'textfield',
-        '#name' => 'ads_score_' . $group_name . '_' . $boost_name . '_value',
+        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_value',
         '#size' => 4,
         '#value' => $boost_value,
       );
@@ -150,9 +153,9 @@ function ads_score_settings_form() {
       $boost_operation = array(
         '#title' => '',
         '#type' => 'select',
-        '#name' => 'ads_score_' . $group_name . '_' . $boost_name . '_op',
-        '#value' => variable_get('ads_score_' . $group_name . '_' . $boost_name . '_op', 'add'),
-        '#options' => $boost['type'] === ADS_SCORE_BOOST_TYPE_CALLBACK ? $boost_callback_operations : $boost_operations,
+        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_op',
+        '#value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', 'add'),
+        '#options' => $boost['type'] === ENTITY_SCORE_BOOST_TYPE_CALLBACK ? $boost_callback_operations : $boost_operations,
       );
 
       $rows[] = array(
@@ -161,7 +164,7 @@ function ads_score_settings_form() {
         'boost_title' => $boost['boost_title'],
         'op' => drupal_render($boost_operation),
         'boost' => drupal_render($boost_field),
-        'default_value' => $boost['type'] === ADS_SCORE_BOOST_TYPE_CALLBACK ? '' : $default_boost,
+        'default_value' => $boost['type'] === ENTITY_SCORE_BOOST_TYPE_CALLBACK ? '' : $default_boost,
       );
     }
 
@@ -181,32 +184,42 @@ function ads_score_settings_form() {
 
   }
 
-  $form['#submit'][] = 'ads_score_settings_form_submit';
+  if (empty($boosts_list)) {
+    $form['please_select_score_field'] = array(
+      '#markup' => t('Please select score field and save the configuration to see available boosts.'),
+      '#prefix' => '<h3>',
+      '#suffix' => '<h3>',
+    );
+  }
+
+  $form['#submit'][] = 'entity_score_settings_form_submit';
 
   return system_settings_form($form);
 }
 
 /**
- * Form submission handler.
+ * Form submission handler for entity_score_settings_form().
+ *
+ * @see entity_score_settings_form()
  */
-function ads_score_settings_form_submit($form, &$form_state) {
+function entity_score_settings_form_submit($form, &$form_state) {
 
   // Disabling all boosts initially.
-  foreach (ads_score_entity_score_boosts_list() as $group_name => $group) {
+  foreach (entity_score_entity_score_boosts_list() as $group_name => $group) {
     foreach ($group['boosts'] as $boost_name => $boost) {
-      variable_set('ads_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
+      variable_set('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
     }
   }
 
   foreach ($form_state['input'] as $key => $value) {
-    if (strpos($key, 'ads_score_') === 0) {
+    if (strpos($key, 'entity_score_') === 0) {
       variable_set($key, $value);
     }
   }
 
-  $score_field_name    = $form_state['input']['ads_score_score_field_name'];
+  $score_field_name    = $form_state['input']['entity_score_score_field_name'];
   $score_field_info    = field_info_field($score_field_name);
   $score_field_bundles = $score_field_info['bundles'];
 
-  variable_set('ads_score_enabled_bundles', $score_field_bundles);
+  variable_set('entity_score_enabled_bundles', $score_field_bundles);
 }

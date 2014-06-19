@@ -1,3 +1,7 @@
+/**
+ * @file
+ * Client-side script for better user experience.
+ */
 (function($) {
 
   $(function() {

@@ -1,9 +1,0 @@
-name = ADS Score
-description = Provides score calculation for nodes (based on boosts given by hooks).
-core = 7.x
-php = 5.3.0
-package = ADS Features
-version = 7.x-1.0
-project = ads_score
-features[features_api][] = api:2
-project path = sites/all/modules/ads/ads_features
