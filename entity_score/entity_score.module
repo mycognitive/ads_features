@@ -169,7 +169,7 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
  * Returns list of boosts available to configure via administrative UI.
  *
  * @return array
- *   List of boosts, e.g.:
+ *   List of boosts, e.g.,
  * @code
  *   array(
  *      // Machine name of the boosts group.
@@ -195,7 +195,7 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
  *           // Default value for boost, may be skipped for 0.
  *           'default_value' => 0.05,
  *
- *           // Bundles may be defined also as e.g.,:
+ *           // Bundles may be defined also as e.g.,
  *           // array('node' => array('advert', ...), ...)
  *           'bundles' => array('node'),
  *
@@ -240,6 +240,8 @@ function entity_score_entity_score_boosts_list() {
 
     $boost_groups = array_merge_recursive($boost_groups, $boost_groups_result);
   }
+
+  drupal_alter('entity_score_entity_score_boosts_list', $boost_groups);
 
   $enabled_bundle_types = variable_get('entity_score_enabled_bundles', array());
 

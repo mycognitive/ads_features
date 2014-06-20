@@ -26,10 +26,10 @@
  *       'boosts' => array(
  *         // Machine name of boost declaration.
  *         'title_per_character' => array(
- *           // Type may be also ENTiTY_SCORE_BOOST_TYPE_CALLBACK, so third
+ *           // Type may be also ENTITY_SCORE_BOOST_TYPE_CALLBACK, so third
  *           // parameter to boost callback function will be a reference to
  *           // final score value.
- *           'type' => ENTiTY_SCORE_BOOST_TYPE_NORMAL,
+ *           'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
  *
  *           // Title of the field that is used to compute boost.
  *           'field_title' => t('Title'),
@@ -47,9 +47,9 @@
  *           // Callback function, e.g.,
  *           // callback($entity, $entity_type, &$score)
  *           // Third parameter is required only for boost with type
- *           // ENTiTY_SCORE_BOOST_TYPE_CALLBACK
+ *           // ENTITY_SCORE_BOOST_TYPE_CALLBACK
  *           'function' =>
- *             'hook_calculate_my_builtin_fields_title_per_character',
+ *             '_calculate_my_builtin_fields_title_per_character',
  *         ),
  *         // ...
  *       ),
@@ -59,17 +59,17 @@
  *
  * @ingroup entity_score
  */
-function hook_entity_score_entity_score_boosts_lists() {
+function hook_entity_score_entity_score_boosts_list() {
   return array(
     'my_builtin_fields' => array(
       'title' => t('My built-in fields'),
       'boosts' => array(
         'title_per_character' => array(
-          'type' => ENTiTY_SCORE_BOOST_TYPE_NORMAL,
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
           'field_title' => t('Title'),
           'boost_title' => t('Per character'),
           'bundles' => array('node'),
-          'function' => 'hook_calculate_my_builtin_fields_title_per_character',
+          'function' => '_calculate_my_builtin_fields_title_per_character',
         ),
       ),
     ),
@@ -87,12 +87,35 @@ function hook_entity_score_entity_score_boosts_lists() {
  *
  * @param float $score
  *   Reference to final score. Used for boosts of type
- *   ENTiTY_SCORE_BOOST_TYPE_CALLBACK.
+ *   ENTITY_SCORE_BOOST_TYPE_CALLBACK.
  *
  * @return float
  *   Number of characters in the body field.
+ *
+ * @ingroup entity_score
  */
-function hook_calculate_my_builtin_fields_title_per_character($entity, $entity_type, &$score) {
+function _calculate_my_builtin_fields_title_per_character($entity, $entity_type, &$score) {
+  if (!isset($entity->title)) {
+    // Entity doesn't contain title.
+    return 0;
+  }
+
+  return strlen($entity->title);
+}
+
+/**
+ * Alters final list of boost declarations.
+ *
+ * @param array $boosts
+ *   Reference to array with boost declarations.
+ *
+ * @see hook_entity_score_entity_score_boosts_list()
+ *
+ * @ingroup entity_score
+ */
+function hook_entity_score_entity_score_boosts_list_alter(&$boosts) {
+  $boosts['builtin_fields']['boosts']['title_per_character']['function']
+    = '_calculate_builtin_fields_title_per_character_override';
 }
 
 /**
