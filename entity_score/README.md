@@ -5,7 +5,7 @@ Simply download and enable the module, you may do it via:
 
 ```
 drush dl entity_score
-drush en entity score
+drush en entity_score
 ```
 
 CONFIGURATION
