@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * ADS Score module hooks.
+ * Entity Score module hooks.
  */
 
 /**

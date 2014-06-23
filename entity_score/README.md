@@ -89,4 +89,4 @@ That's all. Your boost declaration is ready to be enabled.
 EXPORT TO FEATURES
 ==================
 
-Currently it's supported via strongarm, just export all *ads_score\** values into your module.
+Currently it's supported via strongarm, just export all *entity_score\** values into your module.

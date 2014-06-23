@@ -41,11 +41,11 @@
       checkClick.apply(this);
     });
 
-    $('#ads-score-settings-form select').change(function () {
+    $('#entity-score-settings-form select').change(function () {
         $(this).closest('tr').find('input[type=text]').css({visibility: this.value == 20 /* Callback*/ ? 'hidden' : 'visible'});
     });
 
-    $('#ads-score-settings-form select').change();
+    $('#entity-score-settings-form select').change();
 
   });
 
