@@ -7,8 +7,10 @@
 
 define('ENTITY_SCORE_BOOST_OP_ADD_EACH', 1);
 define('ENTITY_SCORE_BOOST_OP_ADD_ONCE', 2);
+define('ENTITY_SCORE_BOOST_OP_ADD_DIV_BY_ALL', 3);
 define('ENTITY_SCORE_BOOST_OP_MUL_ONCE', 9);
 define('ENTITY_SCORE_BOOST_OP_MUL_EACH', 10);
+define('ENTITY_SCORE_BOOST_OP_MUL_DIV_BY_ALL', 11);
 define('ENTITY_SCORE_BOOST_OP_CALLBACK', 20);
 
 define('ENTITY_SCORE_BOOST_TYPE_NORMAL', 1);
@@ -136,6 +138,11 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
   });
 
   foreach ($boosts_list as $boost) {
+    if (!isset ($boost['function'])) {
+      // Function not yet, nothing to do.
+      continue;
+    }
+
     $function = $boost['function'];
 
     switch ($boost['op']) {
@@ -149,6 +156,10 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
 
       case ENTITY_SCORE_BOOST_OP_MUL_EACH:
         $score *= $function($entity, $entity_type, $score) * $boost['value'];
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_DIV_BY_ALL:
+        $score *= $boost['value'] / $function($entity, $entity_type, $score);
         break;
 
       case ENTITY_SCORE_BOOST_OP_MUL_ONCE:
@@ -464,7 +475,7 @@ function entity_score_calculate_attachments_per_attached_file($entity, $entity_t
  * Implements hook_entity_score_entity_score_boosts_list().
  */
 function entity_score_entity_score_entity_score_boosts_list() {
-  return array(
+  $boosts = array(
     'builtin_fields' => array(
       'title' => t('Built-in fields'),
       'boosts' => array(
@@ -481,6 +492,13 @@ function entity_score_entity_score_entity_score_boosts_list() {
           'boost_title' => t('Per character'),
           'bundles' => array('node'),
           'function' => 'entity_score_calculate_builtin_fields_body_per_character',
+        ),
+        'changed' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('Changed'),
+          'boost_title' => t('Difference in years from now (per year)'),
+          'bundles' => array('node'),
+          'function' => 'entity_score_calculate_builtin_fields_changed_per_year_from_now',
         ),
       ),
     ),
@@ -503,4 +521,190 @@ function entity_score_entity_score_entity_score_boosts_list() {
       ),
     ),
   );
+
+  if (module_exists('search_api_solr')) {
+    // Support for dynamic boost in the search query.
+    $boosts['builtin_fields']['boosts']['changed_solr'] = array(
+      'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+      'field_title' => t('Changed'),
+      'boost_title' => t('Dynamically via !what, performs: !expression', array(
+        '!what' => l(t('Search API Solr'), 'https://drupal.org/project/search_api_solr'),
+        '!expression' => 'recip(abs(ms(NOW/GRANULARITY,CHANGED_SOLR_FIELD_NAME)),SECONDS_IN_GRANULARITY,MAX_BOOST,DROP_RATIO)',
+      )),
+      'bundles' => array('node'),
+      'operations' => array(),
+      'settings' => array(
+        'max_boost' => array(
+          '#title' => t('Maximum boost, e.g., 1'),
+          '#type' => 'textfield',
+          '#size' => 4,
+          '#default_value' => 1,
+        ),
+        'drop_ratio' => array(
+          '#title' => t('Drop ratio, e.g., 1 or 0.1'),
+          '#type' => 'textfield',
+          '#size' => 4,
+          '#default_value' => 1,
+        ),
+        'granularity' => array(
+          '#title' => t('Granularity'),
+          '#type' => 'select',
+          '#options' => array(
+            'year' => t('Year'),
+            'month' => t('Month'),
+          ),
+          '#default_value' => 'year',
+        ),
+      ),
+      'features' => array(
+        t('Does not contribue in static boost calculation (adds boost function directly into Solr query). Please note that "changed" field must be indexed in order to boost to work'),
+      ),
+    );
+  }
+
+  return $boosts;
+}
+
+/**
+ * Returns an array of boost configuration set by user.
+ *
+ * @param string $group_name
+ *   Name of the boost group.
+ *
+ * @param string $boost_name
+ *   Name of the boost in boost group.
+ *
+ * @return array
+ *   Array with configuration set by user.
+ */
+function entity_score_get_boost_user_settings($group_name, $boost_name) {
+  $boosts_list = entity_score_entity_score_boosts_list();
+
+  $result = array(
+    'enabled' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE),
+    'operation' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', ''),
+    'value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', NULL),
+    'settings' => array(),
+  );
+
+  if (!isset($boosts_list[$group_name])) {
+    throw new Exception("Boosts group \"$group_name\" doesn't exist");
+  }
+
+  if (!isset($boosts_list[$group_name]['boosts'][$boost_name])) {
+    throw new Exception("Boost \"$boost_name\" doesn't exist in group \"$group_name\"");
+  }
+
+  $boost = $boosts_list[$group_name]['boosts'][$boost_name];
+
+  if (!empty($boost['settings'])) {
+    foreach ($boost['settings'] as $name => $widget) {
+      $result['settings'][$name] = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_cfg_' . $name, isset($widget['#default_value']) ? $widget['#default_value'] : '');
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Boost field callback. Returns field's "quantity".
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Number of years difference from now and "changed" field of the entity.
+ */
+function entity_score_calculate_builtin_fields_changed_per_year_from_now($entity, $entity_type) {
+  if (!isset($entity->changed)) {
+    // Entity doesn't has "changed" field.
+    return 0;
+  }
+
+  // @TODO: Implement it.
+  return 0;
+}
+
+/**
+ * Support for Search Api Solr dynamic boosts.
+ */
+
+/**
+ * Returns final name of the field (the name used on the server).
+ *
+ * @param SearchApiIndex $index
+ *   SearchApiIndex object. You can get it from SearchApiQuery::getIndex().
+ *
+ * @param string|array $drupal_field_name
+ *   Name of the source field or array of names. They will be returned as list
+ *   of strings.
+ *
+ * @return string|array
+ *   Name of list of names used on the server.
+ */
+function entity_score_get_search_api_final_field_name(SearchApiIndex $index, $drupal_field_name) {
+  $server = search_api_server_load(ADS_SEARCH_SEARCH_API_SERVER_NAME);
+
+  // We need reflection here as there are no other way to get service class
+  // object without creating its instance. Maybe someone know a better way?
+  $reflection = new ReflectionProperty(get_class($server), 'proxy');
+  $reflection->setAccessible(TRUE);
+
+  $service     = $reflection->getValue($server);
+  $field_names = $service->getFieldNames($index);
+
+  if (is_array($drupal_field_name)) {
+    $drupal_field_names = $drupal_field_name;
+  }
+  else {
+    $drupal_field_names = array($drupal_field_name);
+  }
+
+  $final_names = array();
+
+  foreach ($drupal_field_names as $name) {
+    if (!isset($field_names[$name])) {
+      return NULL;
+    }
+
+    $final_names[] = $field_names[$name];
+  }
+
+  return is_array($drupal_field_name) ? $final_names : $final_names[0];
+}
+
+/**
+ * Implements hook_search_api_solr_query_alter().
+ */
+function entity_score_search_api_solr_query_alter(&$call_args, SearchApiQueryInterface $query) {
+
+  $field_changed = entity_score_get_boost_user_settings('builtin_fields', 'changed_solr');
+
+  if ($field_changed['enabled']) {
+    $solr_field_name = entity_score_get_search_api_final_field_name($query->getIndex(), 'changed');
+
+    if ($solr_field_name === NULL) {
+      // "changed" field is not a part of this index.
+      return;
+    }
+
+    $settings = $field_changed['settings'];
+    $settings['max_boost']  = (float) $settings['max_boost'];
+    $settings['drop_ratio'] = (float) $settings['drop_ratio'];
+
+    switch ($settings['granularity']) {
+      case 'year':
+        $boost_func = "recip(ms(NOW/DAY,$solr_field_name),3.16e-11,{$settings['max_boost']},{$settings['drop_ratio']})";
+        break;
+
+      default:
+        drupal_set_message(t('Dynamic boost calculation for "changed" field: Unsupported granularity. Currently only "year" is supported'), 'warning');
+        return;
+    }
+
+    $call_args['params']['bf'][] = $boost_func;
+  }
 }

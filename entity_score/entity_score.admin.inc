@@ -52,15 +52,14 @@ function entity_score_settings_form() {
   $form['globals']['entity_score_score_field_name'] = array(
     '#type' => 'select',
     '#title' => t('Field used to store entity score'),
-    '#default_value' => variable_get('entity_score_score_field_name', ''),
     '#description' => t('Field must be of type <strong>Float</strong>. After selecting field please <strong>save configuration</strong> to see supported fields only.'),
     '#options' => $numeric_fields,
+    '#default_value' => variable_get('entity_score_score_field_name', ''),
   );
 
   $form['globals']['entity_score_score_field_hide'] = array(
     '#type' => 'checkbox',
     '#title' => t('Hide score field'),
-    '#default_value' => (bool) variable_get('entity_score_score_field_hide', FALSE),
     '#description' => t('Hides score field when displaying entity and in add/edit forms.'),
   );
 
@@ -84,15 +83,11 @@ function entity_score_settings_form() {
       'data' => t('Boost method'),
     ),
     'op' => array(
-      'data' => t('Operation'),
+      'data' => t('Operation / Settings'),
       'width' => '120px',
     ),
     'value' => array(
       'data' => t('Value'),
-      'width' => '100px',
-    ),
-    'default_value' => array(
-      'data' => t('Default'),
       'width' => '100px',
     ),
   );
@@ -104,6 +99,8 @@ function entity_score_settings_form() {
     ENTITY_SCORE_BOOST_OP_ADD_ONCE => t('Add value only once if there is any occurence'),
     ENTITY_SCORE_BOOST_OP_MUL_ONCE => t('Multiply final boost by value only once if there is any occurence'),
     ENTITY_SCORE_BOOST_OP_MUL_EACH => t('Multiply final boost by number of occurencies and value'),
+    ENTITY_SCORE_BOOST_OP_ADD_DIV_BY_ALL => t('Add division of value by number of occurencies'),
+    ENTITY_SCORE_BOOST_OP_MUL_DIV_BY_ALL => t('Multiply final boost by division of value by number of occurencies'),
   );
 
   $boost_callback_operations = array(
@@ -129,8 +126,7 @@ function entity_score_settings_form() {
     foreach ($group['boosts'] as $boost_name => $boost) {
 
       $is_enabled    = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
-      $default_boost = isset($boost['default_value']) ? $boost['default_value'] : 0;
-      $boost_value   = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', $default_boost);
+      $boost_value   = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', 0);
 
       $enabled_field = array(
         '#title' => '',
@@ -150,21 +146,59 @@ function entity_score_settings_form() {
         '#value' => $boost_value,
       );
 
-      $boost_operation = array(
-        '#title' => '',
-        '#type' => 'select',
-        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_op',
-        '#value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', 'add'),
-        '#options' => $boost['type'] === ENTITY_SCORE_BOOST_TYPE_CALLBACK ? $boost_callback_operations : $boost_operations,
-      );
+      if (isset($boost['operations'])) {
+        $this_boost_operations = $boost['operations'];
+      }
+      else {
+        $this_boost_operations = $boost['type'] === ENTITY_SCORE_BOOST_TYPE_CALLBACK ? $boost_callback_operations : $boost_operations;
+      }
+
+      if (!empty($this_boost_operations)) {
+        $boost_operation = array(
+          '#title' => '',
+          '#type' => 'select',
+          '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_op',
+          '#value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', 'add'),
+          '#options' => $this_boost_operations,
+        );
+      }
+      else {
+        $boost_operation = NULL;
+      }
+
+      $boost_title = $boost['boost_title'];
+
+      if (isset($boost['description'])) {
+        $boost_title .= '<div class="description">' . $boost['description'] . '</div>';
+      }
+
+      if (!empty($boost['features'])) {
+        $boost_title .= '<div class="description"><ul><li>' . implode('</li><li>', $boost['features']) . '</li></ul></div>';
+      }
+
+      // Custom boost settings in HTML.
+      $boost_settings = '';
+
+      if (!empty($boost['settings'])) {
+        $boost_field = '';
+
+        foreach ($boost['settings'] as $name => $widget) {
+          $var_name         = 'entity_score_' . $group_name . '_' . $boost_name . '_cfg_' . $name;
+          $default_value    = isset($widget['#default_value']) ? $widget['#default_value'] : '';
+
+          $widget['#name']  = $var_name;
+          $widget['#value'] = variable_get($var_name, $default_value);
+
+          $boost_settings .= drupal_render($widget);
+        }
+      }
 
       $rows[] = array(
         'enabled' => drupal_render($enabled_field),
         'field_title' => $boost['field_title'],
-        'boost_title' => $boost['boost_title'],
-        'op' => drupal_render($boost_operation),
+        'boost_title' => $boost_title,
+        'op' => drupal_render($boost_operation) . ($boost_settings !== '' ? ('<div>' . $boost_settings . '</div>') : ''),
         'boost' => drupal_render($boost_field),
-        'default_value' => $boost['type'] === ENTITY_SCORE_BOOST_TYPE_CALLBACK ? '' : $default_boost,
       );
     }
 
@@ -181,7 +215,6 @@ function entity_score_settings_form() {
       '#prefix' => '<div>',
       '#suffix' => '<div>',
     );
-
   }
 
   if (empty($boosts_list)) {
