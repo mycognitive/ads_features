@@ -1,0 +1,710 @@
+<?php
+/**
+ * @file
+ * Entity Score module.
+ * Provides score calculation for nodes (based on boosts given by hooks).
+ */
+
+define('ENTITY_SCORE_BOOST_OP_ADD_EACH', 1);
+define('ENTITY_SCORE_BOOST_OP_ADD_ONCE', 2);
+define('ENTITY_SCORE_BOOST_OP_ADD_DIV_BY_ALL', 3);
+define('ENTITY_SCORE_BOOST_OP_MUL_ONCE', 9);
+define('ENTITY_SCORE_BOOST_OP_MUL_EACH', 10);
+define('ENTITY_SCORE_BOOST_OP_MUL_DIV_BY_ALL', 11);
+define('ENTITY_SCORE_BOOST_OP_CALLBACK', 20);
+
+define('ENTITY_SCORE_BOOST_TYPE_NORMAL', 1);
+define('ENTITY_SCORE_BOOST_TYPE_CALLBACK', 20);
+
+/**
+ * Implements hook_menu().
+ */
+function entity_score_menu() {
+  $menu['admin/config/entity_score'] = array(
+    'position'         => 'left',
+    'file'             => 'entity_score.admin.inc',
+    'title'            => 'Entity Score',
+    'description'      => 'Entity Score Settings',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('entity_score_settings_form'),
+    'access arguments' => array('administer entity_score'),
+    'weight'           => -1,
+  );
+
+  // Administrative tasks.
+  $menu['admin/config/entity_score/boosts'] = array(
+    'type'             => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'title'            => 'Entity boosts',
+    'file'             => 'entity_score.admin.inc',
+    'description'      => 'Set boosts for entities that matches specific conditions.',
+    'page arguments'   => array('entity_score_settings_form'),
+    'access arguments' => array('administer entity_score'),
+    'weight'           => 1,
+  );
+
+  return $menu;
+}
+
+/**
+ * Checks whether entity is enabled for processing (has selected score field).
+ *
+ * @param object $entity
+ *   Entity to check.
+ *
+ * @param string $entity_type
+ *   Type of entity to check.
+ *
+ * @return bool
+ *   True if entity is enabled for processing (has selected score field).
+ */
+function entity_score_entity_enabled($entity, $entity_type) {
+  $score_field_name = variable_get('entity_score_score_field_name', '');
+
+  if (empty($score_field_name)) {
+    // Score field not set, nothing to do.
+    return FALSE;
+  }
+
+  $enabled_bundle_types = variable_get('entity_score_enabled_bundles', array());
+
+  if (!array_key_exists($entity_type, $enabled_bundle_types)) {
+    // This bundle type doesn't contain selected score field.
+    return FALSE;
+  }
+
+  if (!in_array($entity->type, $enabled_bundle_types[$entity_type])) {
+    // This bundle doesn't contain selected score field.
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function entity_score_entity_presave($entity, $type) {
+
+  if (!entity_score_entity_enabled($entity, $type)) {
+    return;
+  }
+
+  $score_field_name = variable_get('entity_score_score_field_name', '');
+
+  $entity_wrapper = entity_metadata_wrapper($type, $entity);
+  $entity_wrapper->$score_field_name = entity_score_entity_score_calculate($entity, $type);
+}
+
+/**
+ * Calulates score for a given node.
+ *
+ * Score is based on boosts calculated via boost callback functions. List of
+ * boosts is defined via hook_entity_score_entity_score_boosts_list().
+ *
+ * @param object $entity
+ *   Entity to calculate boost for.
+ *
+ * @param object $entity_type
+ *   Type of the entity.
+ *
+ * @return float
+ *   Final score.
+ *
+ * @see entity_score_entity_score_get_boost_value()
+ * @see entity_score_entity_score_boosts_list()
+ */
+function entity_score_entity_score_calculate($entity, $entity_type) {
+  if (!entity_score_entity_enabled($entity, $entity_type)) {
+    return;
+  }
+
+  $score = 0;
+
+  $boosts_list = array();
+
+  foreach (entity_score_entity_score_boosts_list() as $group_name => $group) {
+    foreach ($group['boosts'] as $boost_name => $boost) {
+      $boosts_list[]  = array(
+        'name' => $group_name . '_' . $boost_name,
+        'op' => $boost['op'],
+        'function' => $boost['function'],
+        'value' => $boost['value'],
+      );
+    }
+  }
+
+  usort($boosts_list, function($a, $b) {
+    return $a['op'] > $b['op'];
+  });
+
+  foreach ($boosts_list as $boost) {
+    if (!isset ($boost['function'])) {
+      // Function not yet, nothing to do.
+      continue;
+    }
+
+    $function = $boost['function'];
+
+    switch ($boost['op']) {
+      case ENTITY_SCORE_BOOST_OP_ADD_EACH:
+        $score += $function($entity, $entity_type, $score) * $boost['value'];
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_ADD_ONCE:
+        $score += $boost['value'];
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_MUL_EACH:
+        $score *= $function($entity, $entity_type, $score) * $boost['value'];
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_DIV_BY_ALL:
+        $score *= $boost['value'] / $function($entity, $entity_type, $score);
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_MUL_ONCE:
+        $score *= $boost['value'];
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_CALLBACK:
+        $function($entity, $entity_type, $score);
+        break;
+    }
+  }
+
+  return $score;
+}
+
+// @ignore production_code:51
+/**
+ * Returns list of boosts available to configure via administrative UI.
+ *
+ * @return array
+ *   List of boosts, e.g.,
+ * @code
+ *   array(
+ *      // Machine name of the boosts group.
+ *     'my_builtin_fields' => array(
+ *       // Title of the boosts group.
+ *       'title' => t('My built-in fields'),
+ *
+ *       // An array of boost declarations.
+ *       'boosts' => array(
+ *         // Machine name of boost declaration.
+ *         'title_per_character' => array(
+ *           // Type may be also ENTITY_SCORE_BOOST_TYPE_CALLBACK, so third
+ *           // parameter to boost callback function will be a reference to
+ *           // final score value.
+ *           'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+ *
+ *           // Title of the field that is used to compute boost.
+ *           'field_title' => t('Title'),
+ *
+ *           // Description of boost functionality.
+ *           'boost_title' => t('Per character'),
+ *
+ *           // Default value for boost, may be skipped for 0.
+ *           'default_value' => 0.05,
+ *
+ *           // Bundles may be defined also as e.g.,
+ *           // array('node' => array('advert', ...), ...)
+ *           'bundles' => array('node'),
+ *
+ *           // Callback function, e.g.,
+ *           // callback($entity, $entity_type, &$score)
+ *           // Third parameter is required only for boost with type
+ *           // ENTITY_SCORE_BOOST_TYPE_CALLBACK
+ *           'function' =>
+ *             'hook_calculate_my_builtin_fields_title_per_character',
+ *         ),
+ *         // ...
+ *       ),
+ *     // ...
+ *   )
+ * @endcode
+ *
+ * @see entity_score_entity_score_get_boost_value()
+ * @see entity_score_entity_score_calculate()
+ */
+function entity_score_entity_score_boosts_list() {
+  $boost_groups = &drupal_static(__FUNCTION__);
+
+  if ($boost_groups) {
+    return $boost_groups;
+  }
+
+  $score_field_name = variable_get('entity_score_score_field_name', FALSE);
+
+  if (empty($score_field_name)) {
+    // Score field not set, we won't return any boost row.
+    return array();
+  }
+
+  $boost_groups = array();
+
+  foreach (module_implements('entity_score_entity_score_boosts_list') as $module) {
+    $boost_groups_result = module_invoke($module, 'entity_score_entity_score_boosts_list');
+
+    if (!is_array($boost_groups_result) || empty($boost_groups_result)) {
+      throw new Exception("Module's $module {$module}_entity_score_entity_score_boosts_list() function should return an array of boost groups. See hook_entity_score_entity_score_boosts_list() for an example");
+    }
+
+    $boost_groups = array_merge_recursive($boost_groups, $boost_groups_result);
+  }
+
+  drupal_alter('entity_score_entity_score_boosts_list', $boost_groups);
+
+  $enabled_bundle_types = variable_get('entity_score_enabled_bundles', array());
+
+  foreach ($boost_groups as $group_name => &$group) {
+    foreach ($group['boosts'] as $boost_name => &$boost) {
+
+      if (!empty($boost['bundles'])) {
+        foreach ($boost['bundles'] as $entity_type => $bundles) {
+
+          if (!is_array($bundles)) {
+            $entity_type = $bundles;
+            $bundles     = FALSE;
+          }
+
+          // Checking if boost may affect this entity type and bundle name.
+          if ($bundles === FALSE && !array_key_exists($entity_type, $enabled_bundle_types)) {
+            // Boost doesn't support this entity type.
+            unset($group['boosts'][$boost_name]);
+            continue 2;
+          }
+          elseif (is_array($bundles)) {
+            foreach ($bundles as $bundle_name) {
+              if (!in_array($bundle_name, $enabled_bundle_types[$entity_type])) {
+                // Boost doesn't support this bundle name.
+                unset($group['boosts'][$boost_name]);
+                continue 3;
+              }
+            }
+          }
+        }
+      }
+
+      if (!isset($boost['default_value'])) {
+        $boost['default_value'] = 0;
+      }
+
+      $boost['enabled'] = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
+      $boost['op']      = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', 'add');
+      $boost['value']   = $boost['enabled'] ? variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', $boost['default_value']) : 0;
+    }
+
+    if (empty($group['boosts'])) {
+      unset($boost_groups[$group_name]);
+    }
+  }
+
+  return $boost_groups;
+
+}
+
+/**
+ * Returns current boost value set by user for a given group and boost name.
+ *
+ * @param string $group_name
+ *   Name of the boosts group.
+ *
+ * @param string $boost_name
+ *   Name of the boost.
+ *
+ * @return int
+ *   Current boost value or 0 if boost is disabled.
+ *
+ * @see entity_score_entity_score_calculate()
+ */
+function entity_score_entity_score_get_boost_value($group_name, $boost_name) {
+  $boosts = entity_score_entity_score_boosts_list();
+
+  return $boosts[$group_name]['boosts'][$boost_name]['value'];
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function entity_score_entity_view($entity, $type, $view_mode, $langcode) {
+  if (!variable_get('entity_score_score_field_hide', FALSE)) {
+    // User doesn't want to hide score field.
+    return;
+  }
+
+  $score_field_name = variable_get('entity_score_score_field_name', FALSE);
+
+  if (empty($score_field_name)) {
+    // Score field not set, nothing to do.
+    return;
+  }
+
+  if (isset($entity->content[$score_field_name])) {
+    unset($entity->content[$score_field_name]);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function entity_score_form_alter(&$form, &$form_state, $form_id) {
+  if (!variable_get('entity_score_score_field_hide', FALSE)) {
+    // User doesn't want to hide score field.
+    return;
+  }
+
+  $score_field_name = variable_get('entity_score_score_field_name', FALSE);
+
+  if (empty($score_field_name)) {
+    // Score field not set, nothing to do.
+    return;
+  }
+
+  if (isset($form[$score_field_name])) {
+    $form[$score_field_name]['#access'] = FALSE;
+  }
+}
+
+/**
+ * Boost field callback. Returns field's "quantity".
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Number of characters in the title field.
+ */
+function entity_score_calculate_builtin_fields_title_per_character($entity, $entity_type) {
+  if (empty($entity->title)) {
+    // Entity doesn't contain title.
+    return 0;
+  }
+
+  return strlen($entity->title);
+}
+
+/**
+ * Boost field callback. Returns field's "quantity".
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Number of characters in the body field.
+ */
+function entity_score_calculate_builtin_fields_body_per_character($entity, $entity_type) {
+  $body = field_get_items($entity_type, $entity, 'body');
+
+  if ($body === FALSE) {
+    // Entity doesn't contain body field.
+  }
+
+  // @TODO: Return number of characters in the body field.
+  return strlen(strip_tags($body[0]['value']));
+}
+
+/**
+ * Boost field callback. Returns field's "quantity".
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Number of characters in the body field.
+ */
+function entity_score_calculate_attachments_per_attached_image($entity, $entity_type) {
+  $fields              = field_info_instances($entity_type, $entity->type);
+  $num_attached_images = 0;
+
+  foreach ($fields as $field_name => $field_info) {
+    if ($field_info['widget']['type'] === 'image_image') {
+      $images = field_get_items($entity_type, $entity, $field_name);
+
+      foreach ($images as $image) {
+        if (!empty ($image['fid'])) {
+          ++$num_attached_images;
+        }
+      }
+    }
+  }
+
+  return $num_attached_images;
+}
+
+/**
+ * Boost field callback. Returns field's "quantity".
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Number of characters in the body field.
+ */
+function entity_score_calculate_attachments_per_attached_file($entity, $entity_type) {
+  $fields             = field_info_instances($entity_type, $entity->type);
+  $num_attached_files = 0;
+
+  foreach ($fields as $field_name => $field_info) {
+    if ($field_info['widget']['type'] === 'media_generic') {
+      $files = field_get_items($entity_type, $entity, $field_name);
+
+      foreach ($files as $file) {
+        if (!empty ($file['fid'])) {
+          ++$num_attached_files;
+        }
+      }
+    }
+  }
+
+  return $num_attached_files;
+}
+
+/**
+ * Implements hook_entity_score_entity_score_boosts_list().
+ */
+function entity_score_entity_score_entity_score_boosts_list() {
+  $boosts = array(
+    'builtin_fields' => array(
+      'title' => t('Built-in fields'),
+      'boosts' => array(
+        'title_per_character' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('Title'),
+          'boost_title' => t('Per character'),
+          'bundles' => array('node'),
+          'function' => 'entity_score_calculate_builtin_fields_title_per_character',
+        ),
+        'body_per_character' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('Body'),
+          'boost_title' => t('Per character'),
+          'bundles' => array('node'),
+          'function' => 'entity_score_calculate_builtin_fields_body_per_character',
+        ),
+        'changed' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('Changed'),
+          'boost_title' => t('Difference in years from now (per year)'),
+          'bundles' => array('node'),
+          'function' => 'entity_score_calculate_builtin_fields_changed_per_year_from_now',
+        ),
+      ),
+    ),
+    'attachments' => array(
+      'title' => t('Attachments'),
+      'boosts' => array(
+        'per_attached_image' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('Image fields'),
+          'boost_title' => t('Per attached image'),
+          'bundles' => array('node'),
+          'function' => 'entity_score_calculate_attachments_per_attached_image',
+        ),
+        'per_attached_file' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('File fields'),
+          'boost_title' => t('Per attached file'),
+          'function' => 'entity_score_calculate_attachments_per_attached_file',
+        ),
+      ),
+    ),
+  );
+
+  if (module_exists('search_api_solr')) {
+    // Support for dynamic boost in the search query.
+    $boosts['builtin_fields']['boosts']['changed_solr'] = array(
+      'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+      'field_title' => t('Changed'),
+      'boost_title' => t('Dynamically via !what, performs: !expression', array(
+        '!what' => l(t('Search API Solr'), 'https://drupal.org/project/search_api_solr'),
+        '!expression' => 'recip(abs(ms(NOW/GRANULARITY,CHANGED_SOLR_FIELD_NAME)),SECONDS_IN_GRANULARITY,MAX_BOOST,DROP_RATIO)',
+      )),
+      'bundles' => array('node'),
+      'operations' => array(),
+      'settings' => array(
+        'max_boost' => array(
+          '#title' => t('Maximum boost, e.g., 1'),
+          '#type' => 'textfield',
+          '#size' => 4,
+          '#default_value' => 1,
+        ),
+        'drop_ratio' => array(
+          '#title' => t('Drop ratio, e.g., 1 or 0.1'),
+          '#type' => 'textfield',
+          '#size' => 4,
+          '#default_value' => 1,
+        ),
+        'granularity' => array(
+          '#title' => t('Granularity'),
+          '#type' => 'select',
+          '#options' => array(
+            'year' => t('Year'),
+            'month' => t('Month'),
+          ),
+          '#default_value' => 'year',
+        ),
+      ),
+      'features' => array(
+        t('Does not contribue in static boost calculation (adds boost function directly into Solr query). Please note that "changed" field must be indexed in order to boost to work'),
+      ),
+    );
+  }
+
+  return $boosts;
+}
+
+/**
+ * Returns an array of boost configuration set by user.
+ *
+ * @param string $group_name
+ *   Name of the boost group.
+ *
+ * @param string $boost_name
+ *   Name of the boost in boost group.
+ *
+ * @return array
+ *   Array with configuration set by user.
+ */
+function entity_score_get_boost_user_settings($group_name, $boost_name) {
+  $boosts_list = entity_score_entity_score_boosts_list();
+
+  $result = array(
+    'enabled' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE),
+    'operation' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', ''),
+    'value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', NULL),
+    'settings' => array(),
+  );
+
+  if (!isset($boosts_list[$group_name])) {
+    throw new Exception("Boosts group \"$group_name\" doesn't exist");
+  }
+
+  if (!isset($boosts_list[$group_name]['boosts'][$boost_name])) {
+    throw new Exception("Boost \"$boost_name\" doesn't exist in group \"$group_name\"");
+  }
+
+  $boost = $boosts_list[$group_name]['boosts'][$boost_name];
+
+  if (!empty($boost['settings'])) {
+    foreach ($boost['settings'] as $name => $widget) {
+      $result['settings'][$name] = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_cfg_' . $name, isset($widget['#default_value']) ? $widget['#default_value'] : '');
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Boost field callback. Returns field's "quantity".
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Number of years difference from now and "changed" field of the entity.
+ */
+function entity_score_calculate_builtin_fields_changed_per_year_from_now($entity, $entity_type) {
+  if (!isset($entity->changed)) {
+    // Entity doesn't has "changed" field.
+    return 0;
+  }
+
+  // @TODO: Implement it.
+  return 0;
+}
+
+/**
+ * Support for Search Api Solr dynamic boosts.
+ */
+
+/**
+ * Returns final name of the field (the name used on the server).
+ *
+ * @param SearchApiIndex $index
+ *   SearchApiIndex object. You can get it from SearchApiQuery::getIndex().
+ *
+ * @param string|array $drupal_field_name
+ *   Name of the source field or array of names. They will be returned as list
+ *   of strings.
+ *
+ * @return string|array
+ *   Name of list of names used on the server.
+ */
+function entity_score_get_search_api_final_field_name(SearchApiIndex $index, $drupal_field_name) {
+  $server = search_api_server_load(ADS_SEARCH_SEARCH_API_SERVER_NAME);
+
+  // We need reflection here as there are no other way to get service class
+  // object without creating its instance. Maybe someone know a better way?
+  $reflection = new ReflectionProperty(get_class($server), 'proxy');
+  $reflection->setAccessible(TRUE);
+
+  $service     = $reflection->getValue($server);
+  $field_names = $service->getFieldNames($index);
+
+  if (is_array($drupal_field_name)) {
+    $drupal_field_names = $drupal_field_name;
+  }
+  else {
+    $drupal_field_names = array($drupal_field_name);
+  }
+
+  $final_names = array();
+
+  foreach ($drupal_field_names as $name) {
+    if (!isset($field_names[$name])) {
+      return NULL;
+    }
+
+    $final_names[] = $field_names[$name];
+  }
+
+  return is_array($drupal_field_name) ? $final_names : $final_names[0];
+}
+
+/**
+ * Implements hook_search_api_solr_query_alter().
+ */
+function entity_score_search_api_solr_query_alter(&$call_args, SearchApiQueryInterface $query) {
+
+  $field_changed = entity_score_get_boost_user_settings('builtin_fields', 'changed_solr');
+
+  if ($field_changed['enabled']) {
+    $solr_field_name = entity_score_get_search_api_final_field_name($query->getIndex(), 'changed');
+
+    if ($solr_field_name === NULL) {
+      // "changed" field is not a part of this index.
+      return;
+    }
+
+    $settings = $field_changed['settings'];
+    $settings['max_boost']  = (float) $settings['max_boost'];
+    $settings['drop_ratio'] = (float) $settings['drop_ratio'];
+
+    switch ($settings['granularity']) {
+      case 'year':
+        $boost_func = "recip(ms(NOW/DAY,$solr_field_name),3.16e-11,{$settings['max_boost']},{$settings['drop_ratio']})";
+        break;
+
+      default:
+        drupal_set_message(t('Dynamic boost calculation for "changed" field: Unsupported granularity. Currently only "year" is supported'), 'warning');
+        return;
+    }
+
+    $call_args['params']['bf'][] = $boost_func;
+  }
+}
