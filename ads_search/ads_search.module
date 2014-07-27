@@ -271,6 +271,7 @@ function ads_search_preprocess_ads_search_results_listing(&$vars) {
 
   foreach ($vars['view']->result as $row) {
     $entity        = $row->_entity_properties['entity object'];
+
     $image         = @$entity->field_ad_image[$entity->language][0];
     $price         = @$entity->field_ad_price[$entity->language][0];
 
@@ -286,7 +287,12 @@ function ads_search_preprocess_ads_search_results_listing(&$vars) {
     $location_html = $row->_entity_properties['field_ad_location:name'];
     $time_ago_html = t('!time <span class="label-ago">ago</span>', array('!time' => format_interval(time() - $entity->changed, 1)));
 
-    $teaser_html   = views_trim_text(array('html' => TRUE, 'max_length' => 300), $entity->body[LANGUAGE_NONE][0]['value']);
+    if (isset($entity->body)) {
+      $teaser_html = views_trim_text(array('html' => TRUE, 'max_length' => 300), $entity->body[LANGUAGE_NONE][0]['value']);
+    }
+    else {
+      $teaser_html = '';
+    }
 
     $items[] = array(
       'nid' => $entity->nid,

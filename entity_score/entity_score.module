@@ -502,6 +502,24 @@ function entity_score_entity_score_entity_score_boosts_list() {
         ),
       ),
     ),
+    'promoting_filled_fields' => array(
+      'title' => t('Filled fields promoted'),
+      'boosts' => array(
+        'per_filled_field' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('Set boost per filled field'),
+          'boost_title' => t('Per filled field'),
+          'bundles' => array('node'),
+          'function' => 'entity_score_calculate_promoting_filled_fields_per_filled_field',
+        ),
+        'per_attached_file' => array(
+          'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
+          'field_title' => t('File fields'),
+          'boost_title' => t('Per attached file'),
+          'function' => 'entity_score_calculate_attachments_per_attached_file',
+        ),
+      ),
+    ),
     'attachments' => array(
       'title' => t('Attachments'),
       'boosts' => array(
@@ -561,6 +579,48 @@ function entity_score_entity_score_entity_score_boosts_list() {
       ),
     );
   }
+
+  $per_filled_field_settings = &$boosts['promoting_filled_fields']['boosts']['per_filled_field']['settings'];
+
+  foreach (field_info_fields() as $name => $info) {
+
+    if ($info['bundles']) {
+      $bundles = implode(', ', call_user_func_array('array_merge', $info['bundles']));
+    }
+    else {
+      $bundles = array();
+    }
+
+    $title = $name;
+
+    if ($bundles) {
+      $title .= ' (' . $bundles . ')';
+    }
+
+    $per_filled_field_settings[$name] = array(
+      '#type' => 'fieldset',
+      '#attributes' => array('class' => array('collapsible', 'collapsed')),
+      '#collapsed' => FALSE,
+      '#collapsible' => TRUE,
+      '#title' => $title,
+    );
+
+    $per_filled_field_settings[$name][] = array(
+      '#title' => t('Enabled'),
+      '#type' => 'checkbox',
+      '#name' => 'entity_score_promoting_filled_fields_per_filled_field_'. $name . '_enabled',
+      '#checked' => variable_get('entity_score_promoting_filled_fields_per_filled_field_'. $name . '_enabled', FALSE),
+    );
+
+    $per_filled_field_settings[$name][] = array(
+      '#title' => t('Value'),
+      '#type' => 'textfield',
+      '#size' => 4,
+      '#name' => 'entity_score_promoting_filled_fields_per_filled_field_'. $name . '_value',
+      '#value' => variable_get('entity_score_promoting_filled_fields_per_filled_field_'. $name . '_value', FALSE),
+    );
+  }
+
 
   return $boosts;
 }
@@ -677,34 +737,61 @@ function entity_score_get_search_api_final_field_name(SearchApiIndex $index, $dr
 }
 
 /**
+ * Boost field callback. Calculates boost for filled fields.
+ *
+ * @param object $entity
+ *   Entity to operate on.
+ *
+ * @param string $entity_type
+ *   Type of entity.
+ *
+ * @return float
+ *   Final boost.
+ */
+function entity_score_calculate_promoting_filled_fields_per_filled_field($entity, $entity_type) {
+}
+
+/**
  * Implements hook_search_api_solr_query_alter().
  */
 function entity_score_search_api_solr_query_alter(&$call_args, SearchApiQueryInterface $query) {
+
+
 
   $field_changed = entity_score_get_boost_user_settings('builtin_fields', 'changed_solr');
 
   if ($field_changed['enabled']) {
     $solr_field_name = entity_score_get_search_api_final_field_name($query->getIndex(), 'changed');
 
-    if ($solr_field_name === NULL) {
-      // "changed" field is not a part of this index.
-      return;
+    if ($solr_field_name !== NULL) {
+      // "changed" field is a part of this index.
+
+      $settings = $field_changed['settings'];
+      $settings['max_boost']  = (float) $settings['max_boost'];
+      $settings['drop_ratio'] = (float) $settings['drop_ratio'];
+
+      switch ($settings['granularity']) {
+        case 'year':
+          $boost_func = "recip(ms(NOW/DAY,$solr_field_name),3.16e-11,{$settings['max_boost']},{$settings['drop_ratio']})";
+          break;
+
+        default:
+          drupal_set_message(t('Dynamic boost calculation for "changed" field: Unsupported granularity. Currently only "year" is supported'), 'warning');
+      }
+
+      if (!empty($boost_func)) {
+        $call_args['params']['bf'][] = $boost_func;
+      }
     }
+  }
 
-    $settings = $field_changed['settings'];
-    $settings['max_boost']  = (float) $settings['max_boost'];
-    $settings['drop_ratio'] = (float) $settings['drop_ratio'];
+  $score_field_name    = variable_get('entity_score_score_field_name', '');
 
-    switch ($settings['granularity']) {
-      case 'year':
-        $boost_func = "recip(ms(NOW/DAY,$solr_field_name),3.16e-11,{$settings['max_boost']},{$settings['drop_ratio']})";
-        break;
+  if (!empty ($score_field_name)) {
+    $solr_score_field_name = entity_score_get_search_api_final_field_name($query->getIndex(), $score_field_name);
 
-      default:
-        drupal_set_message(t('Dynamic boost calculation for "changed" field: Unsupported granularity. Currently only "year" is supported'), 'warning');
-        return;
+    if ($solr_score_field_name !== NULL) {
+      $call_args['params']['bf'][] = 'field(' . $solr_score_field_name . ')';
     }
-
-    $call_args['params']['bf'][] = $boost_func;
   }
 }
