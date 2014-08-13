@@ -63,6 +63,55 @@ function entity_score_settings_form() {
     '#description' => t('Hides score field when displaying entity and in add/edit forms.'),
   );
 
+  $score_field_name    = variable_get('entity_score_score_field_name', '');
+  $score_field_indexes = array();
+
+  if (!empty ($score_field_name)) {
+    $score_field_is_indexed = FALSE;
+
+    foreach (search_api_index_load_multiple (FALSE) as $index) {
+      if (!$index->enabled) {
+        continue;
+      }
+
+      $indexed_fields = $index->options['fields'];
+
+      if (isset($indexed_fields[$score_field_name])) {
+        $score_field_is_indexed = TRUE;
+        $score_field_indexes[$index->machine_name] = $index->name;
+        break;
+      }
+    }
+
+    if (!$score_field_is_indexed) {
+      drupal_set_message(t("Please add selected field to !indexes for which you need boost calculation (index(es) must be enabled)", array(
+        '!indexes' => l(t('Search API index(es)'), 'admin/config/search/search_api')
+      )), 'warning');
+    }
+    else {
+      $form['globals'][] = array(
+        '#markup' => t('Score field indexed in:'),
+        '#prefix' => '<label>',
+        '#suffix' => '</label>',
+      );
+
+      $form['globals']['score_field_indexes'] = array(
+        '#markup' => t(''),
+        '#prefix' => '<ul>',
+        '#suffix' => '</li>',
+      );
+
+      foreach ($score_field_indexes as $machine_name => $name) {
+        $form['globals']['score_field_indexes'][] = array(
+          '#markup' => l($name, 'admin/config/search/search_api/index/' . $machine_name . '/fields'),
+          '#prefix' => '<li>',
+          '#suffix' => '</li>',
+        );
+      }
+
+    }
+  }
+
   $form['text_boosts'] = array(
     '#markup' => t('Boosts'),
     '#prefix' => '<h1>',
@@ -193,11 +242,20 @@ function entity_score_settings_form() {
         }
       }
 
+      $boosts_settings_fieldset = array(
+        '#type' => 'fieldset',
+        '#attributes' => array('class' => array('collapsible', 'collapsed')),
+        '#collapsed' => FALSE,
+        '#collapsible' => TRUE,
+        '#title' => t('Settings'),
+        0 => array('#markup' => $boost_settings),
+      );
+
       $rows[] = array(
         'enabled' => drupal_render($enabled_field),
         'field_title' => $boost['field_title'],
-        'boost_title' => $boost_title,
-        'op' => drupal_render($boost_operation) . ($boost_settings !== '' ? ('<div>' . $boost_settings . '</div>') : ''),
+        'boost_title' => $boost_title . ($boost_settings !== '' ? ('<div>' . drupal_render($boosts_settings_fieldset) . '</div>') : ''),
+        'op' => drupal_render($boost_operation),
         'boost' => drupal_render($boost_field),
       );
     }
