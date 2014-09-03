@@ -2,6 +2,12 @@
 /**
  * @file
  * Entity Score module hooks.
+ *
+ * @todo Add example usage of "operations" array in boost declaration.
+ * @todo Add example usage of "settings" array in boost declaration.
+ * @todo Add example usage of "features" array in boost declaration.
+ * @todo Add example usage of dynamic boost calculation (maybe a shortened
+ *       version of entity_score_search_api_solr_query_alter function).
  */
 
 /**

@@ -247,6 +247,12 @@ function entity_score_settings_form() {
         }
       }
 
+      $boost_footer = '';
+
+      if (!empty($boost['footer'])) {
+        $boost_footer .= '<div class="footer">' . $boost['footer'] . '</div>';
+      }
+
       $boosts_settings_fieldset = array(
         '#type' => 'fieldset',
         '#attributes' => array('class' => array('collapsible', 'collapsed')),
@@ -259,11 +265,12 @@ function entity_score_settings_form() {
       $rows[] = array(
         'enabled' => drupal_render($enabled_field),
         'field_title' => $boost['field_title'],
-        'boost_title' => $boost_title . ($boost_settings_html !== '' ? ('<div>' . drupal_render($boosts_settings_fieldset) . '</div>') : ''),
+        'boost_title' => $boost_title . ($boost_settings_html !== '' ? ('<div>' . drupal_render($boosts_settings_fieldset) . '</div>') : '') . $boost_footer,
         'op' => drupal_render($boost_operation),
         'boost' => drupal_render($boost_field),
       );
     }
+
 
     $form['groups'][$group_name]['enabled'] = array(
       '#title' => 'Enabled',

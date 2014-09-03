@@ -15,7 +15,6 @@ define('ENTITY_SCORE_BOOST_OP_CALLBACK', 20);
 define('ENTITY_SCORE_BOOST_OP_CALLBACK_ADD', 25);
 define('ENTITY_SCORE_BOOST_OP_CALLBACK_MUL', 26);
 
-
 define('ENTITY_SCORE_BOOST_TYPE_NORMAL', 1);
 define('ENTITY_SCORE_BOOST_TYPE_CALLBACK', 20);
 
@@ -139,6 +138,8 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
     }
   }
 
+  // Sorting boosts by priority. Operations on final score must be performed
+  // last.
   usort($boosts_list, function($a, $b) {
     return $a['op'] > $b['op'];
   });
@@ -511,12 +512,12 @@ function entity_score_entity_score_entity_score_boosts_list() {
           'bundles' => array('node'),
           'function' => 'entity_score_calculate_builtin_fields_body_per_character',
         ),
-        'changed' => array(
+        'created' => array(
           'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
-          'field_title' => t('Changed'),
+          'field_title' => t('Created'),
           'boost_title' => t('Difference in years from now (per year)'),
           'bundles' => array('node'),
-          'function' => 'entity_score_calculate_builtin_fields_changed_per_year_from_now',
+          'function' => 'entity_score_calculate_builtin_fields_created_per_year_from_now',
         ),
       ),
     ),
@@ -605,6 +606,19 @@ function entity_score_entity_score_entity_score_boosts_list() {
   $settings = entity_score_get_boost_user_settings('promoting_filled_fields', 'per_filled_field');
 
   $per_filled_field_settings = &$boosts['promoting_filled_fields']['boosts']['per_filled_field']['settings'];
+  $per_filled_field_footer   = &$boosts['promoting_filled_fields']['boosts']['per_filled_field']['footer'];
+
+  $per_filled_field_footer  .= '<h3>' . t('Enabled fields:') . '</h3><ul>';
+
+  if (!empty($settings['fields'])) {
+    foreach ($settings['fields'] as $name => $config) {
+      if (!empty($config['enabled'])) {
+        $per_filled_field_footer .= '<li><b>' . $name . '</b>: ' . (float) $config['value'] . '</li><br />';
+      }
+    }
+  }
+
+  $per_filled_field_footer .= '</ul>';
 
   foreach (field_info_fields() as $name => $info) {
 
@@ -697,16 +711,15 @@ function entity_score_get_boost_user_settings($group_name, $boost_name) {
  *   Type of entity.
  *
  * @return float
- *   Number of years difference from now and "changed" field of the entity.
+ *   Number of years difference from now and "created" field of the entity.
  */
-function entity_score_calculate_builtin_fields_changed_per_year_from_now($entity, $entity_type) {
-  if (!isset($entity->changed)) {
-    // Entity doesn't has "changed" field.
+function entity_score_calculate_builtin_fields_created_per_year_from_now($entity, $entity_type) {
+  if (!isset($entity->created)) {
+    // Entity doesn't has "created" field.
     return 0;
   }
 
-  // @TODO: Implement it.
-  return 0;
+  return (REQUEST_TIME - $entity->created) / 31536000;
 }
 
 /**
