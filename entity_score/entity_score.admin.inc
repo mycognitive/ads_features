@@ -27,6 +27,8 @@ function entity_score_settings_form() {
 
   $numeric_fields = array('0' => '(None)');
 
+  $boosts_settings = entity_score_get_boosts_settings();
+
   foreach (field_info_fields() as $name => $info) {
 
     if ($info['type'] !== 'number_float') {
@@ -174,13 +176,15 @@ function entity_score_settings_form() {
 
     foreach ($group['boosts'] as $boost_name => $boost) {
 
-      $is_enabled    = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
-      $boost_value   = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', 0);
+      $boost_settings = isset($boosts_settings[$group_name][$boost_name]) ? $boosts_settings[$group_name][$boost_name] : array('enabled' => FALSE, 'value' => '', 'op' => 'add');
+
+      $is_enabled    = $boost_settings['enabled'];
+      $boost_value   = isset($boost_settings['value']) ? $boost_settings['value'] : 0;
 
       $enabled_field = array(
         '#title' => '',
         '#type' => 'checkbox',
-        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_enabled',
+        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_cfg_enabled',
         '#checked' => $is_enabled,
         '#attributes' => array(
           'class' => array('groups-boost-enabled'),
@@ -190,7 +194,7 @@ function entity_score_settings_form() {
       $boost_field = array(
         '#title' => '',
         '#type' => 'textfield',
-        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_value',
+        '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_cfg_value',
         '#size' => 4,
         '#value' => $boost_value,
       );
@@ -206,8 +210,8 @@ function entity_score_settings_form() {
         $boost_operation = array(
           '#title' => '',
           '#type' => 'select',
-          '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_op',
-          '#value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', 'add'),
+          '#name' => 'entity_score_' . $group_name . '_' . $boost_name . '_cfg_op',
+          '#value' => isset($boost_settings['op']) ? $boost_settings['op'] : 'add',
           '#options' => $this_boost_operations,
         );
       }
@@ -226,19 +230,20 @@ function entity_score_settings_form() {
       }
 
       // Custom boost settings in HTML.
-      $boost_settings = '';
+      $boost_settings_html = '';
 
       if (!empty($boost['settings'])) {
         $boost_field = '';
 
         foreach ($boost['settings'] as $name => $widget) {
+
           $var_name         = 'entity_score_' . $group_name . '_' . $boost_name . '_cfg_' . $name;
           $default_value    = isset($widget['#default_value']) ? $widget['#default_value'] : '';
 
           $widget['#name']  = $var_name;
-          $widget['#value'] = variable_get($var_name, $default_value);
+          $widget['#value'] = isset($boost_settings[$name]) ? $boost_settings[$name] : NULL;
 
-          $boost_settings .= drupal_render($widget);
+          $boost_settings_html .= drupal_render($widget);
         }
       }
 
@@ -248,13 +253,13 @@ function entity_score_settings_form() {
         '#collapsed' => FALSE,
         '#collapsible' => TRUE,
         '#title' => t('Settings'),
-        0 => array('#markup' => $boost_settings),
+        0 => array('#markup' => $boost_settings_html),
       );
 
       $rows[] = array(
         'enabled' => drupal_render($enabled_field),
         'field_title' => $boost['field_title'],
-        'boost_title' => $boost_title . ($boost_settings !== '' ? ('<div>' . drupal_render($boosts_settings_fieldset) . '</div>') : ''),
+        'boost_title' => $boost_title . ($boost_settings_html !== '' ? ('<div>' . drupal_render($boosts_settings_fieldset) . '</div>') : ''),
         'op' => drupal_render($boost_operation),
         'boost' => drupal_render($boost_field),
       );
@@ -295,18 +300,37 @@ function entity_score_settings_form() {
  */
 function entity_score_settings_form_submit($form, &$form_state) {
 
+  $boosts_configs = array();
+
   // Disabling all boosts initially.
   foreach (entity_score_entity_score_boosts_list() as $group_name => $group) {
     foreach ($group['boosts'] as $boost_name => $boost) {
-      variable_set('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
+      $boosts_configs[$group_name][$boost_name]  = array('enabled' => FALSE);
     }
   }
 
-  foreach ($form_state['input'] as $key => $value) {
-    if (strpos($key, 'entity_score_') === 0) {
-      variable_set($key, $value);
+  foreach (entity_score_entity_score_boosts_list() as $group_name => $group) {
+    foreach ($group['boosts'] as $boost_name => $boost) {
+      foreach ($form_state['input'] as $key => $value) {
+        $cfg_prefix = 'entity_score_' . $group_name . '_' . $boost_name . '_cfg_';
+        if (strpos($key, $cfg_prefix) === 0)
+        {
+          $cfg_postfix   = substr($key, strlen($cfg_prefix));
+          $cfg_container = &$boosts_configs[$group_name][$boost_name];
+
+          foreach (explode('|', $cfg_postfix) as $key) {
+            $cfg_container = &$cfg_container[$key];
+          }
+
+          $cfg_container = $value;
+
+          unset($cfg_container);
+        }
+      }
     }
   }
+
+  variable_set('entity_score_boosts_configs', $boosts_configs);
 
   $score_field_name    = $form_state['input']['entity_score_score_field_name'];
   $score_field_info    = field_info_field($score_field_name);

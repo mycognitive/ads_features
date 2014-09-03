@@ -12,6 +12,9 @@ define('ENTITY_SCORE_BOOST_OP_MUL_ONCE', 9);
 define('ENTITY_SCORE_BOOST_OP_MUL_EACH', 10);
 define('ENTITY_SCORE_BOOST_OP_MUL_DIV_BY_ALL', 11);
 define('ENTITY_SCORE_BOOST_OP_CALLBACK', 20);
+define('ENTITY_SCORE_BOOST_OP_CALLBACK_ADD', 25);
+define('ENTITY_SCORE_BOOST_OP_CALLBACK_MUL', 26);
+
 
 define('ENTITY_SCORE_BOOST_TYPE_NORMAL', 1);
 define('ENTITY_SCORE_BOOST_TYPE_CALLBACK', 20);
@@ -122,13 +125,16 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
 
   $boosts_list = array();
 
+  $boosts_settings = entity_score_get_boosts_settings();
+
   foreach (entity_score_entity_score_boosts_list() as $group_name => $group) {
     foreach ($group['boosts'] as $boost_name => $boost) {
       $boosts_list[]  = array(
+        'enabled' => isset($boosts_settings[$group_name][$boost_name]['enabled']) ? $boosts_settings[$group_name][$boost_name]['enabled'] : FALSE,
         'name' => $group_name . '_' . $boost_name,
-        'op' => $boost['op'],
-        'function' => $boost['function'],
-        'value' => $boost['value'],
+        'op' => isset($boosts_settings[$group_name][$boost_name]['op']) ? $boosts_settings[$group_name][$boost_name]['op'] : 'add',
+        'function' => isset($boost['function']) ? $boost['function'] : NULL,
+        'value' => isset($boosts_settings[$group_name][$boost_name]['value']) ? $boosts_settings[$group_name][$boost_name]['value'] : 0,
       );
     }
   }
@@ -138,14 +144,31 @@ function entity_score_entity_score_calculate($entity, $entity_type) {
   });
 
   foreach ($boosts_list as $boost) {
+
+    if (!$boost['enabled']) {
+      continue;
+    }
+
     if (!isset ($boost['function'])) {
-      // Function not yet, nothing to do.
+      // Function not set, nothing to do.
       continue;
     }
 
     $function = $boost['function'];
 
     switch ($boost['op']) {
+      case ENTITY_SCORE_BOOST_OP_CALLBACK_ADD:
+        $score += $function($entity, $entity_type, $score);
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_CALLBACK_MUL:
+        $score *= $function($entity, $entity_type, $score);
+        break;
+
+      case ENTITY_SCORE_BOOST_OP_ADD_EACH:
+        $score += $function($entity, $entity_type, $score) * $boost['value'];
+        break;
+
       case ENTITY_SCORE_BOOST_OP_ADD_EACH:
         $score += $function($entity, $entity_type, $score) * $boost['value'];
         break;
@@ -288,10 +311,6 @@ function entity_score_entity_score_boosts_list() {
       if (!isset($boost['default_value'])) {
         $boost['default_value'] = 0;
       }
-
-      $boost['enabled'] = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE);
-      $boost['op']      = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', 'add');
-      $boost['value']   = $boost['enabled'] ? variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', $boost['default_value']) : 0;
     }
 
     if (empty($group['boosts'])) {
@@ -300,7 +319,6 @@ function entity_score_entity_score_boosts_list() {
   }
 
   return $boost_groups;
-
 }
 
 /**
@@ -318,9 +336,9 @@ function entity_score_entity_score_boosts_list() {
  * @see entity_score_entity_score_calculate()
  */
 function entity_score_entity_score_get_boost_value($group_name, $boost_name) {
-  $boosts = entity_score_entity_score_boosts_list();
+  $settings = entity_score_get_boost_user_settings($group_name, $boost_name);
 
-  return $boosts[$group_name]['boosts'][$boost_name]['value'];
+  return $settings['value'];
 }
 
 /**
@@ -511,6 +529,10 @@ function entity_score_entity_score_entity_score_boosts_list() {
           'boost_title' => t('Per filled field'),
           'bundles' => array('node'),
           'function' => 'entity_score_calculate_promoting_filled_fields_per_filled_field',
+          'operations' => array(
+            ENTITY_SCORE_BOOST_OP_CALLBACK_ADD => t('Add sum of boost for filled fields to the final score'),
+            ENTITY_SCORE_BOOST_OP_CALLBACK_MUL => t('Multiply final score by sum of boosts for filled fields'),
+          ),
         ),
         'per_attached_file' => array(
           'type' => ENTITY_SCORE_BOOST_TYPE_NORMAL,
@@ -580,6 +602,8 @@ function entity_score_entity_score_entity_score_boosts_list() {
     );
   }
 
+  $settings = entity_score_get_boost_user_settings('promoting_filled_fields', 'per_filled_field');
+
   $per_filled_field_settings = &$boosts['promoting_filled_fields']['boosts']['per_filled_field']['settings'];
 
   foreach (field_info_fields() as $name => $info) {
@@ -608,21 +632,37 @@ function entity_score_entity_score_entity_score_boosts_list() {
     $per_filled_field_settings[$name][] = array(
       '#title' => t('Enabled'),
       '#type' => 'checkbox',
-      '#name' => 'entity_score_promoting_filled_fields_per_filled_field_'. $name . '_enabled',
-      '#checked' => variable_get('entity_score_promoting_filled_fields_per_filled_field_'. $name . '_enabled', FALSE),
+      '#name' => 'entity_score_promoting_filled_fields_per_filled_field_cfg_fields|'. $name . '|enabled',
+      '#checked' => isset($settings['fields'][$name]['enabled']) ? $settings['fields'][$name]['enabled'] : FALSE,
     );
 
     $per_filled_field_settings[$name][] = array(
       '#title' => t('Value'),
       '#type' => 'textfield',
       '#size' => 4,
-      '#name' => 'entity_score_promoting_filled_fields_per_filled_field_'. $name . '_value',
-      '#value' => variable_get('entity_score_promoting_filled_fields_per_filled_field_'. $name . '_value', FALSE),
+      '#name' => 'entity_score_promoting_filled_fields_per_filled_field_cfg_fields|'. $name . '|value',
+      '#value' => !empty($settings['fields'][$name]['value']) ? $settings['fields'][$name]['value'] : '0',
     );
   }
 
-
   return $boosts;
+}
+
+/**
+ * Returns an array of boosts configurations set by user.
+ *
+ * @param string $group_name
+ *   Name of the boost group.
+ *
+ * @param string $boost_name
+ *   Name of the boost in boost group.
+ *
+ * @return array
+ *   Array with configurations set by user.
+ */
+function entity_score_get_boosts_settings()
+{
+  return variable_get('entity_score_boosts_configs', array());
 }
 
 /**
@@ -638,32 +678,13 @@ function entity_score_entity_score_entity_score_boosts_list() {
  *   Array with configuration set by user.
  */
 function entity_score_get_boost_user_settings($group_name, $boost_name) {
-  $boosts_list = entity_score_entity_score_boosts_list();
+  $boosts_configs = entity_score_get_boosts_settings();
 
-  $result = array(
-    'enabled' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_enabled', FALSE),
-    'operation' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_op', ''),
-    'value' => variable_get('entity_score_' . $group_name . '_' . $boost_name . '_value', NULL),
-    'settings' => array(),
-  );
-
-  if (!isset($boosts_list[$group_name])) {
-    throw new Exception("Boosts group \"$group_name\" doesn't exist");
+  if (!isset($boosts_configs[$group_name][$boost_name])) {
+    return array();
   }
 
-  if (!isset($boosts_list[$group_name]['boosts'][$boost_name])) {
-    throw new Exception("Boost \"$boost_name\" doesn't exist in group \"$group_name\"");
-  }
-
-  $boost = $boosts_list[$group_name]['boosts'][$boost_name];
-
-  if (!empty($boost['settings'])) {
-    foreach ($boost['settings'] as $name => $widget) {
-      $result['settings'][$name] = variable_get('entity_score_' . $group_name . '_' . $boost_name . '_cfg_' . $name, isset($widget['#default_value']) ? $widget['#default_value'] : '');
-    }
-  }
-
-  return $result;
+  return $boosts_configs[$group_name][$boost_name];
 }
 
 /**
@@ -749,15 +770,43 @@ function entity_score_get_search_api_final_field_name(SearchApiIndex $index, $dr
  *   Final boost.
  */
 function entity_score_calculate_promoting_filled_fields_per_filled_field($entity, $entity_type) {
+
+  $settings = entity_score_get_boost_user_settings('promoting_filled_fields', 'per_filled_field');
+
+  $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+
+  if (empty ($settings['fields'])) {
+    return 0;
+  }
+
+  $boost = 0;
+
+  foreach ($settings['fields'] as $field_name => $field_settings)
+  {
+    if (empty ($field_settings['enabled'])) {
+      continue;
+    }
+
+    if (!isset($entity->$field_name)) {
+      continue;
+    }
+
+    $field       = $entity_wrapper -> get ($field_name);
+    $field_value = $field->value();
+
+    if (!empty($field_value)) {
+      $boost += $field_settings['value'];
+    }
+
+  }
+
+  return $boost;
 }
 
 /**
  * Implements hook_search_api_solr_query_alter().
  */
 function entity_score_search_api_solr_query_alter(&$call_args, SearchApiQueryInterface $query) {
-
-
-
   $field_changed = entity_score_get_boost_user_settings('builtin_fields', 'changed_solr');
 
   if ($field_changed['enabled']) {
@@ -766,13 +815,12 @@ function entity_score_search_api_solr_query_alter(&$call_args, SearchApiQueryInt
     if ($solr_field_name !== NULL) {
       // "changed" field is a part of this index.
 
-      $settings = $field_changed['settings'];
-      $settings['max_boost']  = (float) $settings['max_boost'];
-      $settings['drop_ratio'] = (float) $settings['drop_ratio'];
+      $field_changed['max_boost']  = (float) $field_changed['max_boost'];
+      $field_changed['drop_ratio'] = (float) $field_changed['drop_ratio'];
 
-      switch ($settings['granularity']) {
+      switch ($field_changed['granularity']) {
         case 'year':
-          $boost_func = "recip(ms(NOW/DAY,$solr_field_name),3.16e-11,{$settings['max_boost']},{$settings['drop_ratio']})";
+          $boost_func = "recip(ms(NOW/DAY,$solr_field_name),3.16e-11,{$field_changed['max_boost']},{$field_changed['drop_ratio']})";
           break;
 
         default:
