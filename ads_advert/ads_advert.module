@@ -392,7 +392,6 @@ function ads_advert_advert_facets_get_ajax($query_id) {
  *   Multistep wizard output.
  */
 function ads_advert_form_wizard() {
-
   ctools_include('wizard');
   ctools_include('object-cache');
 
@@ -470,6 +469,13 @@ function ads_advert_form_wizard() {
  */
 function ads_advert_form_step($form, &$form_state, $step = 1) {
 
+  $node_type = 'advert';
+  $form_id   = $node_type . '_node_form';
+  $action    = arg(1) == 'add' ? 'add' : 'edit';
+  if ($action === 'edit') {
+    $nid = arg(1);
+  }
+
   module_load_include('inc', 'node', 'node.pages');
 
   ctools_include('object-cache');
@@ -481,12 +487,7 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
     $form_state['input'] = array();
   }
 
-  $node_type = 'advert';
-  $form_id   = $node_type . '_node_form';
-  $action    = arg(1) == 'add' ? 'add' : 'edit';
-  if ($action === 'edit') {
-    $nid = arg(1);
-  }
+
 
   $node = ctools_object_cache_get('ads_advert_edit', 'node');
 
@@ -496,8 +497,11 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
       // Editing a node with nid other than that stored in cache.
     || $action == 'edit' && $node !== NULL && $node->nid != $nid) {
     // Clearing caches.
-    ads_advert_editor_form_clear_caches();
-    $node = NULL;
+
+    if ($nid !== 'ajax') {
+      ads_advert_editor_form_clear_caches();
+      $node = NULL;
+    }
   }
 
   if ($node === NULL && !empty($nid)) {
@@ -673,6 +677,28 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
   // We don't want user to see content type node references widget.
   $form['field_ad_category_node_ref']['#access'] = FALSE;
 
+  if (module_exists('ads_user')) {
+    if (isset($form['field_ad_address'])) {
+      // Auto-filling address fields.
+      $profile         = profile2_load_by_user($user, 'user_profile');
+      $node_address    = isset($node->field_ad_address[LANGUAGE_NONE]) ? $node->field_ad_address[LANGUAGE_NONE][0] : array();
+      $profile_address = $profile->field_user_profile_address[LANGUAGE_NONE][0];
+      $form_address    = &$form['field_ad_address'][LANGUAGE_NONE][0]['#address'];
+
+      foreach (array ('thoroughfare', 'premise', 'locality', 'administrative_area', 'postal_code', 'country') as $name) {
+        if (empty($form_address[$name]) && !empty($profile_address[$name])) {
+          //$form_address[$name] = $profile_address[$name];
+        }
+      }
+
+      //echo '<pre>'; print_r($node_address);print_r($profile_address); print_r($form_address); exit;
+
+
+    }
+
+  }
+
+
   return $form;
 }
 
@@ -817,7 +843,7 @@ function ads_advert_form_step_validate($form, &$form_state) {
 
   // Fixes feeds module notice.
   $form_state['values']['feeds'] = array();
-};
+}
 
 /**
  * Submit callback function called for advert edit form.
@@ -969,7 +995,6 @@ function ads_advert_edit_form_subtask_next(&$form_state) {
   // Caching the whole advert node edit form.
   $cache = ctools_object_cache_set('ads_advert_edit', 'form', $ads_advert_form);
 };
-
 
 /**
  * Handles the 'Finish' click on the add/edit pane form wizard.
