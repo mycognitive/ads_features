@@ -685,6 +685,33 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
       $profile_address = &$profile->field_user_profile_address[LANGUAGE_NONE][0];
       $form_address    = &$form['field_ad_address'][LANGUAGE_NONE][0]['#address'];
 
+      $profile_address_filled = FALSE;
+
+      foreach (array(
+        'thoroughfare',
+        'premise',
+        'locality',
+        'administrative_area',
+        'postal_code',
+        ) as $name) {
+        if (!empty($profile_address[$name])) {
+          $profile_address_filled = TRUE;
+          break;
+        }
+      }
+
+      if (!$profile_address_filled && module_exists('smart_ip')) {
+        $location = smart_ip_get_current_visitor_location_data();
+
+        if (!empty($location['country_code'])) {
+          $profile_address['country'] = $location['country_code'];
+        }
+
+        if (empty($profile_address['locality'])) {
+          $profile_address['locality'] = $location['city'];
+        }
+      }
+
       foreach (array(
         'thoroughfare',
         'premise',
