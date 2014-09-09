@@ -10,7 +10,7 @@
 function ads_advert_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: view rate results page.
+  // Exported permission: 'view rate results page'.
   $permissions['view rate results page'] = array(
     'name' => 'view rate results page',
     'roles' => array(

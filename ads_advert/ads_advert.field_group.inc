@@ -92,8 +92,8 @@ function ads_advert_field_group_info() {
     'children' => array(
       0 => 'field_ad_category',
       1 => 'field_ad_image',
-      2 => 'field_ad_price',
-      3 => 'field_ad_location',
+      2 => 'field_ad_location',
+      3 => 'field_ad_price',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -127,8 +127,9 @@ function ads_advert_field_group_info() {
     'children' => array(
       0 => 'field_ad_link',
       1 => 'field_ad_phone',
-      2 => 'field_ad_contact_method',
-      3 => 'field_ad_email',
+      2 => 'field_ad_address',
+      3 => 'field_ad_contact_method',
+      4 => 'field_ad_email',
     ),
     'format_type' => 'div',
     'format_settings' => array(
