@@ -1,0 +1,9 @@
+<?php
+/**
+ * @file
+ * ADS_user module.
+ * Provides user-related functionality, e.g., user profile fields for ADS
+ * distribution.
+ */
+
+include_once 'ads_user.features.inc';
