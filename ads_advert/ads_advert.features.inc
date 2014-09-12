@@ -20,6 +20,52 @@ function ads_advert_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function ads_advert_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
+ * Implements hook_flag_default_flags().
+ */
+function ads_advert_flag_default_flags() {
+  $flags = array();
+  // Exported flag: "Favourites".
+  $flags['favourite'] = array(
+    'entity_type' => 'node',
+    'title' => 'Favourites',
+    'global' => 0,
+    'types' => array(
+      0 => 'advert',
+    ),
+    'errors' => array(),
+    'flag_short' => 'Save',
+    'flag_long' => '',
+    'flag_message' => 'Advert saved. Go to your profile to see saved adverts.',
+    'unflag_short' => 'Undo save',
+    'unflag_long' => '',
+    'unflag_message' => 'Advert removed from the saved list.',
+    'unflag_denied_text' => '',
+    'link_type' => 'normal',
+    'weight' => 0,
+    'show_on_form' => 0,
+    'access_author' => '',
+    'show_contextual_link' => 0,
+    'show_on_page' => 1,
+    'show_on_teaser' => 1,
+    'i18n' => 0,
+    'module' => 'ads_advert',
+    'locked' => array(
+      0 => 'name',
+    ),
+    'api_version' => 3,
+  );
+  return $flags;
+
+}
+
+/**
  * Implements hook_node_info().
  */
 function ads_advert_node_info() {
