@@ -10,6 +10,73 @@
 function ads_advert_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-advert-field_ad_address'
+  $field_instances['node-advert-field_ad_address'] = array(
+    'bundle' => 'advert',
+    'default_value' => array(
+      0 => array(
+        'element_key' => 'node|advert|field_ad_address|und|0',
+        'thoroughfare' => '',
+        'premise' => '',
+        'locality' => '',
+        'administrative_area' => '',
+        'postal_code' => '',
+        'country' => 'GB',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 11,
+      ),
+      'search_results_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_address',
+    'label' => 'Address',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'addressfield',
+      'settings' => array(
+        'available_countries' => array(),
+        'format_handlers' => array(
+          'address' => 'address',
+          'address-hide-country' => 0,
+          'organisation' => 0,
+          'name-full' => 0,
+          'name-oneline' => 0,
+        ),
+      ),
+      'type' => 'addressfield_standard',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-advert-field_ad_category_node_ref'
   $field_instances['node-advert-field_ad_category_node_ref'] = array(
     'bundle' => 'advert',
@@ -91,7 +158,7 @@ function ads_advert_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 1,
+      'weight' => 34,
     ),
   );
 
@@ -136,7 +203,7 @@ function ads_advert_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 2,
+      'weight' => 35,
     ),
   );
 
@@ -346,6 +413,7 @@ function ads_advert_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Address');
   t('Body');
   t('Category node references');
   t('Choose your preferred method of contact for this advert.');
