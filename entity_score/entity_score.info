@@ -1,6 +1,0 @@
-name = Entity Score
-description = Provides score calculation for entities (based on boosts calculated by hooks).
-core = 7.x
-php = 5.3
-project = entity_score
-features[features_api][] = api:2
