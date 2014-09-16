@@ -20,28 +20,6 @@ function ads_user_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'device_geolocation_ajax_check';
-  $strongarm->value = 0;
-  $export['device_geolocation_ajax_check'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'device_geolocation_allowed_pages';
-  $strongarm->value = 'advert/add/step-3
-advert/*/edit/step-3';
-  $export['device_geolocation_allowed_pages'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'device_geolocation_check_frequency';
-  $strongarm->value = 0;
-  $export['device_geolocation_check_frequency'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_profile2__user_profile';
   $strongarm->value = array(
     'view_modes' => array(),
