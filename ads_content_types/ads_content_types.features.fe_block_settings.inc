@@ -21,6 +21,12 @@ function ads_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads',
+        'weight' => 0,
+      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,
