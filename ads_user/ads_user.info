@@ -11,6 +11,7 @@ dependencies[] = fe_block
 dependencies[] = features
 dependencies[] = profile2
 dependencies[] = smart_ip
+dependencies[] = device_geolocation
 dependencies[] = strongarm
 dependencies[] = views
 dependencies[] = workflow
