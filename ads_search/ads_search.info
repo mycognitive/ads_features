@@ -5,6 +5,7 @@ package = Ads Features
 php = 5.2.4
 version = 7.x-1.0-alpha1
 project = ads_search
+dependencies[] = ads_theme
 dependencies[] = ads_i18n
 dependencies[] = ads_panels
 dependencies[] = ctools

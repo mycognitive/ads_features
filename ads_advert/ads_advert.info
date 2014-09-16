@@ -4,6 +4,7 @@ core = 7.x
 package = Ads Features
 version = 7.x-1.0
 project = ads_advert
+dependencies[] = ads_theme
 dependencies[] = addressfield
 dependencies[] = ads_content_types
 dependencies[] = conditional_fields
