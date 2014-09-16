@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Code for the ADS Development.
+ */
+
+include_once 'ads_devel.features.inc';
+
+
+/**
+ * Implements hook_form_alter().
+ */
+function ads_devel_form_alter(&$form, &$form_state, $form_id) {
+  // var_dump($form_id, $form); exit;
+}
+
+/**
+ * Implements hook_admin_paths_alter().
+ */
+function ads_devel_admin_paths_alter(&$paths) {
+  // Return FALSE to the path where you don't want to show in OVERLAY
+  $paths['admin/*'] = FALSE;
+}
+
