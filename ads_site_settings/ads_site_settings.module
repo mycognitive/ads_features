@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the ADS Site settings feature.
  */
+
+include_once 'ads_site_settings.features.inc';

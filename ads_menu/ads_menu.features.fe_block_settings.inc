@@ -12,6 +12,38 @@ function ads_menu_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
+  $export['menu-menu-footer-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'menu-footer-menu',
+    'module' => 'menu',
+    'node_types' => array(),
+    'pages' => 'admin/*',
+    'roles' => array(),
+    'themes' => array(
+      'ads' => array(
+        'region' => 'footer',
+        'status' => 1,
+        'theme' => 'ads',
+        'weight' => -15,
+      ),
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '<none>',
+    'visibility' => 0,
+  );
+
   $export['ntm-1'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -41,6 +73,38 @@ function ads_menu_default_fe_block_settings() {
       ),
     ),
     'title' => 'Categories',
+    'visibility' => 0,
+  );
+
+  $export['system-main-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'main-menu',
+    'module' => 'system',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ads' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads',
+        'weight' => -4,
+      ),
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
     'visibility' => 0,
   );
 
