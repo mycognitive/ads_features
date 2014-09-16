@@ -3,3 +3,5 @@
  * @file
  * Drupal needs this blank file.
  */
+
+include 'ads_menu.features.inc';
