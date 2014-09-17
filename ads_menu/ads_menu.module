@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Ads Menu feature.
+ * Drupal needs this blank file.
  */
 
-include_once 'ads_menu.features.inc';
+include 'ads_menu.features.inc';

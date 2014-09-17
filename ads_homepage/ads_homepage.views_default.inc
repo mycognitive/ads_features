@@ -189,7 +189,7 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Sort criterion: Content: Fivestar (field_fivestar:rating) */
+  /* Sort criterion: Broken/missing handler */
   $handler->display->display_options['sorts']['field_fivestar_rating']['id'] = 'field_fivestar_rating';
   $handler->display->display_options['sorts']['field_fivestar_rating']['table'] = 'field_data_field_fivestar';
   $handler->display->display_options['sorts']['field_fivestar_rating']['field'] = 'field_fivestar_rating';
@@ -209,12 +209,14 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['field'] = 'field_fivestar_rating_rating';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['operator'] = '>=';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['value']['value'] = '1';
-  /* Filter criterion: Content: Fivestar (field_fivestar:rating) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_fivestar_rating']['id'] = 'field_fivestar_rating';
   $handler->display->display_options['filters']['field_fivestar_rating']['table'] = 'field_data_field_fivestar';
   $handler->display->display_options['filters']['field_fivestar_rating']['field'] = 'field_fivestar_rating';
   $handler->display->display_options['filters']['field_fivestar_rating']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_fivestar_rating']['value']['value'] = '1';
+  $handler->display->display_options['filters']['field_fivestar_rating']['value'] = array(
+    'value' => '1',
+  );
 
   /* Display: Popular adverts */
   $handler = $view->new_display('block', 'Popular adverts', 'block');
