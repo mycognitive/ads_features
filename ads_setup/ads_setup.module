@@ -45,6 +45,11 @@ function ads_setup_mark_installed($feature_name, $arg1 = NULL) {
  *   Optional. Name of the module to [re]configure.
  */
 function ads_setup_configure($properties_path, $module_name = NULL) {
+  if (!file_exists($properties_path)) {
+    watchdog('ads_setup', 'File %file does not exist!', array('%file' => $properties_path), WATCHDOG_ERROR);
+    return FALSE; // Fail if file doesn't exist.
+  }
+
   $properties = json_decode(file_get_contents($properties_path), TRUE);
 
   if ($module_name != NULL) {

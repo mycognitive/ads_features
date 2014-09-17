@@ -53,5 +53,6 @@ function ads_setup_drush_help($section) {
  *   Optional. Name of the module to [re]configure.
  */
 function ads_setup_drush_configure($properties_path, $module_name = NULL) {
+  drush_log(dt('Configuring !module module (!path).', array('!module' => $module_name, '!path' => $properties_path)));
   ads_setup_configure($properties_path, $module_name);
 }
