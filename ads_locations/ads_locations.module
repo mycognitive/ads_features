@@ -28,7 +28,7 @@ function ads_locations_ads_configure($properties) {
 
   if (drupal_is_cli()) {
     // Function ran from the drush command.
-    drush_print(dt('ads_locations: Trying to import locations for the following countries: [!countries]', array(
+    drush_log(dt('ads_locations: Trying to import locations for the following countries: [!countries]', array(
     '!countries' => implode(', ', $countries)
     )));
   }
