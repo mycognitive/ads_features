@@ -21,7 +21,6 @@ before_script:
   - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts # Append Travis known_hosts to user file.
   - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts  # Display content of configuration files.
   - ln -s travis/travis.build.properties build.properties     # Prepare build.properties file.
-  - sudo mkdir /var/www/ads                                   # Create webroot folder.
   - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
   - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
@@ -29,10 +28,11 @@ before_script:
 script:
 # All commands must exit with code 0 on success. Anything else is considered failure.
   - make
-  - rm  -fr "src/sites/all/modules/ads/`basename $TRAVIS_REPO_SLUG`"
-  - ln -sfv "src/sites/all/modules/ads/`basename $TRAVIS_REPO_SLUG`" $TRAVIS_BUILD_DIR
   - make install
-  - sudo mv $TRAVIS_BUILD_DIR/src/* $SRCDIR/
+# - sudo mkdir /var/www/ads                                   # Create webroot folder.
+  - sudo mv $TRAVIS_BUILD_DIR/src $SRCDIR/ads
+  - rm  -fr "$SRCDIR/sites/all/modules/ads/`basename $TRAVIS_REPO_SLUG`" && echo $0
+  - ln -sfv "$SRCDIR/sites/all/modules/ads/`basename $TRAVIS_REPO_SLUG`" $TRAVIS_BUILD_DIR
   - sudo chmod -R 777 $SRCDIR/
   - cd $SRCDIR && pwd && ls && echo "$DRUSH" && $DRUSH -y en simpletest && php ./scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
 
@@ -49,7 +49,7 @@ after_failure:
 
 after_script:
 # Test result is exported to TRAVIS_TEST_RESULT.
-  - echo $TRAVIS_TEST_RESULT
+  - pwd
 
 env:
   - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" DRUSH="drush -y -r $SRCDIR --uri=http://ads.localhost/"
