@@ -7,7 +7,6 @@ before_install:
 # Use this to prepare the system to install prerequisites or dependencies.
 # Commonly used to update git repository submodules and do similar tasks that need to be performed before dependencies are installed.
   - env
-  - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts
   - sudo sysctl kernel.hostname=ads.localhost
 
 install:
@@ -19,13 +18,14 @@ install:
 
 before_script:
 # Use this to prepare your build for testing (e.g. copy database configurations, environment variables, etc.).
-  - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts
-  - ln -s travis/travis.build.properties build.properties
-  - sudo mkdir /var/www/ads
-  - sudo puppet apply puppet/ads.dev.configure-site.pp
+  - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts # Append Travis known_hosts to user file.
+  - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts  # Display content of configuration files.
+  - ln -s travis/travis.build.properties build.properties     # Prepare build.properties file.
+  - sudo mkdir /var/www/ads                                   # Create webroot folder.
+  - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
   - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
-  - sudo drush --version
+  - sudo drush --version # Check drush version.
 
 script:
 # All commands must exit with code 0 on success. Anything else is considered failure.

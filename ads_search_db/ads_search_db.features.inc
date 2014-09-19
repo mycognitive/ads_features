@@ -17,6 +17,7 @@ function ads_search_db_default_search_api_server() {
     "options" : {
       "database" : "default:default",
       "min_chars" : "1",
+      "partial_matches" : 0,
       "indexes" : { "ads_adverts" : {
           "title" : {
             "table" : "search_api_db_ads_adverts_title",
