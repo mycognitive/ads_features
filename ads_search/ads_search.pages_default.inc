@@ -16,7 +16,10 @@ function ads_search_default_page_manager_pages() {
   $page->admin_title = 'Refine your search';
   $page->admin_description = '';
   $page->path = 'panel-pages/refine-your-search';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
@@ -118,7 +121,10 @@ function ads_search_default_page_manager_pages() {
   $page->admin_title = 'Search Filters (On Home Page)';
   $page->admin_description = '';
   $page->path = 'panel-pages/search-filters-home-page';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
@@ -309,7 +315,10 @@ function ads_search_default_page_manager_pages() {
   $page->admin_title = 'Search Filters (Top Bar on Search Results)';
   $page->admin_description = '';
   $page->path = 'panel-pages/search-filters-top-bar';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
@@ -408,7 +417,10 @@ function ads_search_default_page_manager_pages() {
   $page->admin_title = 'Search Results';
   $page->admin_description = '';
   $page->path = 'search/results';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'none',
     'title' => '',

@@ -7,16 +7,13 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function ads_search_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function ads_search_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "facetapi" && $api == "facetapi_defaults") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -25,11 +22,8 @@ function ads_search_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function ads_search_views_api() {
-  return array(
-    "api" => "3.0",
-    'template path' => drupal_get_path('module', 'ads_search') . '/theme',
-  );
+function ads_search_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
 }
 
 /**
@@ -93,9 +87,6 @@ function ads_search_default_search_api_index() {
         "field_ad_location:name" : { "type" : "string" },
         "field_level_1_field" : { "type" : "decimal" },
         "field_level_2_field" : { "type" : "decimal" },
-        "field_test_field_b_level_1x" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_test_field_b_level_1x:name" : { "type" : "string" },
-        "field_test_field_b_level_1x:tid" : { "type" : "integer" },
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
         "status" : { "type" : "integer", "boost" : "0.1" },
@@ -179,8 +170,7 @@ function ads_search_default_search_api_index() {
       }
     },
     "enabled" : "1",
-    "read_only" : "0",
-    "rdf_mapping" : []
+    "read_only" : "0"
   }');
   return $items;
 }

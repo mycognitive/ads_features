@@ -21,17 +21,12 @@ function ads_search_db_default_search_api_server() {
           "title" : {
             "table" : "search_api_db_ads_adverts_title",
             "type" : "text",
-            "boost" : "5.0"
+            "boost" : "0.1"
           },
           "status" : {
             "table" : "search_api_db_ads_adverts_status",
             "type" : "integer",
-            "boost" : "1.0"
-          },
-          "author" : {
-            "table" : "search_api_db_ads_adverts_author",
-            "type" : "integer",
-            "boost" : "1.0"
+            "boost" : "0.1"
           },
           "search_api_language" : {
             "table" : "search_api_db_ads_adverts_search_api_language",
@@ -41,18 +36,89 @@ function ads_search_db_default_search_api_server() {
           "body:value" : {
             "table" : "search_api_db_ads_adverts_body_value",
             "type" : "text",
-            "boost" : "1.0"
+            "boost" : "0.1"
           },
           "body:summary" : {
             "table" : "search_api_db_ads_adverts_body_summary",
             "type" : "text",
+            "boost" : "0.1"
+          },
+          "nid" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "nid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ad_category" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_ad_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ad_location" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_ad_location",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ad_category_node_ref" : {
+            "table" : "search_api_db_ads_adverts_field_ad_category_node_ref",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_level_1_field" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_level_1_field",
+            "type" : "decimal",
+            "boost" : "1.0"
+          },
+          "field_level_2_field" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_level_2_field",
+            "type" : "decimal",
+            "boost" : "1.0"
+          },
+          "field_ad_category:tid" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_ad_category_tid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ad_category:name" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_ad_category_name",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "field_ad_category:parent" : {
+            "table" : "search_api_db_ads_adverts_field_ad_category_parent",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ad_category:parents_all" : {
+            "table" : "search_api_db_ads_adverts_field_ad_category_parents_all",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ad_location:name" : {
+            "table" : "search_api_db_ads_adverts",
+            "column" : "field_ad_location_name",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "field_ad_category_node_ref:nid" : {
+            "table" : "search_api_db_ads_adverts_field_ad_category_node_ref_nid",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           }
         }
       }
     },
-    "enabled" : "1",
-    "rdf_mapping" : []
+    "enabled" : "1"
   }');
   return $items;
 }

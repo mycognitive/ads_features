@@ -21,6 +21,12 @@ function ads_search_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads',
+        'weight' => 0,
+      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,
@@ -47,6 +53,12 @@ function ads_search_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads',
+        'weight' => 0,
+      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,

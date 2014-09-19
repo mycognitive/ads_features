@@ -174,6 +174,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:body:summary'] = $facet;
 
@@ -208,6 +210,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:body:value'] = $facet;
 
@@ -242,6 +246,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category'] = $facet;
 
@@ -276,6 +282,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category:name'] = $facet;
 
@@ -324,6 +332,8 @@ function ads_search_facetapi_default_facet_settings() {
       'format' => 'filtered_html',
     ),
     'submit_realm' => 'Save and go back to realm settings',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category:parent'] = $facet;
 
@@ -366,6 +376,8 @@ function ads_search_facetapi_default_facet_settings() {
       'format' => 'filtered_html',
     ),
     'submit_realm' => 'Save and go back to realm settings',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category:parents_all'] = $facet;
 
@@ -400,6 +412,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category:tid'] = $facet;
 
@@ -434,6 +448,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category_node_ref'] = $facet;
 
@@ -468,6 +484,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_category_node_ref:nid'] = $facet;
 
@@ -502,6 +520,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_location'] = $facet;
 
@@ -536,6 +556,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_location:name'] = $facet;
 
@@ -720,6 +742,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:nid'] = $facet;
 
@@ -754,6 +778,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:search_api_language'] = $facet;
 
@@ -788,6 +814,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:status'] = $facet;
 
@@ -841,6 +869,8 @@ function ads_search_facetapi_default_facet_settings() {
       'format' => 'filtered_html',
     ),
     'submit_realm' => 'Save and go back to realm settings',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:title'] = $facet;
 
