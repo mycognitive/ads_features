@@ -25,7 +25,6 @@ before_script:
   - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
   - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
-  - sudo drush --version # Check drush version.
 
 script:
 # All commands must exit with code 0 on success. Anything else is considered failure.
@@ -35,7 +34,6 @@ script:
   - make install
   - sudo mv $TRAVIS_BUILD_DIR/src/* $SRCDIR/
   - sudo chmod -R 777 $SRCDIR/
-  - sudo wget -qO- http://ads.localhost/ | cat
   - cd $SRCDIR && pwd && ls && echo "$DRUSH" && $DRUSH -y en simpletest && php ./scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
 
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
@@ -47,14 +45,14 @@ after_success:
 after_failure:
   - pwd
   - env
-  - pwd && drush status-report
+  - drush --version && drush status-report # Check drush version and status report.
 
 after_script:
 # Test result is exported to TRAVIS_TEST_RESULT.
   - echo $TRAVIS_TEST_RESULT
 
 env:
-  - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" DRUSH="sudo drush -y -r $SRCDIR --uri=http://ads.localhost/"
+  - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" DRUSH="drush -y -r $SRCDIR --uri=http://ads.localhost/"
 
 notifications:
   email: false
