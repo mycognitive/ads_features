@@ -6,22 +6,20 @@
 before_install:
 # Use this to prepare the system to install prerequisites or dependencies.
 # Commonly used to update git repository submodules and do similar tasks that need to be performed before dependencies are installed.
-  - env
+# - env
   - sudo sysctl kernel.hostname=ads.localhost
 
 install:
 # Use this to install any prerequisites or dependencies necessary to run your build.
   - echo -e "Host github.com\n User git\n StrictHostKeyChecking no\n PasswordAuthentication no\n CheckHostIP no\n BatchMode yes\n" >> ~/.ssh/config
-  - git clone https://github.com/mycognitive/ads ads && cd ads
+  - git clone https://github.com/mycognitive/ads $HOME/ads && cd $HOME/ads
   - sh ./configure install
   - sudo puppet apply puppet/travis.pp && sudo puppet apply puppet/ads.dev.pp && sudo puppet apply puppet/solr.dev.pp && sudo puppet module list
 
 before_script:
 # Use this to prepare your build for testing (e.g. copy database configurations, environment variables, etc.).
   - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts # Append Travis known_hosts to user file.
-  - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts  # Display content of configuration files.
-  - ln -s travis/travis.build.properties build.properties     # Prepare build.properties file.
-  - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
+  - ln -sv travis/travis.build.properties build.properties     # Prepare build.properties file.
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
   - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
 
@@ -29,30 +27,32 @@ script:
 # All commands must exit with code 0 on success. Anything else is considered failure.
   - make
   - make install
+  - rm  -fr "$HOME/ads/sites/all/modules/ads/$BASEDIR" && ln -sfv "$FORKDIR" "$TRAVIS_BUILD_DIR" # Replace subdir with the tested repo.
+  - ls -la /var/www
+  - sudo mv -ifv $HOME/ads/src $SRCDIR                        # Move source dir into webroot.
+  - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
 # - sudo mkdir /var/www/ads                                   # Create webroot folder.
-  - sudo mv $TRAVIS_BUILD_DIR/src $SRCDIR/ads
-  - rm  -fr "$SRCDIR/sites/all/modules/ads/`basename $TRAVIS_REPO_SLUG`" && echo $0
-  - ln -sfv "$SRCDIR/sites/all/modules/ads/`basename $TRAVIS_REPO_SLUG`" $TRAVIS_BUILD_DIR
   - sudo chmod -R 777 $SRCDIR/
-  - cd $SRCDIR && pwd && ls && echo "$DRUSH" && $DRUSH -y en simpletest && php ./scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
+  - cd $SRCDIR && pwd && ls && $DRUSH status --full && $DRUSH en simpletest && php $SRCDIR/scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
 
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
 after_success:
   - which html2text || sudo apt-get install html2text
   - $SRCDIR/scripts/drupal.sh http://ads.localhost/ | html2text
-  - pwd && drush status-report --severity=2
+  - pwd && $DRUSH status-report --severity=2
 
 after_failure:
-  - pwd
-  - env
-  - drush --version && drush status-report # Check drush version and status report.
+  - env    # Print the environment variables.
+  - drush --version && $DRUSH status --full && $DRUSH status-report # Check drush version and status report.
+  - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts  # Display content of configuration files.
+  - sudo tail /var/log/*.log /var/log/*/*.log
 
 after_script:
 # Test result is exported to TRAVIS_TEST_RESULT.
   - pwd
 
 env:
-  - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" DRUSH="drush -y -r $SRCDIR --uri=http://ads.localhost/"
+  - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" DRUSH="drush -yv -r $SRCDIR --uri=http://ads.localhost/" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
 
 notifications:
   email: false
