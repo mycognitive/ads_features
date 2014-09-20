@@ -8,7 +8,7 @@
 # Commonly used to update git repository submodules and do similar tasks that need to be performed before dependencies are installed.
 before_install:
   - env
-  - sudo sysctl kernel.hostname=ads.localhost
+  - sudo sysctl kernel.hostname=$HOST
 
 # Install
 # Use this to install any prerequisites or dependencies necessary to run your build.
@@ -23,7 +23,8 @@ install:
 before_script:
   - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts # Append Travis known_hosts to user file.
   - ln -sv travis/travis.build.properties build.properties     # Prepare build.properties file.
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
+  - sudo puppet apply puppet/ads.dev.configure-site.pp           # Apply webroot puppet configuration.
+# - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
   - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
 
 # Script
@@ -32,28 +33,21 @@ before_script:
 script:
   - make
   - make install
-  - rm  -fr "$HOME/ads/sites/all/modules/ads/$BASEDIR" && ln -sfv "$FORKDIR" "$TRAVIS_BUILD_DIR" # Replace subdir with the tested repo.
-  - ls -la /var/www
-  - sudo mv -ifv "$ADS/src" "$SRCDIR" && sudo ln -sfv "$SRCDIR" "$HOME/ads/src" # Move source dir into webroot and replace with link.
-  - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
+  - sudo rm -rv "$SRCDIR" && sudo mv -ifv "$ADS/src" "$SRCDIR" && sudo ln -sfv "$SRCDIR" "$HOME/ads/src" # Move source dir into webroot and replace with link.
+  - rm  -fr "$FORKDIR" && ln -sfv "$TRAVIS_BUILD_DIR" "$FORKDIR" # Replace subdir with the tested repo.
+  - echo "SHOW DATABASES" | mysql -uroot -proot && echo "SHOW TABLES" | $DRUSH sql-cli
 # - sudo chmod -R 777 $SRCDIR/
   - sh -x $ADS/scripts/coder_check.sh
-  - cd $SRCDIR && pwd && ls && $DRUSH status --full && $DRUSH en simpletest && php $SRCDIR/scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
+  - sh -x $ADS/scripts/tests_run.sh $URL
 
 # After Success
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
 after_success:
-  - which html2text || sudo apt-get install html2text
-  - $SRCDIR/scripts/drupal.sh http://ads.localhost/ | html2text
-  - pwd && $DRUSH status-report --severity=2
+  - sh -x $ADS/travis/scripts/after_success.sh
 
 # After Failure
 after_failure:
-  - env    # Print the environment variables.
-  - ls -al $TRAVIS_BUILD_DIR $SRCDIR $HOME/*
-  - drush --version && $DRUSH status --full && $DRUSH status-report # Check drush version and status report.
-  - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts  # Display content of configuration files.
-  - sudo tail /var/log/*.log /var/log/*/*.log
+  - sh -x $ADS/travis/scripts/after_failure.sh
 
 # After Script
 # Test result is exported to TRAVIS_TEST_RESULT.
@@ -62,7 +56,7 @@ after_script:
 
 # Environment
 env:
-  - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=http://ads.localhost/" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
+  - HOST="ads.localhost" URL="http://$HOST/" GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=$URL" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
 
 notifications:
   email: false
