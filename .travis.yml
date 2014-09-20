@@ -29,11 +29,12 @@ script:
   - make install
   - rm  -fr "$HOME/ads/sites/all/modules/ads/$BASEDIR" && ln -sfv "$FORKDIR" "$TRAVIS_BUILD_DIR" # Replace subdir with the tested repo.
   - ls -la /var/www
-  - sudo mv -ifv $HOME/ads/src $SRCDIR                        # Move source dir into webroot.
+  - sudo mv -ifv "$HOME/ads/src" "$SRCDIR" && sudo ln -sfv "$SRCDIR" "$HOME/ads/src" # Move source dir into webroot and replace with link.
   - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
 # - sudo mkdir /var/www/ads                                   # Create webroot folder.
   - sudo chmod -R 777 $SRCDIR/
-  - cd $SRCDIR && pwd && ls && $DRUSH status --full && $DRUSH en simpletest && php $SRCDIR/scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
+  - sh -x $SRCDIR/scripts/coder_check.sh
+# - cd $SRCDIR && pwd && ls && $DRUSH status --full && $DRUSH en simpletest && php $SRCDIR/scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
 
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
 after_success:
