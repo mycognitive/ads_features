@@ -3,45 +3,51 @@
 #   TRAVIS_BUILD_DIR - The absolute path to the directory where the repository being built has been copied on the worker. (e.g. "/home/travis/build/mycognitive/ads")
 #   TRAVIS_REPO_SLUG - The slug (in form: owner_name/repo_name) of the repository currently being built. (e.g. "mycognitive/ads_features")
 
-before_install:
+# Before Install
 # Use this to prepare the system to install prerequisites or dependencies.
 # Commonly used to update git repository submodules and do similar tasks that need to be performed before dependencies are installed.
-# - env
+before_install:
+  - env
   - sudo sysctl kernel.hostname=ads.localhost
 
-install:
+# Install
 # Use this to install any prerequisites or dependencies necessary to run your build.
+install:
   - echo -e "Host github.com\n User git\n StrictHostKeyChecking no\n PasswordAuthentication no\n CheckHostIP no\n BatchMode yes\n" >> ~/.ssh/config
   - git clone https://github.com/mycognitive/ads $ADS && cd $ADS
   - sh ./configure install
   - sudo puppet apply puppet/travis.pp && sudo puppet apply puppet/ads.dev.pp && sudo puppet apply puppet/solr.dev.pp && sudo puppet module list
 
-before_script:
+# Before Script
 # Use this to prepare your build for testing (e.g. copy database configurations, environment variables, etc.).
+before_script:
   - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts # Append Travis known_hosts to user file.
   - ln -sv travis/travis.build.properties build.properties     # Prepare build.properties file.
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
   - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
 
-script:
+# Script
+# Main build command to run.
 # All commands must exit with code 0 on success. Anything else is considered failure.
+script:
   - make
   - make install
   - rm  -fr "$HOME/ads/sites/all/modules/ads/$BASEDIR" && ln -sfv "$FORKDIR" "$TRAVIS_BUILD_DIR" # Replace subdir with the tested repo.
   - ls -la /var/www
-  - sudo mv -ifv "$ADS" "$SRCDIR" && sudo ln -sfv "$SRCDIR" "$HOME/ads/src" # Move source dir into webroot and replace with link.
+  - sudo mv -ifv "$ADS/src" "$SRCDIR" && sudo ln -sfv "$SRCDIR" "$HOME/ads/src" # Move source dir into webroot and replace with link.
   - sudo puppet apply puppet/ads.dev.configure-site.pp        # Apply webroot puppet configuration.
-# - sudo mkdir /var/www/ads                                   # Create webroot folder.
-  - sudo chmod -Rv 777 $SRCDIR/
+# - sudo chmod -R 777 $SRCDIR/
   - sh -x $ADS/scripts/coder_check.sh
-# - cd $SRCDIR && pwd && ls && $DRUSH status --full && $DRUSH en simpletest && php $SRCDIR/scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
+  - cd $SRCDIR && pwd && ls && $DRUSH status --full && $DRUSH en simpletest && php $SRCDIR/scripts/run-tests.sh --php `which php` --url http://ads.localhost/ --concurrency 16 --verbose System
 
+# After Success
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
 after_success:
   - which html2text || sudo apt-get install html2text
   - $SRCDIR/scripts/drupal.sh http://ads.localhost/ | html2text
   - pwd && $DRUSH status-report --severity=2
 
+# After Failure
 after_failure:
   - env    # Print the environment variables.
   - ls -al $TRAVIS_BUILD_DIR $SRCDIR $HOME/*
@@ -49,10 +55,12 @@ after_failure:
   - cat /etc/ssh/ssh_config ~/.ssh/config ~/.ssh/known_hosts  # Display content of configuration files.
   - sudo tail /var/log/*.log /var/log/*/*.log
 
-after_script:
+# After Script
 # Test result is exported to TRAVIS_TEST_RESULT.
+after_script:
   - pwd
 
+# Environment
 env:
   - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=http://ads.localhost/" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
 
@@ -65,5 +73,7 @@ addons:
 
 language: php
 
+# PHP versions to test against.
+# See: http://docs.travis-ci.com/user/languages/php/
 php:
-  - 5.3
+  - 5.5
