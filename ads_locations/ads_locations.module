@@ -14,15 +14,15 @@ include_once 'ads_locations.features.inc';
  */
 function ads_locations_ads_configure($properties) {
 
+  $countries = @$properties['locations']['countries'];
+
+  if (empty($countries)) {
+    return; // Ignore import if option is empty.
+  }
+
   // Importing taxonomy_csv module's functions.
   $taxonomy_csv_module_dir = drupal_get_path('module', 'taxonomy_csv');
   require_once "$taxonomy_csv_module_dir/import/taxonomy_csv.import.api.inc";
-
-  $countries = @$properties['locations']['countries'];
-
-  if ($countries === NULL) {
-    $countries = 'ad';
-  }
 
   $countries = explode(',', drupal_strtoupper($countries));
 
