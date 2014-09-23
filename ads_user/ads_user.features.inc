@@ -14,6 +14,38 @@ function ads_user_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_image_default_styles().
+ */
+function ads_user_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: ads_avatar.
+  $styles['ads_avatar'] = array(
+    'name' => 'ads_avatar',
+    'label' => 'ads_avatar',
+    'effects' => array(
+      1 => array(
+        'label' => 'Resize',
+        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+        'effect callback' => 'image_resize_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_resize',
+        'data' => array(
+          'width' => 80,
+          'height' => 80,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
  * Implements hook_default_profile2_type().
  */
 function ads_user_default_profile2_type() {

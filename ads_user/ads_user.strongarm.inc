@@ -54,13 +54,6 @@ function ads_user_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'smart_ip_db_update_busy';
-  $strongarm->value = FALSE;
-  $export['smart_ip_db_update_busy'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'smart_ip_debug';
   $strongarm->value = 0;
   $export['smart_ip_debug'] = $strongarm;
