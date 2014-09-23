@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the ADS Setup feature.
+ */
+
+include_once 'ads_setup.features.inc';
+/**
+ * @file
  * ADS Setup module.
  * Provides post-installation setup screen for Ads distribution and module
  * configuration hook with access to the build.properties file.

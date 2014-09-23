@@ -1,8 +1,13 @@
 name = ADS Setup
-description = Provides post-installation setup screen for Ads distribution.
+description = Provides default settings and post-installation setup screen for Ads distribution.
 core = 7.x
 package = Ads Features
 version = 7.x-1.0
 project = ads_setup
+dependencies[] = ads_user
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 project path = sites/all/modules/ads/ads_features
