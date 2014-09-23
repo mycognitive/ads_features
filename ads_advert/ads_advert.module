@@ -830,6 +830,11 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
  *   Advert node.
  */
 function ads_advert_get_node_category_content_types($node) {
+  if (empty($node->field_ad_category[LANGUAGE_NONE])) {
+    // No content types for an empty category.
+    return array();
+  }
+
   $category      = current($node->field_ad_category[LANGUAGE_NONE]);
 
   return ads_advert_get_category_content_types($category['tid']);
