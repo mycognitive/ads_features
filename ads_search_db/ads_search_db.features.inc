@@ -34,16 +34,6 @@ function ads_search_db_default_search_api_server() {
             "type" : "string",
             "boost" : "1.0"
           },
-          "body:value" : {
-            "table" : "search_api_db_ads_adverts_body_value",
-            "type" : "text",
-            "boost" : "0.1"
-          },
-          "body:summary" : {
-            "table" : "search_api_db_ads_adverts_body_summary",
-            "type" : "text",
-            "boost" : "0.1"
-          },
           "nid" : {
             "table" : "search_api_db_ads_adverts",
             "column" : "nid",
@@ -115,6 +105,16 @@ function ads_search_db_default_search_api_server() {
             "column" : "value",
             "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
+          },
+          "body:value" : {
+            "table" : "search_api_db_ads_adverts_title",
+            "type" : "text",
+            "boost" : "0.1"
+          },
+          "body:summary" : {
+            "table" : "search_api_db_ads_adverts_title",
+            "type" : "text",
+            "boost" : "0.1"
           }
         }
       }
