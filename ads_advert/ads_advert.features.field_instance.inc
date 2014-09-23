@@ -73,7 +73,7 @@ function ads_advert_field_default_field_instances() {
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => 31,
+      'weight' => 1,
     ),
   );
 
@@ -158,7 +158,7 @@ function ads_advert_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 34,
+      'weight' => 2,
     ),
   );
 
@@ -203,7 +203,7 @@ function ads_advert_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 35,
+      'weight' => 4,
     ),
   );
 
