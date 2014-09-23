@@ -47,4 +47,5 @@ features[variable][] = smart_ip_source
 features[variable][] = smart_ip_store_location_csv_done
 features[variable][] = smart_ip_test_ip_address
 features[variable][] = smart_ip_use_ipinfodb_api_version
+features[variable][] = user_picture_style
 project path = sites/all/modules/ads/ads_features

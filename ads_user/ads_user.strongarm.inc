@@ -187,5 +187,12 @@ function ads_user_strongarm() {
   $strongarm->value = '3';
   $export['smart_ip_use_ipinfodb_api_version'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_style';
+  $strongarm->value = 'ads_avatar';
+  $export['user_picture_style'] = $strongarm;
+
   return $export;
 }
