@@ -429,7 +429,20 @@ function ads_advert_default_page_manager_handlers() {
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_ad_address';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 3,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'label' => 'title',
       'formatter' => 'addressfield_default',
@@ -463,7 +476,20 @@ function ads_advert_default_page_manager_handlers() {
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_ad_link_source';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 3,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'label' => 'title',
       'formatter' => 'link_default',
