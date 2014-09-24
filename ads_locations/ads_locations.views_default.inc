@@ -84,6 +84,7 @@ function ads_locations_views_default_views() {
   $handler->display->display_options['fields']['path']['field'] = 'path';
   $handler->display->display_options['fields']['path']['relationship'] = 'reverse_field_ad_location_node';
   $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   /* Field: Taxonomy term: Category Icon */
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['id'] = 'field_ads_cat_icon_1';
