@@ -13,7 +13,7 @@ function ads_locations_views_default_views() {
   $view = new view();
   $view->name = 'ads_locations_grouped';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ads_features';
   $view->base_table = 'taxonomy_term_data';
   $view->human_name = 'Ads Locations - Grouped';
   $view->core = 7;

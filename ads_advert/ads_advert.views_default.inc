@@ -13,7 +13,7 @@ function ads_advert_views_default_views() {
   $view = new view();
   $view->name = 'ads_advert_saved_adverts';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ads_features';
   $view->base_table = 'node';
   $view->human_name = 'Ads Advert - Saved Adverts';
   $view->core = 7;
@@ -122,7 +122,7 @@ function ads_advert_views_default_views() {
   $view = new view();
   $view->name = 'ads_advert_saved_adverts_admin';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ads_features';
   $view->base_table = 'node';
   $view->human_name = 'Ads Advert - Saved Adverts (Admin)';
   $view->core = 7;

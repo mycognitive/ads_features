@@ -10,7 +10,7 @@
 function ads_points_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: view own userpoints.
+  // Exported permission: 'view own userpoints'.
   $permissions['view own userpoints'] = array(
     'name' => 'view own userpoints',
     'roles' => array(
@@ -19,7 +19,7 @@ function ads_points_user_default_permissions() {
     'module' => 'userpoints',
   );
 
-  // Exported permission: view userpoints.
+  // Exported permission: 'view userpoints'.
   $permissions['view userpoints'] = array(
     'name' => 'view userpoints',
     'roles' => array(

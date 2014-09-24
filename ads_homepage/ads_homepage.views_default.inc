@@ -13,7 +13,7 @@ function ads_homepage_views_default_views() {
   $view = new view();
   $view->name = 'categories_grouped';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ads_features';
   $view->base_table = 'taxonomy_term_data';
   $view->human_name = 'Ads Categories - Grouped';
   $view->core = 7;
@@ -152,7 +152,7 @@ function ads_homepage_views_default_views() {
   $view = new view();
   $view->name = 'fivestar';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ads_features';
   $view->base_table = 'node';
   $view->human_name = 'Fivestar';
   $view->core = 7;

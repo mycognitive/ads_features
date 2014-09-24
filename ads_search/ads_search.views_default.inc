@@ -13,7 +13,7 @@ function ads_search_views_default_views() {
   $view = new view();
   $view->name = 'ads_search_results';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ads_features';
   $view->base_table = 'search_api_index_ads_adverts';
   $view->human_name = 'Ads Search Results';
   $view->core = 7;
