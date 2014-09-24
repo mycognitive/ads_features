@@ -500,7 +500,7 @@ function ads_search_default_page_manager_pages() {
       ),
       3 => array(
         'type' => 'column',
-        'width' => 50,
+        'width' => '20.010665662839575',
         'width_type' => '%',
         'parent' => '1',
         'children' => array(
@@ -510,7 +510,7 @@ function ads_search_default_page_manager_pages() {
       ),
       4 => array(
         'type' => 'column',
-        'width' => 50,
+        'width' => '79.98933433716043',
         'width_type' => '%',
         'parent' => '1',
         'children' => array(
