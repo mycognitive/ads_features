@@ -47,9 +47,9 @@ function ads_search_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '',
-          'height' => 75,
-          'upscale' => 1,
+          'width' => 120,
+          'height' => 80,
+          'upscale' => 0,
         ),
         'weight' => 1,
       ),
