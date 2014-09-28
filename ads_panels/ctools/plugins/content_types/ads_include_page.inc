@@ -38,7 +38,7 @@ function ctools_ads_include_page_content_type_render($subtype, &$conf, $panel_ar
       $page_html = $page;
   }
   else {
-    $page_html = '<div style="padding: 20px; background: #ff3; color:#fff; text-align: center; font-size: 16px;">Page ' . $page_name . ' not found</div>';
+    $page_html = '<div style="padding: 20px; background: LightGray; text-align: center; font-size: 16px;">Page ' . $page_name . ' not found</div>';
   }
 
   $block->content = '<div class="' . $page_name . '">' . $page_html . '</div>';
