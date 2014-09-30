@@ -1,9 +1,18 @@
 ADS Features
 ===========
 
-Provides common Travel features for ADS Drupal distribution.
+Provides common features for ADS Drupal distribution.
+
+Installation
+------------
+See Home Page: [Adverts at Drupal](https://www.drupal.org/project/ads)
 
 Build status
 ------------
 ADS build status:
-[![ADS Build](https://travis-ci.org/mycognitive/ads_features.png "ADS Build")](https://travis-ci.org/mycognitive/ads_features)
+
+
+| Status | Project | Description
+| :----- | :------ | :---
+| [![ADS Build](https://travis-ci.org/mycognitive/ads.png "ADS Build")](https://travis-ci.org/mycognitive/ads) | ADS | Main build process.
+| [![ADS Features](https://travis-ci.org/mycognitive/ads_features.png "ADS Build")](https://travis-ci.org/mycognitive/ads_features) | ADS | Build and installation of ADS Features.
