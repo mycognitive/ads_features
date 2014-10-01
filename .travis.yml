@@ -40,8 +40,8 @@ script:
   - rm  -fr "$FORKDIR" && ln -sfv "$TRAVIS_BUILD_DIR" "$FORKDIR" # Replace subdir with the tested repo.
   - echo "SHOW DATABASES" | mysql -uroot -proot && echo "SHOW TABLES" | $DRUSH sql-cli
 # - sudo chmod -R 777 $SRCDIR/
-#  - sh -xe $ADS/scripts/coder_check.sh
-#  - sh -xe $ADS/scripts/tests_run.sh $URL
+  - sh -xe $ADS/scripts/coder_check.sh
+  - sh -xe $ADS/scripts/tests_run.sh $URL
 
 # After Success
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
