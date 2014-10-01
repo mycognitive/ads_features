@@ -41,7 +41,7 @@ script:
   - echo "SHOW DATABASES" | mysql -uroot -proot && echo "SHOW TABLES" | $DRUSH sql-cli
 # - sudo chmod -R 777 $SRCDIR/
   - sh -xe $ADS/scripts/coder_check.sh
-# - sh -xe $ADS/scripts/tests_run.sh $URL
+  - sh -xe $ADS/scripts/tests_run.sh $URL
 
 # After Success
 # Note: The standard Unix exit code of "0" means the build passed; everything else is treated as failure.
@@ -59,14 +59,14 @@ after_script:
 
 # Environment
 env:
-  - HOST="ads.localhost" URL="http://$HOST/" GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=$URL" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
+  - HOST="ads.server" URL="http://$HOST/" GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=$URL" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
 
 notifications:
   email: false
 
 addons:
   hosts:
-    - ads.localhost
+    - ads.server
 
 language: php
 
