@@ -66,6 +66,7 @@ function ads_search_views_default_views() {
     'image_style' => 'ads_advert_preview',
     'image_link' => 'content',
   );
+  $handler->display->display_options['fields']['field_ad_image']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_ad_image']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_ad_image']['delta_first_last'] = TRUE;
   $handler->display->display_options['fields']['field_ad_image']['multi_type'] = 'ol';
