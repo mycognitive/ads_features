@@ -673,6 +673,30 @@ function ads_search_default_page_manager_pages() {
     $display->content['new-b704a78c-2da9-4df5-9f11-6333acad2810'] = $pane;
     $display->panels['left'][2] = 'new-b704a78c-2da9-4df5-9f11-6333acad2810';
     $pane = new stdClass();
+    $pane->pid = 'new-4ac02b88-e39e-41a0-84cb-7252724e09d2';
+    $pane->panel = 'right';
+    $pane->type = 'ads_items_per_page';
+    $pane->subtype = 'ads_items_per_page';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view' => 'ads_search_results',
+      'override_title' => 1,
+      'override_title_text' => 'Adverts per page',
+      'view_name' => 'ads_search_results',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '4ac02b88-e39e-41a0-84cb-7252724e09d2';
+    $display->content['new-4ac02b88-e39e-41a0-84cb-7252724e09d2'] = $pane;
+    $display->panels['right'][0] = 'new-4ac02b88-e39e-41a0-84cb-7252724e09d2';
+    $pane = new stdClass();
     $pane->pid = 'new-67c4ca71-73c8-48f4-9f4e-cdda3d22cd4c';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
@@ -688,11 +712,11 @@ function ads_search_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '67c4ca71-73c8-48f4-9f4e-cdda3d22cd4c';
     $display->content['new-67c4ca71-73c8-48f4-9f4e-cdda3d22cd4c'] = $pane;
-    $display->panels['right'][0] = 'new-67c4ca71-73c8-48f4-9f4e-cdda3d22cd4c';
+    $display->panels['right'][1] = 'new-67c4ca71-73c8-48f4-9f4e-cdda3d22cd4c';
     $pane = new stdClass();
     $pane->pid = 'new-aa2205ff-ceda-4088-b9ed-365f7ade6698';
     $pane->panel = 'top';
