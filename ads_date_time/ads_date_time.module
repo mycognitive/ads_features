@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * Code for the ADS Date/Time feature.
+ */
+
+include_once 'ads_date_time.features.inc';
+/**
+ * @file
+ * ADS Panels module.
+ * Provides panels extensions.
+ */
+
+define('ADS_DATE_TIME_FORMAT_TIMEAGO_DAYS', '<\s\p\a\n \c\l\a\s\s="\t\i\m\e\-\a\g\o\-\d\a\y\s" \t\i\t\l\e="c">n/j/y - g:ia</\s\p\a\n>');
+
+/**
+ * Implements hook_date_formats().
+ */
+function ads_date_time_date_formats() {
+  return array(
+    array(
+      'type' => 'short',
+      'format' => ADS_DATE_TIME_FORMAT_TIMEAGO_DAYS,
+    ),
+  );
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function ads_date_time_date_format_types() {
+  variable_set('date_format_days_ago', ADS_DATE_TIME_FORMAT_TIMEAGO_DAYS);
+
+  return array(
+    'days_ago' => t('Days ago'),
+    'time_ago' => t('Time ago'),
+  );
+}
+
+/**
+ * Implements hook_init().
+ */
+function ads_date_time_init() {
+  $date_types = system_get_date_types();
+  foreach ($date_types as $date_type) {
+    $format = variable_get('date_format_' . $date_type['type'], '');
+    switch ($format) {
+      case ADS_DATE_TIME_FORMAT_TIMEAGO_DAYS:
+        ads_date_time_add_js();
+        return;
+    }
+  }
+}
+
+/**
+ * Includes js file required for date replacement on the client side.
+ */
+function ads_date_time_add_js() {
+  drupal_add_js(drupal_get_path('module', 'ads_date_time') . '/ads_date_time.js');
+}

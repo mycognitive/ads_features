@@ -92,8 +92,9 @@ function ads_search_views_default_views() {
   $handler->display->display_options['fields']['changed']['table'] = 'search_api_index_ads_adverts';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
   $handler->display->display_options['fields']['changed']['label'] = 'Updated';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'time ago';
-  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'days_ago';
+  $handler->display->display_options['fields']['changed']['custom_date_format'] = '0';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'time_ago';
   $handler->display->display_options['fields']['changed']['link_to_entity'] = 0;
   /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
