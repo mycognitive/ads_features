@@ -13,6 +13,7 @@ features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[variable][] = pathauto_node_advert_pattern
 features[variable][] = pathauto_taxonomy_term_categories_pattern
+features[variable][] = pathauto_taxonomy_term_locations_pattern
 features[variable][] = pathauto_taxonomy_term_pattern
 features[variable][] = pathauto_user_pattern
 features[variable][] = rate_widgets
