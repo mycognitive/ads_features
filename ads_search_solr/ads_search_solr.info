@@ -1,10 +1,10 @@
-name = Ads Search Solr
-description = Extends ADS search functionality by using Apache Solr to index data.
+name = ADS Search Solr
+description = Provides a backend for the Search API that uses a Solr search platform to index data.
 core = 7.x
-package = Ads Features
-php = 5.3.0
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
+php = 5.3.0
 dependencies[] = ads_search
 dependencies[] = ctools
 dependencies[] = entity

@@ -1,8 +1,8 @@
 name = ADS Panels
-description = Provides panels extensions
+description = Provides a default integration for panels (customized layouts for pages).
 core = 7.x
-package = Ads Features
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = ctools
 dependencies[] = panels

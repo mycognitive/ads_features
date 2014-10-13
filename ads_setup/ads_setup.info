@@ -1,8 +1,8 @@
 name = ADS Setup
-description = Provides default settings and post-installation setup screen for Ads distribution.
+description = Provides a default post-installation settings.
 core = 7.x
-package = Ads Features
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = ads_user
 dependencies[] = ctools

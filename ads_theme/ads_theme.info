@@ -1,8 +1,8 @@
-name = Ads Theme
-description = Provides support for Ads distribution themes
+name = ADS Theme
+description = Provides additional support for theme.
 core = 7.x
-package = Ads Features
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 features[features_api][] = api:2
 project path = sites/all/modules/ads/ads_features

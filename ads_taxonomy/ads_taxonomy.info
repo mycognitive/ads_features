@@ -1,8 +1,8 @@
-name = Ads Taxonomy
-description = Provides default taxonomies for Ads distribution
+name = ADS Taxonomy
+description = Provides a default fields and settings for taxonomies (Categories, Locations and Places).
 core = 7.x
-package = Ads Features
-version = 7.x-0.1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = bundle_name_reference
 dependencies[] = features

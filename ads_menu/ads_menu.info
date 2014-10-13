@@ -1,8 +1,8 @@
-name = Ads Menu
-description = Provides menu functionality for Ads distribution
+name = ADS Menu
+description = Provides a default integration for menu items and settings.
 core = 7.x
-package = Ads Features
-version = 7.x-0.1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = ads_taxonomy
 dependencies[] = ctools

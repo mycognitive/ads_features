@@ -1,8 +1,8 @@
-name = Ads Search via DB
-description = Extends ADS search functionality by using a normal database to index data.
+name = ADS Search via DB
+description = Provides a backend for the Search API that uses a normal database to index data.
 core = 7.x
-package = Ads Features
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = entity
 dependencies[] = search_api

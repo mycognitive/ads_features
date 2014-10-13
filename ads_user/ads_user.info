@@ -1,8 +1,8 @@
 name = ADS User
-description = Provides user-related functionality, e.g., user profile fields for ADS distribution.
+description = Provides user-related functionality, fields and settings.
 core = 7.x
 package = ADS Features
-version = 7.x-1.0-alpha1
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = addressfield
 dependencies[] = ctools

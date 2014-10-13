@@ -1,8 +1,8 @@
-name = Ads Advert
-description = Provides advert content type functionality
+name = ADS Advert
+description = Provides main advert functionality.
 core = 7.x
-package = Ads Features
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = addressfield
 dependencies[] = ads_content_types
