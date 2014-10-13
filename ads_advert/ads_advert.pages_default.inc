@@ -261,7 +261,18 @@ function ads_advert_default_page_manager_handlers() {
     $pane->type = 'comment_reply_form';
     $pane->subtype = 'comment_reply_form';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'post comments',
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'anon_links' => FALSE,
       'context' => array(
