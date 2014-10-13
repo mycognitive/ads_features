@@ -736,7 +736,7 @@ function ads_advert_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'build_mode' => '1',
+      'build_mode' => '2',
       'widget_name' => '1',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,

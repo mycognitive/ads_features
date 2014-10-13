@@ -15,6 +15,7 @@ features[variable][] = pathauto_node_advert_pattern
 features[variable][] = pathauto_taxonomy_term_categories_pattern
 features[variable][] = pathauto_taxonomy_term_pattern
 features[variable][] = pathauto_user_pattern
+features[variable][] = rate_widgets
 features[variable][] = user_picture_default
 features[variable][] = user_picture_dimensions
 features[variable][] = user_picture_file_size
