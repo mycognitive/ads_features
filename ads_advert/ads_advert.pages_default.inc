@@ -729,31 +729,6 @@ function ads_advert_default_page_manager_handlers() {
     $display->content['new-308c28c5-5451-4537-b869-5556921ff2eb'] = $pane;
     $display->panels['right_side'][2] = 'new-308c28c5-5451-4537-b869-5556921ff2eb';
     $pane = new stdClass();
-    $pane->pid = 'new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
-    $pane->panel = 'right_side';
-    $pane->type = 'rate_widget';
-    $pane->subtype = 'rate_widget';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'build_mode' => '2',
-      'widget_name' => '1',
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => 'Rating',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = 'e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
-    $display->content['new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613'] = $pane;
-    $display->panels['right_side'][3] = 'new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
-    $pane = new stdClass();
     $pane->pid = 'new-7e914395-96d4-4070-b199-f8a37b8e5352';
     $pane->panel = 'right_side';
     $pane->type = 'ads_placeholder';
@@ -772,11 +747,36 @@ function ads_advert_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 3;
     $pane->locks = array();
     $pane->uuid = '7e914395-96d4-4070-b199-f8a37b8e5352';
     $display->content['new-7e914395-96d4-4070-b199-f8a37b8e5352'] = $pane;
-    $display->panels['right_side'][4] = 'new-7e914395-96d4-4070-b199-f8a37b8e5352';
+    $display->panels['right_side'][3] = 'new-7e914395-96d4-4070-b199-f8a37b8e5352';
+    $pane = new stdClass();
+    $pane->pid = 'new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
+    $pane->panel = 'right_side';
+    $pane->type = 'rate_widget';
+    $pane->subtype = 'rate_widget';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'build_mode' => '2',
+      'widget_name' => '1',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => 'Rate this ad',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
+    $display->content['new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613'] = $pane;
+    $display->panels['right_side'][4] = 'new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
     $pane = new stdClass();
     $pane->pid = 'new-d100e5f8-ef33-4683-ba70-f96958e8d409';
     $pane->panel = 'right_side';
@@ -802,7 +802,7 @@ function ads_advert_default_page_manager_handlers() {
     $display->content['new-d100e5f8-ef33-4683-ba70-f96958e8d409'] = $pane;
     $display->panels['right_side'][5] = 'new-d100e5f8-ef33-4683-ba70-f96958e8d409';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = '0';
+  $display->title_pane = 'new-e9ba3399-aff0-4d6b-8a1e-5c88451a0613';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context'] = $handler;
 
