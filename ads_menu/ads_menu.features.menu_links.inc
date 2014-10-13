@@ -70,11 +70,95 @@ function ads_menu_menu_default_menu_links() {
     'weight' => 0,
     'customized' => 1,
   );
+  // Exported menu link: menu-footer-menu_contact-admin:contact
+  $menu_links['menu-footer-menu_contact-admin:contact'] = array(
+    'menu_name' => 'menu-footer-menu',
+    'link_path' => 'contact',
+    'router_path' => 'contact',
+    'link_title' => 'Contact Admin',
+    'options' => array(
+      'attributes' => array(
+        'title' => 'Contact Web Admin for help.',
+      ),
+      'identifier' => 'menu-footer-menu_contact-admin:contact',
+    ),
+    'module' => 'system',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -47,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-footer-menu_cookies-policy:http://www.whatarecookies.com/
+  $menu_links['menu-footer-menu_cookies-policy:http://www.whatarecookies.com/'] = array(
+    'menu_name' => 'menu-footer-menu',
+    'link_path' => 'http://www.whatarecookies.com/',
+    'router_path' => '',
+    'link_title' => 'Cookies Policy',
+    'options' => array(
+      'attributes' => array(
+        'title' => 'What Are Cookies?',
+      ),
+      'identifier' => 'menu-footer-menu_cookies-policy:http://www.whatarecookies.com/',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 1,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -49,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-footer-menu_give-feedback:https://drupal-ads.uservoice.com/
+  $menu_links['menu-footer-menu_give-feedback:https://drupal-ads.uservoice.com/'] = array(
+    'menu_name' => 'menu-footer-menu',
+    'link_path' => 'https://drupal-ads.uservoice.com/',
+    'router_path' => '',
+    'link_title' => 'Give feedback',
+    'options' => array(
+      'attributes' => array(
+        'title' => 'Give feedback about the site.',
+      ),
+      'identifier' => 'menu-footer-menu_give-feedback:https://drupal-ads.uservoice.com/',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 1,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -48,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-footer-menu_site-map:sitemap
+  $menu_links['menu-footer-menu_site-map:sitemap'] = array(
+    'menu_name' => 'menu-footer-menu',
+    'link_path' => 'sitemap',
+    'router_path' => 'sitemap',
+    'link_title' => 'Site map',
+    'options' => array(
+      'attributes' => array(
+        'title' => 'Display a site map with RSS feeds.',
+      ),
+      'identifier' => 'menu-footer-menu_site-map:sitemap',
+    ),
+    'module' => 'system',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -50,
+    'customized' => 1,
+  );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Contact Admin');
+  t('Cookies Policy');
+  t('Give feedback');
   t('Post an Ad');
   t('Register');
   t('Sign In');
+  t('Site map');
 
 
   return $menu_links;
