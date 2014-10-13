@@ -101,17 +101,31 @@ function ads_site_settings_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'site_map_show_front';
+  $strongarm->value = 0;
+  $export['site_map_show_front'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'site_map_show_menus';
   $strongarm->value = array(
     'menu-footer-menu' => 'menu-footer-menu',
     'main-menu' => 'main-menu',
-    'devel' => 0,
+    'menu-anonymous-menu' => 'menu-anonymous-menu',
     'features' => 0,
     'management' => 0,
     'navigation' => 0,
     'user-menu' => 0,
   );
   $export['site_map_show_menus'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'site_map_show_titles';
+  $strongarm->value = 0;
+  $export['site_map_show_titles'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
