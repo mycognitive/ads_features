@@ -18,14 +18,14 @@ function ads_menu_default_fe_block_settings() {
     'delta' => 'menu-footer-menu',
     'module' => 'menu',
     'node_types' => array(),
-    'pages' => 'admin/*',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
       'ads' => array(
-        'region' => 'footer',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'ads',
-        'weight' => -15,
+        'weight' => 0,
       ),
       'bartik' => array(
         'region' => '',
@@ -39,8 +39,14 @@ function ads_menu_default_fe_block_settings() {
         'theme' => 'seven',
         'weight' => 0,
       ),
+      'zen' => array(
+        'region' => 'footer',
+        'status' => 1,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
     ),
-    'title' => '<none>',
+    'title' => '',
     'visibility' => 0,
   );
 
@@ -50,12 +56,12 @@ function ads_menu_default_fe_block_settings() {
     'delta' => 1,
     'module' => 'ntm',
     'node_types' => array(),
-    'pages' => '<front>',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
       'ads' => array(
-        'region' => 'header',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'ads',
         'weight' => 0,
       ),
@@ -69,6 +75,12 @@ function ads_menu_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => 'sidebar_first',
+        'status' => 1,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),
@@ -89,7 +101,7 @@ function ads_menu_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'ads',
-        'weight' => -4,
+        'weight' => 0,
       ),
       'bartik' => array(
         'region' => '',
@@ -101,6 +113,12 @@ function ads_menu_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),
