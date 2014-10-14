@@ -33,6 +33,12 @@ function ads_user_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
       'zen' => array(
         'region' => 'content',
         'status' => 1,
