@@ -48,15 +48,13 @@ function ads_setup_mark_installed($feature_name, $arg1 = NULL) {
  * @param string $properties_path
  *   Path to the build.properties file.
  *
- * @param string $module_name
- *   Optional. Name of the module to [re]configure.
- *
  * @param array $options
  *   Optional. Additional options. Allowed ones:
+ *     - include  Name(s) of the module to include.
  *     - exclude  Name(s) of the module(s) to exclude from [re]configuration.
  *     - force    Forces configuration of modules even if they are already configured.
  */
-function ads_setup_configure($properties_path, $module_name = NULL, $options = array()) {
+function ads_setup_configure($properties_path, $options = array()) {
   if (!file_exists($properties_path)) {
     watchdog('ads_setup', 'File %file does not exist!', array('%file' => $properties_path), WATCHDOG_ERROR);
     return FALSE; // Fail if file doesn't exist.
@@ -95,11 +93,11 @@ function ads_setup_configure($properties_path, $module_name = NULL, $options = a
     }
   }
 
-  if ($module_name != NULL) {
-    $modules = array($module_name);
-  }
-  else {
-    $modules = module_implements('ads_configure', TRUE);
+  $modules = module_implements('ads_configure', TRUE);
+
+  if (!empty($options['include'])) {
+    // Including only specified modules.
+    $modules = array_intersect($modules, array_map('trim', explode(',', $options['include'])));
   }
 
   if (!empty($options['exclude'])) {

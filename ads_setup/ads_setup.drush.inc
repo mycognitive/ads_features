@@ -16,14 +16,11 @@ function ads_setup_drush_command() {
         'description' => dt('Required. Path to the json-encoded properties file.'),
         'required'    => TRUE,
       ),
-      'module_name' => array(
-        'description' => dt('Optional. Name of the module to [re]configure.'),
-        'required'    => FALSE,
-      ),
 		),
 		'options' => array(
-      'exclude' => dt('Optional. Name(s) of the module(s) to exclude from [re]configuration.'),
-      'force' => dt('Optional. Forces configuration of modules even if they are already configured.'),
+      'include' => dt('Name(s) of the module to include.'),
+      'exclude' => dt('Name(s) of the module(s) to exclude.'),
+      'force' => dt('Forces configuration of modules even if they are already configured.'),
     ),
     'description' => dt('Perform all or only the specified module [re]configuration.'),
     'examples' => array(
@@ -57,8 +54,9 @@ function ads_setup_drush_help($section) {
  * @param string $module_name
  *   Optional. Name of the module to [re]configure.
  */
-function ads_setup_drush_configure($properties_path, $module_name = NULL) {
-  ads_setup_configure($properties_path, $module_name, array(
+function ads_setup_drush_configure($properties_path) {
+  ads_setup_configure($properties_path, array(
+    'include' => drush_get_option('include', NULL),
     'exclude' => drush_get_option('exclude', NULL),
     'force' => drush_get_option('force', FALSE),
   ));

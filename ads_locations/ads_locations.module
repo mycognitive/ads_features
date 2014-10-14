@@ -20,7 +20,6 @@ function ads_locations_ads_configure($properties, $force) {
     return; // Ignore import if option is empty.
   }
 
-
   // Importing taxonomy_csv module's functions.
   $taxonomy_csv_module_dir = drupal_get_path('module', 'taxonomy_csv');
   require_once "$taxonomy_csv_module_dir/import/taxonomy_csv.import.api.inc";
