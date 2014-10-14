@@ -50,8 +50,11 @@ function ads_setup_mark_installed($feature_name, $arg1 = NULL) {
  *
  * @param string $module_name
  *   Optional. Name of the module to [re]configure.
+ *
+ * @param string $exclude
+ *   Optional. Optional. Name(s) of the module(s) to exclude from [re]configuration.
  */
-function ads_setup_configure($properties_path, $module_name = NULL) {
+function ads_setup_configure($properties_path, $module_name = NULL, $exclude = NULL) {
   if (!file_exists($properties_path)) {
     watchdog('ads_setup', 'File %file does not exist!', array('%file' => $properties_path), WATCHDOG_ERROR);
     return FALSE; // Fail if file doesn't exist.
@@ -65,6 +68,9 @@ function ads_setup_configure($properties_path, $module_name = NULL) {
   else {
     $modules = module_implements('ads_configure', TRUE);
   }
+
+	// Excluding specified modules.
+	$modules = array_diff($modules, array_map('trim', explode(',', $exclude)));
 
   foreach ($modules as $module_name) {
     module_invoke($module_name, 'ads_configure', $properties);

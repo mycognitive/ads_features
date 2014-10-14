@@ -20,11 +20,15 @@ function ads_setup_drush_command() {
         'description' => dt('Optional. Name of the module to [re]configure.'),
         'required'    => FALSE,
       ),
+		),
+		'options' => array(
+      'exclude' => dt('Optional. Name(s) of the module(s) to exclude from [re]configuration.'),
     ),
     'description' => dt('Perform all or only the specified module [re]configuration.'),
     'examples' => array(
       'drush ads-configure ./properties.json' => '',
       'drush ads-configure ./properties.json ads_animals' => '',
+			'drush ads-configure ./properties.json --exclude=ads_locations,ads_homepage' => '',
     ),
   );
 
@@ -48,11 +52,11 @@ function ads_setup_drush_help($section) {
  *
  * @param string $properties_path
  *   Optional. Name of the module to [re]configure.
- * 
+ *
  * @param string $module_name
  *   Optional. Name of the module to [re]configure.
  */
 function ads_setup_drush_configure($properties_path, $module_name = NULL) {
   drush_log(dt('Configuring !module module (!path).', array('!module' => $module_name, '!path' => $properties_path)));
-  ads_setup_configure($properties_path, $module_name);
+  ads_setup_configure($properties_path, $module_name, drush_get_option('exclude', NULL));
 }
