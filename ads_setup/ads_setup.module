@@ -46,21 +46,54 @@ function ads_setup_mark_installed($feature_name, $arg1 = NULL) {
  * Invokes ads_configure hook for all the modules or the specified one.
  *
  * @param string $properties_path
- *   Optional. Name of the module to [re]configure.
+ *   Path to the build.properties file.
  *
  * @param string $module_name
  *   Optional. Name of the module to [re]configure.
  *
- * @param string $exclude
- *   Optional. Optional. Name(s) of the module(s) to exclude from [re]configuration.
+ * @param array $options
+ *   Optional. Additional options. Allowed ones:
+ *     - exclude  Name(s) of the module(s) to exclude from [re]configuration.
+ *     - force    Forces configuration of modules even if they are already configured.
  */
-function ads_setup_configure($properties_path, $module_name = NULL, $exclude = NULL) {
+function ads_setup_configure($properties_path, $module_name = NULL, $options = array()) {
   if (!file_exists($properties_path)) {
     watchdog('ads_setup', 'File %file does not exist!', array('%file' => $properties_path), WATCHDOG_ERROR);
     return FALSE; // Fail if file doesn't exist.
   }
 
-  $properties = json_decode(file_get_contents($properties_path), TRUE);
+  $properties_lines = file($properties_path, FILE_IGNORE_NEW_LINES);
+  $properties       = array();
+
+  foreach ($properties_lines as &$property_line) {
+    $property_line_segments   = explode('#', $property_line);
+    $property_line            = $property_line_segments[0];
+    $property_assign_segments = explode('=', $property_line, 2);
+
+    if (count($property_assign_segments) < 2) {
+      continue;
+    }
+
+    list($key, $value)      = array_map('trim', $property_assign_segments);
+
+    if (empty($key) || substr($key, 0, 25) !== 'project.drupal.configure.') {
+      continue;
+    }
+
+    $nest = &$properties;
+    $keys = explode('.', substr($key, 25));
+
+    while ($key = array_shift($keys)) {
+      $nest = &$nest[$key];
+    }
+
+    if ($key !== NULL) {
+      $nest[$key] = $value;
+    }
+    else {
+      $nest = $value;
+    }
+  }
 
   if ($module_name != NULL) {
     $modules = array($module_name);
@@ -69,10 +102,12 @@ function ads_setup_configure($properties_path, $module_name = NULL, $exclude = N
     $modules = module_implements('ads_configure', TRUE);
   }
 
-	// Excluding specified modules.
-	$modules = array_diff($modules, array_map('trim', explode(',', $exclude)));
+  if (!empty($options['exclude'])) {
+    // Excluding specified modules.
+    $modules = array_diff($modules, array_map('trim', explode(',', $options['exclude'])));
+  }
 
   foreach ($modules as $module_name) {
-    module_invoke($module_name, 'ads_configure', $properties);
+    module_invoke($module_name, 'ads_configure', $properties, isset($options['force']) ? (bool)$options['force'] : FALSE);
   }
 }

@@ -23,6 +23,7 @@ function ads_setup_drush_command() {
 		),
 		'options' => array(
       'exclude' => dt('Optional. Name(s) of the module(s) to exclude from [re]configuration.'),
+      'force' => dt('Optional. Forces configuration of modules even if they are already configured.'),
     ),
     'description' => dt('Perform all or only the specified module [re]configuration.'),
     'examples' => array(
@@ -57,6 +58,8 @@ function ads_setup_drush_help($section) {
  *   Optional. Name of the module to [re]configure.
  */
 function ads_setup_drush_configure($properties_path, $module_name = NULL) {
-  drush_log(dt('Configuring !module module (!path).', array('!module' => $module_name, '!path' => $properties_path)));
-  ads_setup_configure($properties_path, $module_name, drush_get_option('exclude', NULL));
+  ads_setup_configure($properties_path, $module_name, array(
+    'exclude' => drush_get_option('exclude', NULL),
+    'force' => drush_get_option('force', FALSE),
+  ));
 }
