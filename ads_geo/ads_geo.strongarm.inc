@@ -44,6 +44,13 @@ advert/*/edit/step-1';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'smart_ip_ipinfodb_key';
+  $strongarm->value = 'e9c8acd2aea271128908c5b2d31abda9a';
+  $export['smart_ip_ipinfodb_key'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'smart_ip_maxmind_bin_db_auto_update';
   $strongarm->value = '0';
   $export['smart_ip_maxmind_bin_db_auto_update'] = $strongarm;

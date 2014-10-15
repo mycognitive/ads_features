@@ -14,6 +14,7 @@ features[variable][] = device_geolocation_ajax_check
 features[variable][] = device_geolocation_allowed_pages
 features[variable][] = device_geolocation_check_frequency
 features[variable][] = smart_ip_auto_update
+features[variable][] = smart_ip_ipinfodb_key
 features[variable][] = smart_ip_maxmind_bin_db_auto_update
 features[variable][] = smart_ip_roles_to_geolocate
 features[variable][] = smart_ip_source
