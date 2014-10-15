@@ -7,7 +7,6 @@ project = ads_context
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = menu
-features[context][] = anon_header
 features[ctools][] = context:context:3
 features[features_api][] = api:2
 project path = sites/all/modules/ads/ads_features
