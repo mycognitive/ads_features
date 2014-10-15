@@ -16,15 +16,17 @@ function ads_setup_drush_command() {
         'description' => dt('Required. Path to the json-encoded properties file.'),
         'required'    => TRUE,
       ),
-      'module_name' => array(
-        'description' => dt('Optional. Name of the module to [re]configure.'),
-        'required'    => FALSE,
-      ),
+		),
+		'options' => array(
+      'include' => dt('Name(s) of the module to include.'),
+      'exclude' => dt('Name(s) of the module(s) to exclude.'),
+      'force' => dt('Forces configuration of modules even if they are already configured.'),
     ),
     'description' => dt('Perform all or only the specified module [re]configuration.'),
     'examples' => array(
       'drush ads-configure ./properties.json' => '',
       'drush ads-configure ./properties.json ads_animals' => '',
+			'drush ads-configure ./properties.json --exclude=ads_locations,ads_homepage' => '',
     ),
   );
 
@@ -48,11 +50,14 @@ function ads_setup_drush_help($section) {
  *
  * @param string $properties_path
  *   Optional. Name of the module to [re]configure.
- * 
+ *
  * @param string $module_name
  *   Optional. Name of the module to [re]configure.
  */
-function ads_setup_drush_configure($properties_path, $module_name = NULL) {
-  drush_log(dt('Configuring !module module (!path).', array('!module' => $module_name, '!path' => $properties_path)));
-  ads_setup_configure($properties_path, $module_name);
+function ads_setup_drush_configure($properties_path) {
+  ads_setup_configure($properties_path, array(
+    'include' => drush_get_option('include', NULL),
+    'exclude' => drush_get_option('exclude', NULL),
+    'force' => drush_get_option('force', FALSE),
+  ));
 }

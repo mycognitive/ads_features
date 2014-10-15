@@ -12,7 +12,7 @@ include_once 'ads_locations.features.inc';
  *
  * @TODO: Country uninstallation support.
  */
-function ads_locations_ads_configure($properties) {
+function ads_locations_ads_configure($properties, $force) {
 
   $countries = @$properties['locations']['countries'];
 
@@ -40,7 +40,7 @@ function ads_locations_ads_configure($properties) {
 
   foreach ($countries as $country_name) {
     // Country installation.
-    if (!ads_setup_is_installed('location', $country_name)) {
+    if ($force || !ads_setup_is_installed('location', $country_name)) {
       // Installing country only if it's not already installed.
       $csv_url = 'https://raw.githubusercontent.com/nseam/ads_locations_data/master/' . drupal_substr($country_name, 0, 2) . '.csv';
 
