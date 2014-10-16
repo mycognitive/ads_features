@@ -7,7 +7,6 @@
 # Use this to prepare the system to install prerequisites or dependencies.
 # Commonly used to update git repository submodules and do similar tasks that need to be performed before dependencies are installed.
 before_install:
-  - export HOST="ads.server" URL="http://$HOST/" GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=$URL" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
   - env
   - sudo sysctl kernel.hostname=$HOST
 
@@ -60,7 +59,14 @@ after_script:
 
 # Environment
 env:
-  - ADS_SEARCH=db
+  global:
+    - HOST="ads.server" URL="http://$HOST/" SRCDIR="/var/www/ads"
+    - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no "
+    - DRUSH="drush -yv -r $SRCDIR --uri=$URL"
+    - ADS="$HOME/ads" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR"
+  matrix:
+    - ADS_SEARCH=db
+    - ADS_SEARCH=solr
 
 notifications:
   email: false
