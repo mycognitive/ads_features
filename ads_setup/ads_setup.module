@@ -106,15 +106,28 @@ function ads_setup_configure($properties_path, $options = array()) {
 
   $modules = module_implements('ads_configure', TRUE);
 
-  if (!empty($options['include'])) {
-    // Including only specified modules.
-    $modules = array_intersect($modules, array_map('trim', explode(',', $options['include'])));
+  if (!empty($options['modules'])) {
+    // Narrowing down modules to specified ones only.
+    $modules = array_intersect($modules, array_map('trim', explode(',', $options['modules'])));
   }
 
   if (!empty($options['exclude'])) {
+    if (!empty($options['include'])) {
+      // Including specified modules (even if excluded).
+      $includes = array_intersect($modules, array_map('trim', explode(',', $options['include'])));
+    }
+
     // Excluding specified modules.
     $modules = array_diff($modules, array_map('trim', explode(',', $options['exclude'])));
+
+    if (isset($includes)) {
+      // Adding included modules (includes have higher priority).
+      $modules = array_merge($modules, $includes);
+    }
   }
+
+  // Getting rid of module duplicates.
+  $modules = array_unique($modules);
 
   foreach ($modules as $module_name) {
     module_invoke($module_name, 'ads_configure', $properties, isset($options['force']) ? (bool)$options['force'] : FALSE);

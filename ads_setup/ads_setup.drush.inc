@@ -18,6 +18,7 @@ function ads_setup_drush_command() {
       ),
 		),
 		'options' => array(
+      'modules' => dt('Name(s) of the module to configure.'),
       'include' => dt('Name(s) of the module to include.'),
       'exclude' => dt('Name(s) of the module(s) to exclude.'),
       'force' => dt('Forces configuration of modules even if they are already configured.'),
@@ -58,6 +59,7 @@ function ads_setup_drush_help($section) {
  */
 function ads_setup_drush_configure($properties_path) {
   ads_setup_configure($properties_path, array(
+    'modules' => drush_get_option('modules', NULL),
     'include' => drush_get_option('include', NULL),
     'exclude' => drush_get_option('exclude', NULL),
     'force' => drush_get_option('force', FALSE),
