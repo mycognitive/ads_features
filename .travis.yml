@@ -27,7 +27,7 @@ before_script:
   - ln -sv travis/travis.build.properties build.properties     # Prepare build.properties file.
   - sudo puppet apply puppet/ads.dev.configure-site.pp           # Apply webroot puppet configuration.
 # - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
-  - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
+# - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
 
 # Script
 # Main build command to run.
@@ -59,7 +59,19 @@ after_script:
 
 # Environment
 env:
-  - HOST="ads.server" URL="http://$HOST/" GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no " SRCDIR="/var/www/ads" ADS="$HOME/ads" DRUSH="drush -yv -r $SRCDIR --uri=$URL" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR" 
+  global:
+    - HOST="ads.server" URL="http://$HOST/" SRCDIR="/var/www/ads"
+    - GIT_TRACE=1 GIT_SSH="/usr/bin/ssh -oStrictHostKeyChecking=no "
+    - DRUSH="drush -yv -r $SRCDIR --uri=$URL"
+    - ADS="$HOME/ads" BASEDIR="`basename $TRAVIS_REPO_SLUG`" FORKDIR="$SRCDIR/sites/all/modules/ads/$BASEDIR"
+  matrix:
+    - ADS_SEARCH=db
+    - ADS_SEARCH=solr
+
+mysql:
+ database: travis_ads_test
+ username: root
+ encoding: utf8
 
 notifications:
   email: false
