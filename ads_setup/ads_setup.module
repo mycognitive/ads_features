@@ -102,6 +102,8 @@ function ads_setup_configure($properties_path, $options = array()) {
     }
   }
 
+  $properties['setup']['paths']['build.properties'] = realpath($properties_path);
+
   $modules = module_implements('ads_configure', TRUE);
 
   if (!empty($options['include'])) {

@@ -13,7 +13,6 @@ include_once 'ads_locations.features.inc';
  * @TODO: Country uninstallation support.
  */
 function ads_locations_ads_configure($properties, $force) {
-
   $countries = @$properties['locations']['countries'];
 
   if (empty($countries)) {
@@ -33,55 +32,87 @@ function ads_locations_ads_configure($properties, $force) {
     )));
   }
 
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+  if (!isset($properties['locations.source'])) {
+    $properties['locations.source'] = 'file';
+  }
 
   foreach ($countries as $country_name) {
-    // Country installation.
+    $country_code = drupal_strtoupper(drupal_substr($country_name, 0, 2));
+
+    // Installing country only if it's not already installed.
     if ($force || !ads_setup_is_installed('location', $country_name)) {
-      // Installing country only if it's not already installed.
-      $csv_url = 'https://raw.githubusercontent.com/nseam/ads_locations_data/master/' . drupal_substr($country_name, 0, 2) . '.csv';
+      if ($properties['locations']['source'] === 'file') {
+        $file_path = str_replace('[country]', $country_code, $properties['locations']['file']);
 
-      curl_setopt($ch, CURLOPT_URL, $csv_url);
+        if (drupal_is_cli()) {
+          drush_log(dt('ads_locations: Reading locations for the !country from "!url"...', array(
+            '!country' => $country_name,
+            '!url' => $file_path,
+          )));
+        }
+
+        if (!preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $file_path)) {
+          // It is relative path, adding path to the build.properties file as a base one.
+          $file_path = dirname($properties['setup']['paths']['build.properties']) . DIRECTORY_SEPARATOR . $file_path;
+        }
+
+        if (!file_exists($file_path))
+        {
+          // Country not found.
+          throw new Exception(t("Cannot import locations for country '!name', file \"!url\" doesn't exist", array(
+            '!name' => $country_name,
+            '!url' => $file_path,
+          )));
+        }
+
+        $csv_data = file_get_contents($file_path);
+      }
+      elseif ($properties['locations']['source'] === 'url') {
+        $file_url = str_replace('[country]', $country_code, $properties['locations']['url']);
+
+        if (drupal_is_cli()) {
+          drush_log(dt('ads_locations: Reading locations for the !country from "!url"...', array(
+            '!country' => $country_name,
+            '!url' => $file_url,
+          )));
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_URL, $file_url);
+        $csv_data = curl_exec($ch);
+
+        // Checking for vocabulary file existence.
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
+          // Country not found.
+          throw new Exception(t("Cannot import locations for country '!name', file \"!url\" doesn't exist", array(
+            '!name' => $country_name,
+            '!url' => $url,
+          )));
+        }
+
+        curl_close($ch);
+
+        if (drupal_is_cli()) {
+          // Function ran from the drush command.
+          drush_log(dt('ads_locations: Successfully downloaded locations for the !country from !url', array(
+            '!country' => $country_name,
+            '!url' => $csv_url,
+          )));
+        }
+      }
 
       if (drupal_is_cli()) {
         // Function ran from the drush command.
-        drush_log(dt('ads_locations: Downloading locations for the !country from !url...', array(
-          '!country' => $country_name,
-          '!url' => $csv_url,
-        )));
-      }
-
-      $file_data = curl_exec($ch);
-
-      // Checking for vocabulary file existence.
-      if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
-        // Country not found.
-        throw new Exception(t("Cannot import locations for country '!name', couldn't locate file !file at the ads_locations_data repository", array(
-          '!name' => $country_name,
-          '!file' => $country_name . '.csv',
-        )));
-      }
-
-      if (drupal_is_cli()) {
-        // Function ran from the drush command.
-        drush_log(dt('ads_locations: Successfully downloaded locations for the !country from !url', array(
-          '!country' => $country_name,
-          '!url' => $csv_url,
-        )));
-      }
-
-      if (drupal_is_cli()) {
-        // Function ran from the drush command.
-        drush_log(dt('ads_locations: Importing vocabulary from the downloaded file (!length bytes length)', array(
-          '!length' => drupal_strlen($file_data),
+        drush_log(dt('ads_locations: Importing vocabulary from the [downloaded] file (!length bytes length)', array(
+          '!length' => drupal_strlen($csv_data),
         )));
       }
 
       taxonomy_csv_import(array(
-        'text'              => $file_data,
+        'text'              => $csv_data,
         'vocabulary_id'     => 'locations',
         'vocabulary_target' => 'existing',
         'update_or_ignore'  => 'update',
@@ -109,8 +140,6 @@ function ads_locations_ads_configure($properties, $force) {
 
     }
   }
-
-  curl_close($ch);
 }
 
 /**
