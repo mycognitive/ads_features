@@ -53,6 +53,8 @@ function ads_setup_mark_installed($feature_name, $arg1 = NULL) {
  *     - include  Name(s) of the module to include.
  *     - exclude  Name(s) of the module(s) to exclude from [re]configuration.
  *     - force    Forces configuration of modules even if they are already configured.
+ *     - options  List of option overrides. Separated by semicolon. E.g.
+ *                "locations.countries=DE,GB;other.option=value"
  */
 function ads_setup_configure($properties_path, $options = array()) {
   if (!file_exists($properties_path)) {
@@ -62,6 +64,13 @@ function ads_setup_configure($properties_path, $options = array()) {
 
   $properties_lines = file($properties_path, FILE_IGNORE_NEW_LINES);
   $properties       = array();
+
+  if (!empty($options['options'])) {
+    // User wants to override some properties.
+    $options_overrides = explode(';', $options['options']);
+    foreach ($options_overrides as $option_override)
+      $properties_lines[] = 'project.drupal.configure.' . $option_override;
+  }
 
   foreach ($properties_lines as &$property_line) {
     $property_line_segments   = explode('#', $property_line);

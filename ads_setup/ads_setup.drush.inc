@@ -21,12 +21,14 @@ function ads_setup_drush_command() {
       'include' => dt('Name(s) of the module to include.'),
       'exclude' => dt('Name(s) of the module(s) to exclude.'),
       'force' => dt('Forces configuration of modules even if they are already configured.'),
+      'options' => dt('List of option overrides. Separated by semicolon.'),
     ),
     'description' => dt('Perform all or only the specified module [re]configuration.'),
     'examples' => array(
-      'drush ads-configure ./properties.json' => '',
-      'drush ads-configure ./properties.json ads_animals' => '',
-			'drush ads-configure ./properties.json --exclude=ads_locations,ads_homepage' => '',
+      'drush ads-configure ./build.properties' => '',
+      'drush ads-configure ./build.properties ads_animals' => '',
+			'drush ads-configure ./build.properties --exclude=ads_locations,ads_homepage' => '',
+      'drush ads-configure ./build.properties --options="locations.countries=SC,GB;locations.source.type=folder;locations.source.folder=../../dataset/cities/{country}.csv"' => '',
     ),
   );
 
@@ -39,7 +41,7 @@ function ads_setup_drush_command() {
 function ads_setup_drush_help($section) {
   switch ($section) {
     case 'ads-configure':
-      return dt("Ads module[s] [re]configuration.");
+      return dt("ADS module[s] [re]configuration.");
   }
 }
 
@@ -59,5 +61,6 @@ function ads_setup_drush_configure($properties_path) {
     'include' => drush_get_option('include', NULL),
     'exclude' => drush_get_option('exclude', NULL),
     'force' => drush_get_option('force', FALSE),
+    'options' => drush_get_option('options', NULL),
   ));
 }
