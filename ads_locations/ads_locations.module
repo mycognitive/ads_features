@@ -32,8 +32,8 @@ function ads_locations_ads_configure($properties, $force) {
     )));
   }
 
-  if (!isset($properties['locations.source'])) {
-    $properties['locations.source'] = 'file';
+  if (!isset($properties['locations']['source'])) {
+    $properties['locations']['source'] = 'file';
   }
 
   foreach ($countries as $country_name) {
