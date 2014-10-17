@@ -23,10 +23,11 @@ function ads_locations_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['distinct'] = TRUE;
+  $handler->display->display_options['query']['options']['pure_distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -78,19 +79,21 @@ function ads_locations_views_default_views() {
   $handler->display->display_options['relationships']['reverse_field_ad_location_node']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['relationships']['reverse_field_ad_location_node']['field'] = 'reverse_field_ad_location_node';
   $handler->display->display_options['relationships']['reverse_field_ad_location_node']['required'] = TRUE;
-  /* Field: Content: Path */
+  /* Field: AVG(Content: Path) */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
   $handler->display->display_options['fields']['path']['field'] = 'path';
   $handler->display->display_options['fields']['path']['relationship'] = 'reverse_field_ad_location_node';
+  $handler->display->display_options['fields']['path']['group_type'] = 'avg';
   $handler->display->display_options['fields']['path']['label'] = '';
   $handler->display->display_options['fields']['path']['exclude'] = TRUE;
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
-  /* Field: Taxonomy term: Category Icon */
+  /* Field: AVG(Taxonomy term: Category Icon) */
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['id'] = 'field_ads_cat_icon_1';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['table'] = 'field_data_field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['field'] = 'field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['relationship'] = 'parent';
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['group_type'] = 'avg';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['label'] = '';
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ads_cat_icon_1']['element_label_colon'] = FALSE;
@@ -99,10 +102,12 @@ function ads_locations_views_default_views() {
     'image_style' => 'ads_menu_category_thumbnail',
     'image_link' => '',
   );
-  /* Field: Taxonomy term: Category Icon */
+  $handler->display->display_options['fields']['field_ads_cat_icon_1']['group_column'] = 'entity_id';
+  /* Field: AVG(Taxonomy term: Category Icon) */
   $handler->display->display_options['fields']['field_ads_cat_icon']['id'] = 'field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon']['table'] = 'field_data_field_ads_cat_icon';
   $handler->display->display_options['fields']['field_ads_cat_icon']['field'] = 'field_ads_cat_icon';
+  $handler->display->display_options['fields']['field_ads_cat_icon']['group_type'] = 'avg';
   $handler->display->display_options['fields']['field_ads_cat_icon']['label'] = '';
   $handler->display->display_options['fields']['field_ads_cat_icon']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ads_cat_icon']['click_sort_column'] = 'fid';
@@ -110,6 +115,7 @@ function ads_locations_views_default_views() {
     'image_style' => 'ads_menu_category_thumbnail',
     'image_link' => '',
   );
+  $handler->display->display_options['fields']['field_ads_cat_icon']['group_column'] = 'entity_id';
   /* Field: Taxonomy term: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
@@ -173,7 +179,6 @@ function ads_locations_views_default_views() {
   $handler->display->display_options['filters']['field_ad_location_tid']['operator'] = 'not empty';
   $handler->display->display_options['filters']['field_ad_location_tid']['value'] = '';
   $handler->display->display_options['filters']['field_ad_location_tid']['reduce_duplicates'] = TRUE;
-  $handler->display->display_options['filters']['field_ad_location_tid']['type'] = 'textfield';
   $handler->display->display_options['filters']['field_ad_location_tid']['vocabulary'] = 'locations';
 
   /* Display: Block */
