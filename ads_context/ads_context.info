@@ -1,0 +1,12 @@
+name = ADS Context
+description = Provides a default contextual conditions and reactions for different portions of your site (e.g. menus, blocks, etc.).
+core = 7.x
+package = ADS Features
+version = 7.x-1.0-alpha1
+project = ads_context
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = menu
+features[ctools][] = context:context:3
+features[features_api][] = api:2
+project path = sites/all/modules/ads/ads_features

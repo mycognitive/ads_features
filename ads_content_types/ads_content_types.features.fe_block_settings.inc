@@ -39,6 +39,12 @@ function ads_content_types_default_fe_block_settings() {
         'theme' => 'seven',
         'weight' => 0,
       ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
     ),
     'title' => '',
     'visibility' => 0,

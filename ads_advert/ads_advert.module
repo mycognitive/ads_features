@@ -710,7 +710,9 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
         }
 
         if (empty($profile_address['locality'])) {
-          $profile_address['locality'] = $location['city'];
+          if (!empty($location['city'])) {
+            $profile_address['locality'] = $location['city'];
+          }
         }
       }
 

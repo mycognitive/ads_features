@@ -23,7 +23,6 @@ function ads_search_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Search Filters Facets';
-  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -37,7 +36,6 @@ function ads_search_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 20, 50, 100';
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['row_plugin'] = 'entity';
@@ -66,6 +64,7 @@ function ads_search_views_default_views() {
     'image_style' => 'ads_advert_preview',
     'image_link' => 'content',
   );
+  $handler->display->display_options['fields']['field_ad_image']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_ad_image']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_ad_image']['delta_first_last'] = TRUE;
   $handler->display->display_options['fields']['field_ad_image']['multi_type'] = 'ol';
@@ -93,8 +92,9 @@ function ads_search_views_default_views() {
   $handler->display->display_options['fields']['changed']['table'] = 'search_api_index_ads_adverts';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
   $handler->display->display_options['fields']['changed']['label'] = 'Updated';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'time ago';
-  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'days_ago';
+  $handler->display->display_options['fields']['changed']['custom_date_format'] = '0';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'time_ago';
   $handler->display->display_options['fields']['changed']['link_to_entity'] = 0;
   /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';

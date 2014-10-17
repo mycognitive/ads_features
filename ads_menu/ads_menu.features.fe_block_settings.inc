@@ -18,29 +18,35 @@ function ads_menu_default_fe_block_settings() {
     'delta' => 'menu-footer-menu',
     'module' => 'menu',
     'node_types' => array(),
-    'pages' => 'admin/*',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => 'footer',
-        'status' => 1,
-        'theme' => 'ads',
-        'weight' => -15,
-      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),
-    'title' => '<none>',
+    'title' => '',
     'visibility' => 0,
   );
 
@@ -50,25 +56,31 @@ function ads_menu_default_fe_block_settings() {
     'delta' => 1,
     'module' => 'ntm',
     'node_types' => array(),
-    'pages' => '<front>',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => 'header',
-        'status' => 1,
-        'theme' => 'ads',
-        'weight' => 0,
-      ),
       'bartik' => array(
         'region' => 'sidebar_first',
         'status' => 1,
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),
@@ -85,22 +97,28 @@ function ads_menu_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'ads',
-        'weight' => -4,
-      ),
       'bartik' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),

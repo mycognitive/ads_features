@@ -39,8 +39,33 @@ function ads_site_settings_filter_default_formats() {
           'filter_url_length' => 72,
         ),
       ),
-      'media_filter' => array(
-        'weight' => 2,
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+        'settings' => array(),
+      ),
+    ),
+  );
+
+  // Exported format: Basic Advert HTML.
+  $formats['basic_advert_html'] = array(
+    'format' => 'basic_advert_html',
+    'name' => 'Basic Advert HTML',
+    'cache' => 1,
+    'status' => 1,
+    'weight' => 0,
+    'filters' => array(
+      'filter_html' => array(
+        'weight' => -10,
+        'status' => 1,
+        'settings' => array(
+          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <img>',
+          'filter_html_help' => 1,
+          'filter_html_nofollow' => 1,
+        ),
+      ),
+      'filter_autop' => array(
+        'weight' => 0,
         'status' => 1,
         'settings' => array(),
       ),

@@ -34,9 +34,15 @@ function ads_user_default_fe_block_settings() {
         'weight' => 0,
       ),
       'seven' => array(
-        'region' => 'dashboard_main',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),

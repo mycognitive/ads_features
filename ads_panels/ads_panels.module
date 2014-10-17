@@ -5,6 +5,8 @@
  * Provides panels extensions.
  */
 
+require_once 'ads_panels.features.inc';
+
 /**
  * Implements hook_ctools_plugin_directory().
  */

@@ -1,9 +1,10 @@
-name = Ads Search
-description = Provides common components for searching.
+name = ADS Search
+description = Provides a default search integration (Search API Database or Solr).
 core = 7.x
-package = Ads Features
-version = 7.x-1.0-alpha1
+package = ADS Features
+version = 7.x-1.0-alpha1+dev
 project = ads_features
+dependencies[] = ads_date_time
 dependencies[] = ads_i18n
 dependencies[] = ads_panels
 dependencies[] = ads_theme

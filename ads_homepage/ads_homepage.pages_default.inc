@@ -89,8 +89,8 @@ function ads_homepage_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Browse by location',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -104,29 +104,6 @@ function ads_homepage_default_page_manager_pages() {
     $display->content['new-7574a09f-b736-423a-be9f-be881f7947b1'] = $pane;
     $display->panels['left'][0] = 'new-7574a09f-b736-423a-be9f-be881f7947b1';
     $pane = new stdClass();
-    $pane->pid = 'new-0504a4a2-45f3-4bac-9f36-7010e5c33669';
-    $pane->panel = 'right';
-    $pane->type = 'ads_include_page';
-    $pane->subtype = 'ads_include_page';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'page_name' => 'search_filters_top_bar',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '0504a4a2-45f3-4bac-9f36-7010e5c33669';
-    $display->content['new-0504a4a2-45f3-4bac-9f36-7010e5c33669'] = $pane;
-    $display->panels['right'][0] = 'new-0504a4a2-45f3-4bac-9f36-7010e5c33669';
-    $pane = new stdClass();
     $pane->pid = 'new-2ab2f82c-ceab-4e9b-908b-226c8e111017';
     $pane->panel = 'right';
     $pane->type = 'block';
@@ -136,8 +113,8 @@ function ads_homepage_default_page_manager_pages() {
       'plugins' => array(),
     );
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Browse by category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -146,11 +123,11 @@ function ads_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '2ab2f82c-ceab-4e9b-908b-226c8e111017';
     $display->content['new-2ab2f82c-ceab-4e9b-908b-226c8e111017'] = $pane;
-    $display->panels['right'][1] = 'new-2ab2f82c-ceab-4e9b-908b-226c8e111017';
+    $display->panels['right'][0] = 'new-2ab2f82c-ceab-4e9b-908b-226c8e111017';
     $pane = new stdClass();
     $pane->pid = 'new-6bde77de-d2f8-4b76-9123-29b231b37ef2';
     $pane->panel = 'right';
@@ -180,11 +157,34 @@ function ads_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '6bde77de-d2f8-4b76-9123-29b231b37ef2';
     $display->content['new-6bde77de-d2f8-4b76-9123-29b231b37ef2'] = $pane;
-    $display->panels['right'][2] = 'new-6bde77de-d2f8-4b76-9123-29b231b37ef2';
+    $display->panels['right'][1] = 'new-6bde77de-d2f8-4b76-9123-29b231b37ef2';
+    $pane = new stdClass();
+    $pane->pid = 'new-0504a4a2-45f3-4bac-9f36-7010e5c33669';
+    $pane->panel = 'top';
+    $pane->type = 'ads_include_page';
+    $pane->subtype = 'ads_include_page';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'page_name' => 'search_filters_top_bar',
+      'override_title' => 1,
+      'override_title_text' => 'Search',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '0504a4a2-45f3-4bac-9f36-7010e5c33669';
+    $display->content['new-0504a4a2-45f3-4bac-9f36-7010e5c33669'] = $pane;
+    $display->panels['top'][0] = 'new-0504a4a2-45f3-4bac-9f36-7010e5c33669';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-2ab2f82c-ceab-4e9b-908b-226c8e111017';
   $handler->conf['display'] = $display;
