@@ -26,14 +26,19 @@ $locationsListCityFontSize:      $base-font-size;
     position: relative;
     padding: $locationsListCountryPadding;
     font-size: $locationsListCountryFontSize;
-    
+    margin-bottom: 5px;
+
     @include vertical-gradient(#f4f4f4, #eee);
     @include border-radius(4px, 4px);
     @include nowrap;
-    
+
+    &.open {
+      @include vertical-gradient(#F1E2CD, #E3D4C3);
+    }
+
     .title {
     }
-    
+
     .arrow {
       @include image-float-right("../images/icon-plus-black.gif", 16px, 16px, 25%, 6px);
     }
@@ -41,7 +46,7 @@ $locationsListCityFontSize:      $base-font-size;
     &.open .arrow {
       @include image-float-right("../images/icon-minus-black.gif", 16px, 16px, 25%, 6px);
     }
-    
+
     &:hover {
       @include vertical-gradient(#f0f0f0, #ddd);
     }
@@ -50,10 +55,10 @@ $locationsListCityFontSize:      $base-font-size;
       @include vertical-gradient(#ddd, #c8c8c8);
     }
   }
-  
+
   .regions {
     padding: 4px 0 4px 10px;
-  
+
     .region-title {
       line-height: $baseLineHeight;
       padding: $locationsListRegionPadding;
@@ -64,19 +69,19 @@ $locationsListCityFontSize:      $base-font-size;
       a {
         text-decoration: none;
       }
-      
+
       &.open {
-        
+
       }
-      
+
       .arrow {
         @include image-float-normal("../images/icon-arrow-right-black.gif", 16px, 16px, 50%);
       }
-      
+
       &.open .arrow {
         @include image-float-normal("../images/icon-arrow-down-black.gif", 16px, 16px, 50%);
       }
-      
+
       &:hover {
         cursor: pointer;
         text-decoration: none;

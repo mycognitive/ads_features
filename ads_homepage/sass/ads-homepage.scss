@@ -1,21 +1,21 @@
-@import theme/all;
+@import theme/settings;
 
 body.page-homepage {
 	.panel-col-first {
   	width: 24%;
   	margin: 0;
   	padding: 0;
-  	
+
     > .inside {
     	margin: 0;
     }
   }
-  
+
   .panel-col-last {
  	  width: 76%;
     margin: 0;
     padding: 0;
-    
+
     > .inside {
     	padding: 16px 16px;
     	margin: 0;
@@ -23,10 +23,12 @@ body.page-homepage {
   }
 }
 
-.view-categories-grouped {
+.ads-homepage-category-group {
+  width: 200px;
+}
 
+.view-categories-grouped {
   padding: 10px 0 0 0;
-  
 
   > .view-content > div.item-list {
     /* Forcing categories to fill all possible columns */
@@ -38,7 +40,6 @@ body.page-homepage {
   /* Category icon. */
   img {
     margin-right: 5px;
-    vertical-align: -15%;
   }
 
   // Category title.
@@ -46,10 +47,10 @@ body.page-homepage {
     color: #000;
     font-weight: bold;
     margin: 14px 0px 4px 0px;
-    padding: 6px 8px 8px 5px;
+    line-height: $base-font-size + 10px;
     white-space: nowrap;
     word-wrap: normal;
-  
+
   }
 
   // Category icon.
@@ -69,14 +70,18 @@ body.page-homepage {
   li {
     clear: left;
     margin-left: 23px;
-    
+
     a {
-      line-height: $fontNormalSize + 8px;
-      font-size: $fontNormalSize;
+      line-height: $base-font-size + 20px;
+      text-decoration: none;
+      &:hover {
+        color: #000;
+        text-decoration: underline;
+      }
     }
-    
+
   }
-  
-  
+
+
 }
 

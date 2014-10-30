@@ -4,5 +4,7 @@ core = 7.x
 package = ADS Features
 version = 7.x-1.0-alpha1+dev
 project = ads_features
+dependencies[] = sassy
+dependencies[] = sassy_compass
 features[features_api][] = api:2
 project path = sites/all/modules/ads/ads_features
