@@ -4,6 +4,8 @@
  * Ads Theme module.
  */
 
+require_once 'ads_theme.features.inc';
+
 global $ads_theme_css_list;
 
 define ('ADS_THEME_FIND_SASS', 'sass');
