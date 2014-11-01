@@ -2,7 +2,6 @@ name = ADS Setup
 description = Provides a default post-installation settings.
 core = 7.x
 package = ADS Features
-version = 7.x-1.0-alpha1
 project = ads_features
 dependencies[] = features
 features[features_api][] = api:2

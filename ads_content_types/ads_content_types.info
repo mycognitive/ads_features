@@ -2,7 +2,6 @@ name = ADS Content Types
 description = Defines Advert content type.
 core = 7.x
 package = ADS Features
-version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = addressfield
 dependencies[] = ads_advert

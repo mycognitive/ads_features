@@ -2,7 +2,6 @@ name = ADS User
 description = Provides user-related functionality, fields and settings.
 core = 7.x
 package = ADS Features
-version = 7.x-1.0-alpha1
 project = ads_features
 dependencies[] = addressfield
 dependencies[] = ctools
