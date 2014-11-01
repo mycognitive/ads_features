@@ -4,6 +4,8 @@
  * Ads Theme module.
  */
 
+require_once 'ads_theme.features.inc';
+
 global $ads_theme_css_list;
 
 define ('ADS_THEME_FIND_SASS', 'sass');
@@ -75,14 +77,14 @@ function ads_theme_add_js($path) {
 }
 
 /**
- * Implements hook_sassy_reolve_path_HOOK().
+ * Implements hook_sassy_resolve_path_HOOK().
  *
  * Allows @import theme/path_to_file_under_current_theme_sass_folder
  */
 function ads_theme_sassy_resolve_path_theme($filename) {
   global $theme;
 
-  $path      = drupal_get_path('theme', $theme) . '/sass/' . $filename;
+  $path      = drupal_get_path('theme', 'ads') . '/sass/' . $filename;
   $file_name = pathinfo($path, PATHINFO_FILENAME);
   $path      = dirname($path);
 

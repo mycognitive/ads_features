@@ -2,7 +2,6 @@ name = ADS Points
 description = Provides a default integration for users to gain points for adding adverts and other actions.
 core = 7.x
 package = ADS Features
-version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = entity
 dependencies[] = features

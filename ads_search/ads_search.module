@@ -265,6 +265,7 @@ function ads_search_ctools_render_alter($info, $page, $context) {
  * @param array $vars
  */
 function ads_search_preprocess_ads_search_results_listing(&$vars) {
+  die ('ok');
   ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-results-listing.scss', ADS_THEME_FIND_SASS));
 
   $items = array();

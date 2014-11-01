@@ -2,7 +2,6 @@ name = ADS Date/Time
 description = Provides date and time formatters for ADS distribution
 core = 7.x
 package = ADS Features
-version = 7.x-1.0-alpha1+dev
 project = ads_features
 dependencies[] = ctools
 dependencies[] = strongarm

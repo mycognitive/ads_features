@@ -1,20 +1,24 @@
-@import theme/all;
+@import theme/settings;
 
-div.ads-search-results-listing table {
+.view-ads-search-results table {
 
   width: 100%;
   border-spacing: 0px;
   border-collapse: collapse;
-  
+
+  ol {
+    list-style: none;
+  }
+
   th,
   td {
     padding: 8px 8px;
   }
-  
+
   th {
     border-bottom: 1px solid #ddd;
   }
-  
+
   th.image {
     width: 100px;
   }
@@ -35,31 +39,31 @@ div.ads-search-results-listing table {
       font-weight: bold;
       color: #17f;
     }
-  
+
     div.teaser {
       line-height: 16px;
       font-size: 11px;
     }
-    
+
     div.location {
       font-size: 11px;
     }
   }
-  
+
   .date-added {
     font-size: 11px;
     white-space: nowrap;
   }
-  
+
   td.price {
     font-size: 15px;
     font-weight: bold;
     white-space: nowrap;
-    
+
     span.currency {
       color: #555;
     }
-    
+
     span.amount {
     }
   }
