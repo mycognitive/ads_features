@@ -14,6 +14,7 @@ function ads_content_types_default_fe_block_settings() {
 
   $export['views-fivestar-block'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'fivestar-block',
     'module' => 'views',
@@ -33,10 +34,16 @@ function ads_content_types_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
         'weight' => 0,
       ),
       'zen' => array(

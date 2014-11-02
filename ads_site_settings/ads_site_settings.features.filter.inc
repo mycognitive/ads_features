@@ -16,7 +16,7 @@ function ads_site_settings_filter_default_formats() {
     'name' => 'Advert HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 0,
+    'weight' => -9,
     'filters' => array(
       'filter_html' => array(
         'weight' => -10,
@@ -53,7 +53,7 @@ function ads_site_settings_filter_default_formats() {
     'name' => 'Basic Advert HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 0,
+    'weight' => -7,
     'filters' => array(
       'filter_html' => array(
         'weight' => -10,
@@ -83,7 +83,7 @@ function ads_site_settings_filter_default_formats() {
     'name' => 'Filtered HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 0,
+    'weight' => -8,
     'filters' => array(
       'filter_url' => array(
         'weight' => 0,
@@ -120,7 +120,7 @@ function ads_site_settings_filter_default_formats() {
     'name' => 'Full HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 1,
+    'weight' => -6,
     'filters' => array(
       'filter_url' => array(
         'weight' => 0,

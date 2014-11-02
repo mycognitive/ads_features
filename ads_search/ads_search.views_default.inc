@@ -108,13 +108,19 @@ function ads_search_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['group'] = 1;
   $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Keywords:';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Find:';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'keywords';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
+    9 => 0,
+    7 => 0,
     3 => 0,
+    8 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
   );
 
   /* Display: Content pane */
@@ -197,7 +203,7 @@ function ads_search_views_default_views() {
     t('Title'),
     t('Price'),
     t('Updated'),
-    t('Keywords:'),
+    t('Find:'),
     t('Content pane'),
     t('ADS Views'),
   );

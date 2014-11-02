@@ -22,22 +22,22 @@ function ads_taxonomy_taxonomy_default_vocabularies() {
     'locations' => array(
       'name' => 'Locations',
       'machine_name' => 'locations',
-      'description' => NULL,
-      'hierarchy' => 1,
+      'description' => '',
+      'hierarchy' => 2,
       'module' => '',
       'weight' => 0,
       'language' => 'und',
-      'i18n_mode' => 0,
+      'i18n_mode' => 1,
     ),
     'places' => array(
       'name' => 'Places',
       'machine_name' => 'places',
-      'description' => NULL,
-      'hierarchy' => 0,
+      'description' => 'Type of places.',
+      'hierarchy' => 1,
       'module' => '',
       'weight' => 0,
       'language' => 'und',
-      'i18n_mode' => 0,
+      'i18n_mode' => 4,
     ),
   );
 }

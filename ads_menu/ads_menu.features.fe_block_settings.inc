@@ -14,6 +14,7 @@ function ads_menu_default_fe_block_settings() {
 
   $export['menu-menu-footer-menu'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'menu-footer-menu',
     'module' => 'menu',
@@ -46,12 +47,13 @@ function ads_menu_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => '',
+    'title' => '<none>',
     'visibility' => 0,
   );
 
   $export['ntm-1'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 1,
     'module' => 'ntm',
@@ -84,12 +86,13 @@ function ads_menu_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => 'Categories',
+    'title' => '',
     'visibility' => 0,
   );
 
   $export['system-main-menu'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'main-menu',
     'module' => 'system',

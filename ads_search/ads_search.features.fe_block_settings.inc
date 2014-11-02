@@ -14,6 +14,7 @@ function ads_search_default_fe_block_settings() {
 
   $export['facetapi-GLow6e2NSrErmpH4NJVR8daltTHNsTAb'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'GLow6e2NSrErmpH4NJVR8daltTHNsTAb',
     'module' => 'facetapi',
@@ -25,7 +26,7 @@ function ads_search_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'ads',
-        'weight' => 0,
+        'weight' => -9,
       ),
       'bartik' => array(
         'region' => '',
@@ -33,10 +34,22 @@ function ads_search_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),
@@ -46,6 +59,7 @@ function ads_search_default_fe_block_settings() {
 
   $export['views-892bf6e56abdd4696e4aeadf07055edb'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => '892bf6e56abdd4696e4aeadf07055edb',
     'module' => 'views',
@@ -55,9 +69,9 @@ function ads_search_default_fe_block_settings() {
     'themes' => array(
       'ads' => array(
         'region' => '',
-        'status' => 0,
+        'status' => 1,
         'theme' => 'ads',
-        'weight' => 0,
+        'weight' => -13,
       ),
       'bartik' => array(
         'region' => '',
@@ -65,10 +79,22 @@ function ads_search_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
         'weight' => 0,
       ),
     ),

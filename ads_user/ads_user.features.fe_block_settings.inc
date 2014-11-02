@@ -14,6 +14,7 @@ function ads_user_default_fe_block_settings() {
 
   $export['views-391bc7d9df1c7c8351435dcbc247dc89'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => '391bc7d9df1c7c8351435dcbc247dc89',
     'module' => 'views',
@@ -25,7 +26,7 @@ function ads_user_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'ads',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'bartik' => array(
         'region' => '',
@@ -33,15 +34,21 @@ function ads_user_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'seven' => array(
+      'rubik' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'seven',
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'tao' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'tao',
         'weight' => 0,
       ),
       'zen' => array(
-        'region' => 'content',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'zen',
         'weight' => 0,
       ),
