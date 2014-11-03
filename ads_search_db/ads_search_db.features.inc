@@ -41,15 +41,15 @@ function ads_search_db_default_search_api_server() {
             "boost" : "1.0"
           },
           "field_ad_category" : {
-            "table" : "search_api_db_ads_adverts",
+            "table" : "search_api_db_ads_adverts_field_ad_category",
             "column" : "field_ad_category",
-            "type" : "integer",
+            "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           },
           "field_ad_location" : {
-            "table" : "search_api_db_ads_adverts",
+            "table" : "search_api_db_ads_adverts_field_ad_location",
             "column" : "field_ad_location",
-            "type" : "integer",
+            "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           },
           "field_ad_category_node_ref" : {
@@ -71,33 +71,33 @@ function ads_search_db_default_search_api_server() {
             "boost" : "1.0"
           },
           "field_ad_category:tid" : {
-            "table" : "search_api_db_ads_adverts",
+            "table" : "search_api_db_ads_adverts_field_ad_category_tid",
             "column" : "field_ad_category_tid",
-            "type" : "integer",
+            "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           },
           "field_ad_category:name" : {
-            "table" : "search_api_db_ads_adverts",
+            "table" : "search_api_db_ads_adverts_field_ad_category_name",
             "column" : "field_ad_category_name",
-            "type" : "string",
+            "type" : "list\\u003Cstring\\u003E",
             "boost" : "1.0"
           },
           "field_ad_category:parent" : {
             "table" : "search_api_db_ads_adverts_field_ad_category_parent",
             "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
+            "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
             "boost" : "1.0"
           },
           "field_ad_category:parents_all" : {
             "table" : "search_api_db_ads_adverts_field_ad_category_parents_all",
             "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
+            "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
             "boost" : "1.0"
           },
           "field_ad_location:name" : {
-            "table" : "search_api_db_ads_adverts",
+            "table" : "search_api_db_ads_adverts_field_ad_location_name",
             "column" : "field_ad_location_name",
-            "type" : "string",
+            "type" : "list\\u003Cstring\\u003E",
             "boost" : "1.0"
           },
           "field_ad_category_node_ref:nid" : {

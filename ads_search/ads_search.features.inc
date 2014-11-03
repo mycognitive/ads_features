@@ -79,15 +79,21 @@ function ads_search_default_search_api_index() {
       "fields" : {
         "body:summary" : { "type" : "text", "boost" : "0.1" },
         "body:value" : { "type" : "text", "boost" : "0.1" },
-        "field_ad_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ad_category:name" : { "type" : "string" },
-        "field_ad_category:parent" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ad_category:parents_all" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ad_category:tid" : { "type" : "integer" },
+        "field_ad_category" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ad_category:name" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_ad_category:parent" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
+        "field_ad_category:parents_all" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
+        "field_ad_category:tid" : { "type" : "list\\u003Cinteger\\u003E" },
         "field_ad_category_node_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_ad_category_node_ref:nid" : { "type" : "list\\u003Cinteger\\u003E" },
-        "field_ad_location" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ad_location:name" : { "type" : "string" },
+        "field_ad_location" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ad_location:name" : { "type" : "list\\u003Cstring\\u003E" },
         "field_level_1_field" : { "type" : "decimal" },
         "field_level_2_field" : { "type" : "decimal" },
         "nid" : { "type" : "integer" },
@@ -100,39 +106,31 @@ function ads_search_default_search_api_index() {
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
-          "settings" : {
-            "default" : "1",
-            "bundles" : {
-              "article" : "article",
-              "page" : "page",
-              "cv" : "cv",
-              "employer" : "employer",
-              "estate_agency" : "estate_agency",
-              "job" : "job",
-              "job_application" : "job_application",
-              "job_per_file" : "job_per_file",
-              "job_per_link" : "job_per_link",
-              "job_per_template" : "job_per_template",
-              "landlord" : "landlord",
-              "property" : "property"
-            }
-          }
+          "settings" : { "default" : "0", "bundles" : { "advert" : "advert" } }
         },
         "search_api_alter_node_status" : { "status" : 1, "weight" : "0", "settings" : [] },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
         "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } }
+        "search_api_alter_add_hierarchy" : {
+          "status" : 1,
+          "weight" : "0",
+          "settings" : { "fields" : {
+              "field_ad_category:parents_all" : "field_ad_category:parents_all",
+              "field_ad_location:parents_all" : "field_ad_location:parents_all"
+            }
+          }
+        }
       },
       "processors" : {
         "search_api_case_ignore" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "0",
           "settings" : { "fields" : { "title" : true, "body:value" : true, "body:summary" : true } }
         },
         "search_api_html_filter" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "10",
           "settings" : {
             "fields" : { "title" : true, "body:value" : true, "body:summary" : true },
@@ -142,7 +140,7 @@ function ads_search_default_search_api_index() {
           }
         },
         "search_api_tokenizer" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "20",
           "settings" : {
             "fields" : { "title" : true, "body:value" : true, "body:summary" : true },
@@ -151,7 +149,7 @@ function ads_search_default_search_api_index() {
           }
         },
         "search_api_stopwords" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "30",
           "settings" : {
             "fields" : { "title" : true, "body:value" : true, "body:summary" : true },
@@ -160,13 +158,14 @@ function ads_search_default_search_api_index() {
           }
         },
         "search_api_highlighting" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "35",
           "settings" : {
             "prefix" : "\\u003Cstrong\\u003E",
             "suffix" : "\\u003C\\/strong\\u003E",
             "excerpt" : 1,
             "excerpt_length" : "256",
+            "exclude_fields" : [],
             "highlight" : "always"
           }
         }
