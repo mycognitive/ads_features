@@ -29,15 +29,5 @@ function ads_taxonomy_taxonomy_default_vocabularies() {
       'language' => 'und',
       'i18n_mode' => 1,
     ),
-    'places' => array(
-      'name' => 'Places',
-      'machine_name' => 'places',
-      'description' => 'Type of places.',
-      'hierarchy' => 1,
-      'module' => '',
-      'weight' => 0,
-      'language' => 'und',
-      'i18n_mode' => 4,
-    ),
   );
 }

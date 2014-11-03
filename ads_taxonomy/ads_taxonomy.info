@@ -1,5 +1,5 @@
 name = ADS Taxonomy
-description = Provides a default fields and settings for taxonomies (Categories, Locations and Places).
+description = Provides a default fields and settings for taxonomies (Categories, Locations).
 core = 7.x
 package = ADS Features
 project = ads_features
@@ -19,7 +19,6 @@ features[field_instance][] = taxonomy_term-categories-field_ads_cat_image
 features[field_instance][] = taxonomy_term-categories-field_cat_content_type
 features[taxonomy][] = categories
 features[taxonomy][] = locations
-features[taxonomy][] = places
 features_exclude[field][taxonomy_term-categories-field_cat_content_type] = taxonomy_term-categories-field_cat_content_type
 features_exclude[field][taxonomy_term-categories-field_ads_cat_image] = taxonomy_term-categories-field_ads_cat_image
 features_exclude[field][taxonomy_term-categories-field_ads_cat_icon] = taxonomy_term-categories-field_ads_cat_icon
