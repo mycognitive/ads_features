@@ -6,6 +6,7 @@ project = ads_features
 dependencies[] = bundle_name_reference
 dependencies[] = features
 dependencies[] = image
+dependencies[] = link
 dependencies[] = list
 dependencies[] = options
 dependencies[] = taxonomy
