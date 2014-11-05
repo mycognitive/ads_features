@@ -167,7 +167,7 @@ function ads_homepage_default_page_manager_pages() {
     $pane->panel = 'top';
     $pane->type = 'ads_include_page';
     $pane->subtype = 'ads_include_page';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'page_name' => 'search_filters_top_bar',

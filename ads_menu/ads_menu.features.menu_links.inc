@@ -10,6 +10,66 @@
 function ads_menu_menu_default_menu_links() {
   $menu_links = array();
 
+  // Exported menu link: menu-ads-user-menu_add-advert:advert/add
+  $menu_links['menu-ads-user-menu_add-advert:advert/add'] = array(
+    'menu_name' => 'menu-ads-user-menu',
+    'link_path' => 'advert/add',
+    'router_path' => 'advert/add',
+    'link_title' => 'Add Advert',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'menu-ads-user-menu_add-advert:advert/add',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-ads-user-menu_login:user/login
+  $menu_links['menu-ads-user-menu_login:user/login'] = array(
+    'menu_name' => 'menu-ads-user-menu',
+    'link_path' => 'user/login',
+    'router_path' => 'user/login',
+    'link_title' => 'Login',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'menu-ads-user-menu_login:user/login',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 1,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-ads-user-menu_logout:user/logout
+  $menu_links['menu-ads-user-menu_logout:user/logout'] = array(
+    'menu_name' => 'menu-ads-user-menu',
+    'link_path' => 'user/logout',
+    'router_path' => 'user/logout',
+    'link_title' => 'Logout',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'menu-ads-user-menu_logout:user/logout',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+    'customized' => 1,
+  );
   // Exported menu link: menu-anonymous-menu_post-an-ad:advert/add
   $menu_links['menu-anonymous-menu_post-an-ad:advert/add'] = array(
     'menu_name' => 'menu-anonymous-menu',
@@ -152,9 +212,12 @@ function ads_menu_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Add Advert');
   t('Contact Admin');
   t('Cookies Policy');
   t('Give feedback');
+  t('Login');
+  t('Logout');
   t('Post an Ad');
   t('Register');
   t('Sign In');
