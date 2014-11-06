@@ -60,7 +60,7 @@ function ads_content_types_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => -4,
+      'weight' => 10,
     ),
   );
 
@@ -127,7 +127,7 @@ function ads_content_types_field_default_field_instances() {
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => 31,
+      'weight' => 13,
     ),
   );
 
@@ -136,7 +136,7 @@ function ads_content_types_field_default_field_instances() {
     'bundle' => 'advert',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Select a category.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -167,13 +167,10 @@ function ads_content_types_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'taxonomy',
-      'settings' => array(
-        'autocomplete_path' => 'taxonomy/autocomplete',
-        'size' => 60,
-      ),
-      'type' => 'taxonomy_autocomplete',
+      'active' => 1,
+      'module' => 'hs_taxonomy',
+      'settings' => array(),
+      'type' => 'taxonomy_hs',
       'weight' => 7,
     ),
   );
@@ -259,7 +256,7 @@ function ads_content_types_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 34,
+      'weight' => 14,
     ),
   );
 
@@ -304,7 +301,7 @@ function ads_content_types_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 35,
+      'weight' => 15,
     ),
   );
 
@@ -312,7 +309,7 @@ function ads_content_types_field_default_field_instances() {
   $field_instances['node-advert-field_ad_image'] = array(
     'bundle' => 'advert',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Please upload images if any.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -350,7 +347,7 @@ function ads_content_types_field_default_field_instances() {
       'max_filesize' => '',
       'max_resolution' => '1600x1200',
       'min_resolution' => '',
-      'title_field' => 0,
+      'title_field' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -361,7 +358,7 @@ function ads_content_types_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 2,
+      'weight' => 8,
     ),
   );
 
@@ -420,7 +417,7 @@ function ads_content_types_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 0,
+      'weight' => 12,
     ),
   );
 
@@ -486,9 +483,19 @@ function ads_content_types_field_default_field_instances() {
   // Exported field_instance: 'node-advert-field_ad_location'
   $field_instances['node-advert-field_ad_location'] = array(
     'bundle' => 'advert',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'tid' => 1020,
+      ),
+      1 => array(
+        'tid' => 1021,
+      ),
+      2 => array(
+        'tid' => 1022,
+      ),
+    ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Please select a location.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -519,17 +526,10 @@ function ads_content_types_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'shs' => array(
-          'create_new_levels' => 0,
-          'create_new_terms' => 0,
-          'force_deepest' => 0,
-          'node_count' => 0,
-        ),
-      ),
-      'type' => 'options_select',
-      'weight' => -1,
+      'module' => 'hs_taxonomy',
+      'settings' => array(),
+      'type' => 'taxonomy_hs',
+      'weight' => 4,
     ),
   );
 
@@ -839,14 +839,19 @@ function ads_content_types_field_default_field_instances() {
         'use_tel_input' => 1,
       ),
       'type' => 'phone',
-      'weight' => -3,
+      'weight' => 11,
     ),
   );
 
   // Exported field_instance: 'node-advert-field_ad_price'
   $field_instances['node-advert-field_ad_price'] = array(
     'bundle' => 'advert',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'amount' => 0,
+        'currency' => 'GBP',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -970,12 +975,12 @@ function ads_content_types_field_default_field_instances() {
             'ESB' => 0,
             'ESP' => 0,
             'ETB' => 0,
-            'EUR' => 0,
+            'EUR' => 'EUR',
             'FIM' => 0,
             'FJD' => 0,
             'FKP' => 0,
             'FRF' => 0,
-            'GBP' => 0,
+            'GBP' => 'GBP',
             'GEL' => 0,
             'GHC' => 0,
             'GHS' => 0,
@@ -1176,11 +1181,11 @@ function ads_content_types_field_default_field_instances() {
           ),
         ),
         'currency_display_mode' => 'a|+|c',
-        'currency_select_mode' => 'name',
+        'currency_select_mode' => 'code',
         'decimals_display_mode' => 'field',
       ),
       'type' => 'money_widget',
-      'weight' => -2,
+      'weight' => 3,
     ),
   );
 
@@ -1459,8 +1464,11 @@ function ads_content_types_field_default_field_instances() {
   t('Link');
   t('Location');
   t('Phone');
+  t('Please select a location.');
+  t('Please upload images if any.');
   t('Preferred method of contact');
   t('Price');
+  t('Select a category.');
   t('Source');
   t('Your e-mail address for advert contact.');
 

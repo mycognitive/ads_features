@@ -12,6 +12,7 @@ dependencies[] = fe_block
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = fivestar
+dependencies[] = hs_taxonomy
 dependencies[] = i18n_taxonomy
 dependencies[] = image
 dependencies[] = lightbox2

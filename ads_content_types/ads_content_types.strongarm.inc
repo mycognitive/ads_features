@@ -38,7 +38,7 @@ function ads_content_types_strongarm() {
           'weight' => '0',
         ),
         'title' => array(
-          'weight' => '-3',
+          'weight' => '9',
         ),
         'path' => array(
           'weight' => '30',

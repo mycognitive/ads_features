@@ -65,7 +65,7 @@ function ads_content_types_field_default_field_bases() {
   // Exported field_base: 'field_ad_category'
   $field_bases['field_ad_category'] = array(
     'active' => 1,
-    'cardinality' => 1,
+    'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ad_category',
@@ -92,6 +92,7 @@ function ads_content_types_field_default_field_bases() {
         ),
       ),
       'options_list_callback' => 'i18n_taxonomy_allowed_values',
+      'profile2_private' => FALSE,
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
@@ -179,7 +180,7 @@ function ads_content_types_field_default_field_bases() {
   // Exported field_base: 'field_ad_image'
   $field_bases['field_ad_image'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 3,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ad_image',
@@ -200,6 +201,7 @@ function ads_content_types_field_default_field_bases() {
     'module' => 'image',
     'settings' => array(
       'default_image' => 0,
+      'profile2_private' => FALSE,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
@@ -269,7 +271,7 @@ function ads_content_types_field_default_field_bases() {
   // Exported field_base: 'field_ad_location'
   $field_bases['field_ad_location'] = array(
     'active' => 1,
-    'cardinality' => 1,
+    'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ad_location',
@@ -296,6 +298,7 @@ function ads_content_types_field_default_field_bases() {
         ),
       ),
       'options_list_callback' => 'i18n_taxonomy_allowed_values',
+      'profile2_private' => FALSE,
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
@@ -343,6 +346,7 @@ function ads_content_types_field_default_field_bases() {
       'max' => 99999999.99,
       'min' => -99999999.99,
       'precision' => 10,
+      'profile2_private' => FALSE,
       'scale' => 2,
     ),
     'translatable' => 0,

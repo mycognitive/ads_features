@@ -26,7 +26,7 @@ function ads_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'ads',
-        'weight' => 0,
+        'weight' => 12,
       ),
       'bartik' => array(
         'region' => '',
