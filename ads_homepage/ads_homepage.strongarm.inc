@@ -210,7 +210,7 @@ function ads_homepage_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'superfish_menu_1';
-  $strongarm->value = 'menu-ads-user-menu:0';
+  $strongarm->value = 'main-menu:0';
   $export['superfish_menu_1'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -378,7 +378,7 @@ function ads_homepage_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'superfish_style_1';
-  $strongarm->value = 'default';
+  $strongarm->value = 'none';
   $export['superfish_style_1'] = $strongarm;
 
   $strongarm = new stdClass();

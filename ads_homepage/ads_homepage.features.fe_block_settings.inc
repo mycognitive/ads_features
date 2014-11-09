@@ -22,17 +22,11 @@ function ads_homepage_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'ads',
-        'weight' => 0,
-      ),
       'ads_tm_inter_comf' => array(
         'region' => 'menu',
         'status' => 1,
         'theme' => 'ads_tm_inter_comf',
-        'weight' => 0,
+        'weight' => -20,
       ),
       'bartik' => array(
         'region' => '',
