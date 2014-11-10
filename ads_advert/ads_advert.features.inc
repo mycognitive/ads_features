@@ -21,9 +21,9 @@ function ads_advert_default_Workflow() {
       "27" : {"sid":"27","wid":"4","weight":"0","sysid":"0","state":"draft","status":"1","name":"draft"},
       "28" : {"sid":"28","wid":"4","weight":"0","sysid":"0","state":"needs_approval","status":"1","name":"needs_approval"},
       "29" : {"sid":"29","wid":"4","weight":"0","sysid":"0","state":"needs_editing","status":"1","name":"needs_editing"},
-      "30" : {"sid":"30","wid":"4","weight":"0","sysid":"0","state":"processing_","status":"1","name":"processing_"},
-      "31" : {"sid":"31","wid":"4","weight":"0","sysid":"0","state":"expired_","status":"1","name":"expired_"},
-      "32" : {"sid":"32","wid":"4","weight":"0","sysid":"0","state":"removed_","status":"1","name":"removed_"}
+      "30" : {"sid":"30","wid":"4","weight":"0","sysid":"0","state":"processing","status":"1","name":"processing"},
+      "31" : {"sid":"31","wid":"4","weight":"0","sysid":"0","state":"expired","status":"1","name":"expired"},
+      "32" : {"sid":"32","wid":"4","weight":"0","sysid":"0","state":"removed","status":"1","name":"removed"}
     },
     "transitions" : {
       "175" : {"tid":"175","sid":"25","target_sid":"28","roles":{"-1":-1,"3":"3"},"wid":"4","name":"10_13","label":""},
