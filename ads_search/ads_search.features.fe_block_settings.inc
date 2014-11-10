@@ -22,12 +22,6 @@ function ads_search_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'ads',
-        'weight' => -9,
-      ),
       'ads_tm_inter_comf' => array(
         'region' => '',
         'status' => 0,
@@ -73,12 +67,6 @@ function ads_search_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
-        'region' => '',
-        'status' => 1,
-        'theme' => 'ads',
-        'weight' => -13,
-      ),
       'ads_tm_inter_comf' => array(
         'region' => 'user_menu',
         'status' => 1,

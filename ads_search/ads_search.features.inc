@@ -23,10 +23,7 @@ function ads_search_ctools_plugin_api($module = NULL, $api = NULL) {
  * Implements hook_views_api().
  */
 function ads_search_views_api($module = NULL, $api = NULL) {
-  return array(
-    "api" => "3.0",
-    'template path' => drupal_get_path('module', 'ads_search') . '/theme',
-  );
+  return array("api" => "3.0");
 }
 
 /**
@@ -77,8 +74,11 @@ function ads_search_default_search_api_index() {
       "index_directly" : 1,
       "cron_limit" : "50",
       "fields" : {
+        "author" : { "type" : "integer", "entity_type" : "user" },
         "body:summary" : { "type" : "text", "boost" : "0.1" },
         "body:value" : { "type" : "text", "boost" : "0.1" },
+        "changed" : { "type" : "date" },
+        "created" : { "type" : "date" },
         "field_ad_category" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "field_ad_category:name" : { "type" : "list\\u003Cstring\\u003E" },
         "field_ad_category:parent" : {
@@ -93,12 +93,25 @@ function ads_search_default_search_api_index() {
         "field_ad_category_node_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_ad_category_node_ref:nid" : { "type" : "list\\u003Cinteger\\u003E" },
         "field_ad_location" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ad_location:field_region_type" : { "type" : "list\\u003Cstring\\u003E" },
         "field_ad_location:name" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_ad_location:parent" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
+        "field_ad_location:parents_all" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
         "field_level_1_field" : { "type" : "decimal" },
         "field_level_2_field" : { "type" : "decimal" },
+        "field_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "language" : { "type" : "string" },
         "nid" : { "type" : "integer" },
+        "promote" : { "type" : "boolean" },
         "search_api_language" : { "type" : "string" },
         "status" : { "type" : "integer", "boost" : "0.1" },
+        "sticky" : { "type" : "boolean" },
         "title" : { "type" : "text", "boost" : "0.1" }
       },
       "data_alter_callbacks" : {

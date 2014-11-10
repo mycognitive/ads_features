@@ -140,6 +140,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:author'] = $facet;
 
@@ -592,6 +594,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_location:parents_all'] = $facet;
 
