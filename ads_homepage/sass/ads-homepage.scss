@@ -72,7 +72,7 @@ body.page-homepage {
     margin-left: 23px;
 
     a {
-      line-height: $base-font-size + 20px;
+      line-height: $base-font-size;
       text-decoration: none;
       &:hover {
         color: #000;
@@ -81,7 +81,6 @@ body.page-homepage {
     }
 
   }
-
 
 }
 
