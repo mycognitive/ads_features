@@ -1,0 +1,11 @@
+name = ADS Views
+description = Provides views integration (Categories).
+core = 7.x
+package = ADS Features
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = ads_categories
+features[views_view][] = ads_selected
+features_exclude[dependencies][ctools] = ctools
+project path = sites/all/modules/ads/ads_features
