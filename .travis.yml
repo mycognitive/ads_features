@@ -85,6 +85,6 @@ language: php
 # PHP versions to test against.
 # See: http://docs.travis-ci.com/user/languages/php/
 php:
-  - 5.3
+# - 5.3
 # - 5.4 Bugs in this version should be caught by 5.3 or 5.5
   - 5.5
