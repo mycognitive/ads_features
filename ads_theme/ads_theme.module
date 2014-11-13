@@ -84,7 +84,7 @@ function ads_theme_add_js($path) {
 function ads_theme_sassy_resolve_path_theme($filename) {
   global $theme;
 
-  $path      = drupal_get_path('theme', 'ads') . '/sass/' . $filename;
+  $path      = drupal_get_path('theme', 'ads_base') . '/sass/' . $filename;
   $file_name = pathinfo($path, PATHINFO_FILENAME);
   $path      = dirname($path);
 
