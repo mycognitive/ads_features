@@ -24,7 +24,7 @@ function ads_content_types_node_info() {
     'advert' => array(
       'name' => t('Advert'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('An advertisement.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

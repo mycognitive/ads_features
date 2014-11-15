@@ -22,10 +22,10 @@ function ads_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
+      'ads_tm_inter_comf' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'ads',
+        'theme' => 'ads_tm_inter_comf',
         'weight' => 12,
       ),
       'bartik' => array(
