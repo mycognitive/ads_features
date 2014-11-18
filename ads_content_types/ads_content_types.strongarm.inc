@@ -95,6 +95,9 @@ function ads_content_types_strongarm() {
         'path' => array(
           'weight' => '30',
         ),
+        'language' => array(
+          'weight' => '0',
+        ),
       ),
       'display' => array(),
     ),

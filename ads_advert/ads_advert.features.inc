@@ -182,8 +182,8 @@ function ads_advert_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 320,
-          'height' => 240,
+          'width' => 200,
+          'height' => 150,
         ),
         'weight' => 1,
       ),

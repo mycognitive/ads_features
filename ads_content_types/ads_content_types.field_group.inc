@@ -23,8 +23,7 @@ function ads_content_types_field_group_info() {
     'label' => 'Hidden',
     'weight' => '3',
     'children' => array(
-      0 => 'field_ad_category_node_ref',
-      1 => 'field_ad_link_source',
+      0 => 'field_ad_link_source',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -90,8 +89,9 @@ function ads_content_types_field_group_info() {
     'label' => 'Additional details',
     'weight' => '1',
     'children' => array(
-      0 => 'field_ad_location',
-      1 => 'field_ad_price',
+      0 => 'field_ad_category_node_ref',
+      1 => 'field_ad_location',
+      2 => 'field_ad_price',
     ),
     'format_type' => 'div',
     'format_settings' => array(

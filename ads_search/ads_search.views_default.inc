@@ -53,6 +53,10 @@ function ads_search_views_default_views() {
   $handler->display->display_options['relationships']['field_ad_location']['id'] = 'field_ad_location';
   $handler->display->display_options['relationships']['field_ad_location']['table'] = 'search_api_index_ads_adverts';
   $handler->display->display_options['relationships']['field_ad_location']['field'] = 'field_ad_location';
+  /* Relationship: Indexed Node: Category node references */
+  $handler->display->display_options['relationships']['field_ad_category_node_ref']['id'] = 'field_ad_category_node_ref';
+  $handler->display->display_options['relationships']['field_ad_category_node_ref']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['relationships']['field_ad_category_node_ref']['field'] = 'field_ad_category_node_ref';
   /* Field: Indexed Node: Image */
   $handler->display->display_options['fields']['field_ad_image']['id'] = 'field_ad_image';
   $handler->display->display_options['fields']['field_ad_image']['table'] = 'search_api_index_ads_adverts';
@@ -74,11 +78,11 @@ function ads_search_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_entity'] = 1;
-  /* Field: Indexed Node: Price */
+  /* Field: Node: Price */
   $handler->display->display_options['fields']['field_ad_price']['id'] = 'field_ad_price';
-  $handler->display->display_options['fields']['field_ad_price']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['field_ad_price']['table'] = 'entity_node';
   $handler->display->display_options['fields']['field_ad_price']['field'] = 'field_ad_price';
-  $handler->display->display_options['fields']['field_ad_price']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ad_price']['relationship'] = 'field_ad_category_node_ref';
   $handler->display->display_options['fields']['field_ad_price']['click_sort_column'] = 'amount';
   /* Field: Location: Name (indexed) */
   $handler->display->display_options['fields']['field_ad_location_name']['id'] = 'field_ad_location_name';
@@ -198,6 +202,7 @@ function ads_search_views_default_views() {
     t('<h2>Your search returned no results.</h2>
 <p>Please change your keyword to search again.<br>'),
     t('Location'),
+    t('Category node references'),
     t('Image'),
     t('Title'),
     t('Price'),

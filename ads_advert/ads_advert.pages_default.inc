@@ -343,21 +343,24 @@ function ads_advert_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'title',
+      'label' => 'hidden',
       'formatter' => 'lightbox2__lightbox__ads_advert_preview__large',
-      'delta_limit' => '1',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'clearfix',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -481,10 +484,10 @@ function ads_advert_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'above',
-      'formatter' => 'shs_default',
-      'delta_limit' => '0',
+      'formatter' => 'hs_taxonomy_term_reference_hierarchical_links',
+      'delta_limit' => '3',
       'delta_offset' => '0',
-      'delta_reversed' => 0,
+      'delta_reversed' => 1,
       'formatter_settings' => array(
         'linked' => 0,
       ),
