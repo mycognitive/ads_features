@@ -168,9 +168,15 @@ function ads_content_types_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'hs_taxonomy',
-      'settings' => array(),
-      'type' => 'taxonomy_hs',
+      'module' => 'cshs',
+      'settings' => array(
+        'cshs' => array(
+          'force_deepest' => 1,
+          'level_labels' => '',
+          'parent' => 0,
+        ),
+      ),
+      'type' => 'cshs',
       'weight' => 7,
     ),
   );
@@ -485,12 +491,6 @@ function ads_content_types_field_default_field_instances() {
     'bundle' => 'advert',
     'default_value' => array(
       0 => array(
-        'tid' => 1020,
-      ),
-      1 => array(
-        'tid' => 1021,
-      ),
-      2 => array(
         'tid' => 1022,
       ),
     ),
@@ -499,9 +499,9 @@ function ads_content_types_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'hs_taxonomy',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hs_taxonomy_term_reference_hierarchical_links',
+        'type' => 'taxonomy_term_reference_link',
         'weight' => 8,
       ),
       'search_results_item' => array(
@@ -526,9 +526,15 @@ function ads_content_types_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'hs_taxonomy',
-      'settings' => array(),
-      'type' => 'taxonomy_hs',
+      'module' => 'cshs',
+      'settings' => array(
+        'cshs' => array(
+          'force_deepest' => 0,
+          'level_labels' => '',
+          'parent' => 0,
+        ),
+      ),
+      'type' => 'cshs',
       'weight' => 6,
     ),
   );
