@@ -179,7 +179,7 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Sort criterion: Content: Fivestar Rating (field_fivestar_rating:rating) */
+  /* Sort criterion: Broken/missing handler */
   $handler->display->display_options['sorts']['field_fivestar_rating_rating']['id'] = 'field_fivestar_rating_rating';
   $handler->display->display_options['sorts']['field_fivestar_rating_rating']['table'] = 'field_data_field_fivestar_rating';
   $handler->display->display_options['sorts']['field_fivestar_rating_rating']['field'] = 'field_fivestar_rating_rating';
@@ -203,12 +203,14 @@ function ads_homepage_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Fivestar Rating (field_fivestar_rating:rating) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['id'] = 'field_fivestar_rating_rating';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['table'] = 'field_data_field_fivestar_rating';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['field'] = 'field_fivestar_rating_rating';
   $handler->display->display_options['filters']['field_fivestar_rating_rating']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_fivestar_rating_rating']['value']['value'] = '1';
+  $handler->display->display_options['filters']['field_fivestar_rating_rating']['value'] = array(
+    'value' => '1',
+  );
   /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_fivestar_rating']['id'] = 'field_fivestar_rating';
   $handler->display->display_options['filters']['field_fivestar_rating']['table'] = 'field_data_field_fivestar';

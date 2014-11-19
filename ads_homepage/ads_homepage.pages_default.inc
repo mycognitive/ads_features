@@ -62,18 +62,22 @@ function ads_homepage_default_page_manager_pages() {
       'default' => NULL,
       'top' => NULL,
       'bottom' => NULL,
-      'left' => NULL,
-      'right' => NULL,
+      'left' => array(
+        'corner_location' => 'panel',
+      ),
+      'right' => array(
+        'corner_location' => 'panel',
+      ),
       'middle' => NULL,
     ),
     'left' => array(
-      'style' => 'default',
+      'style' => 'rounded_corners',
     ),
     'middle' => array(
       'style' => '-1',
     ),
     'right' => array(
-      'style' => 'default',
+      'style' => 'rounded_corners',
     ),
   );
   $display->cache = array();
@@ -133,7 +137,7 @@ function ads_homepage_default_page_manager_pages() {
     $pane->panel = 'right';
     $pane->type = 'views';
     $pane->subtype = 'fivestar';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'override_pager_settings' => 0,
