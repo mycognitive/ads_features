@@ -1110,7 +1110,7 @@ function ads_advert_edit_form_subtask_finish(&$form_state) {
 
   ads_advert_editor_form_clear_caches();
 
-  $form_state['redirect'] = 'advert/' . $node->nid;
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $node->nid);
 }
 
 /**
@@ -1119,10 +1119,10 @@ function ads_advert_edit_form_subtask_finish(&$form_state) {
 function ads_advert_edit_form_subtask_cancel(&$form_state) {
   ads_advert_editor_form_clear_caches();
 
-  $action    = arg(1);
+  $action    = arg(2);
 
   if ($action === 'edit') {
-    $form_state['redirect'] = 'advert/view/' . (int) arg(2);
+    $form_state['redirect'] = drupal_get_path_alias('node/' . (int) arg(1));
   }
   else {
     $form_state['redirect'] = '<front>';
