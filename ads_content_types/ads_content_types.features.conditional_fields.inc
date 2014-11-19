@@ -46,7 +46,49 @@ function ads_content_types_conditional_fields_default_fields() {
           3 => 0,
           4 => 0,
         ),
+        9 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        7 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
         3 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        8 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        6 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        5 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        4 => array(
           1 => 1,
           2 => 2,
           5 => 0,
@@ -68,24 +110,46 @@ function ads_content_types_conditional_fields_default_fields() {
           1 => 1,
           3 => 0,
         ),
+        9 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        7 => array(
+          1 => 1,
+          3 => 0,
+        ),
         3 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        8 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        6 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        5 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        4 => array(
           1 => 1,
           3 => 0,
         ),
       ),
       'selector' => '',
-      'values_set' => 1,
+      'values_set' => 2,
       'value_form' => array(
         'email' => 'email',
         'phone' => NULL,
         'website' => NULL,
       ),
-      'value' => array(
-        0 => array(
-          'value' => 'email',
-        ),
+      'values' => array(
+        0 => 'email',
       ),
-      'values' => array(),
+      'value' => array(),
     ),
   );
 
@@ -125,7 +189,49 @@ function ads_content_types_conditional_fields_default_fields() {
           3 => 0,
           4 => 0,
         ),
+        9 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        7 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
         3 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        8 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        6 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        5 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        4 => array(
           1 => 1,
           2 => 2,
           5 => 0,
@@ -147,24 +253,46 @@ function ads_content_types_conditional_fields_default_fields() {
           1 => 1,
           3 => 0,
         ),
+        9 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        7 => array(
+          1 => 1,
+          3 => 0,
+        ),
         3 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        8 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        6 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        5 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        4 => array(
           1 => 1,
           3 => 0,
         ),
       ),
       'selector' => '',
-      'values_set' => 1,
+      'values_set' => 2,
       'value_form' => array(
         'website' => 'website',
         'phone' => NULL,
         'email' => NULL,
       ),
-      'value' => array(
-        0 => array(
-          'value' => 'website',
-        ),
+      'values' => array(
+        0 => 'website',
       ),
-      'values' => array(),
+      'value' => array(),
     ),
   );
 
@@ -204,7 +332,49 @@ function ads_content_types_conditional_fields_default_fields() {
           3 => 0,
           4 => 0,
         ),
+        9 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        7 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
         3 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        8 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        6 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        5 => array(
+          1 => 1,
+          2 => 2,
+          5 => 0,
+          3 => 0,
+          4 => 0,
+        ),
+        4 => array(
           1 => 1,
           2 => 2,
           5 => 0,
@@ -226,24 +396,46 @@ function ads_content_types_conditional_fields_default_fields() {
           1 => 1,
           3 => 0,
         ),
+        9 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        7 => array(
+          1 => 1,
+          3 => 0,
+        ),
         3 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        8 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        6 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        5 => array(
+          1 => 1,
+          3 => 0,
+        ),
+        4 => array(
           1 => 1,
           3 => 0,
         ),
       ),
       'selector' => '',
-      'values_set' => 1,
+      'values_set' => 2,
       'value_form' => array(
         'phone' => 'phone',
         'email' => NULL,
         'website' => NULL,
       ),
-      'value' => array(
-        0 => array(
-          'value' => 'phone',
-        ),
+      'values' => array(
+        0 => 'phone',
       ),
-      'values' => array(),
+      'value' => array(),
     ),
   );
 
