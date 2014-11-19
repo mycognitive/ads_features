@@ -40,6 +40,8 @@ function ads_homepage_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ *
  * Preprocesses ads_homepage_categories_grouped template variables.
  *
  * @param array $vars

@@ -24,16 +24,16 @@ body.page-homepage {
 }
 
 .ads-homepage-category-group {
-  width: 200px;
+  // width: 30%;
 }
 
 .view-categories-grouped {
   padding: 10px 0 0 0;
 
-  > .view-content > div.item-list {
+  > .view-content div.item-list {
     /* Forcing categories to fill all possible columns */
+    width: 30%;
     margin: 0 auto;
-    width: 200px;
     overflow: hidden;
   }
 
@@ -68,10 +68,11 @@ body.page-homepage {
 
   // Category name.
   li {
-    clear: left;
-    margin-left: 23px;
+    float: left;
+    margin-left: 5px;
 
     a {
+      font-size: x-small;
       line-height: $base-font-size;
       text-decoration: none;
       &:hover {
@@ -79,6 +80,15 @@ body.page-homepage {
         text-decoration: underline;
       }
     }
+
+    /* TODO
+    &:after {
+      content: ",";
+    }
+    &:last-child {
+      content: "";
+    }
+    */
 
   }
 
