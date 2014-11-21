@@ -2,17 +2,20 @@
 
 body.page-homepage {
 	.panel-col-first {
-  	width: 24%;
   	margin: 0;
   	padding: 0;
 
     > .inside {
+      padding: 16px 16px;
     	margin: 0;
+    }
+
+    p {
+      padding: 0 47px;
     }
   }
 
   .panel-col-last {
- 	  width: 76%;
     margin: 0;
     padding: 0;
 
