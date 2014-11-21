@@ -359,7 +359,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'field_ad_category:parents_all';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_checkbox_links',
@@ -403,7 +403,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'field_ad_category:tid';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
@@ -583,7 +583,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'field_ad_location:parents_all';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
@@ -843,7 +843,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'title';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',

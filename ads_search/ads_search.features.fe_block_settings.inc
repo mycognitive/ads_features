@@ -12,51 +12,6 @@ function ads_search_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-  $export['facetapi-GLow6e2NSrErmpH4NJVR8daltTHNsTAb'] = array(
-    'cache' => -1,
-    'css_class' => '',
-    'custom' => 0,
-    'delta' => 'GLow6e2NSrErmpH4NJVR8daltTHNsTAb',
-    'module' => 'facetapi',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'ads_tm_inter_comf' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'ads_tm_inter_comf',
-        'weight' => 0,
-      ),
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
-        'weight' => 0,
-      ),
-      'tao' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'tao',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
   $export['views-892bf6e56abdd4696e4aeadf07055edb'] = array(
     'cache' => -1,
     'css_class' => '',
