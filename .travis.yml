@@ -17,7 +17,7 @@ install:
   - echo -e "Host github.com\n User git\n StrictHostKeyChecking no\n PasswordAuthentication no\n CheckHostIP no\n BatchMode yes\n" >> ~/.ssh/config
   - git clone https://github.com/mycognitive/ads $ADS && cd $ADS
   - sh ./configure install
-  - cat puppet/travis.pp puppet/ads.dev.pp puppet/solr.dev.pp puppet/apache-mod_geoip2.pp | sudo puppet apply
+  - cat puppet/travis.pp puppet/ads.dev.pp puppet/solr.dev.pp puppet/apache-mod_geoip2.pp puppet/php5-xcache.pp | sudo puppet apply
   - sudo puppet module list
 
 # Before Script
@@ -26,7 +26,7 @@ before_script:
   - set -e # Exit immediately if a subshell command exits with a non-zero status (man sh).
   - cat travis/travis.known_hosts | tee -a ~/.ssh/known_hosts # Append Travis known_hosts to user file.
   - ln -sv travis/travis.build.properties build.properties     # Prepare build.properties file.
-  - cat puppet/travis.pp puppet/ads.dev.pp puppet/solr.dev.pp puppet/ads.dev.configure-site.pp puppet/apache-mod_geoip2.pp | sudo puppet apply # Apply webroot puppet configuration.
+  - cat puppet/travis.pp puppet/ads.dev.pp puppet/solr.dev.pp puppet/ads.dev.configure-site.pp puppet/apache-mod_geoip2.pp puppet/php5-xcache.pp | sudo puppet apply # Apply webroot puppet configuration.
 # - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -uroot
 # - echo "CREATE DATABASE travis_ads_test DEFAULT CHARACTER SET utf8" | mysql -uroot -proot
 
