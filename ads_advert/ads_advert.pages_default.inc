@@ -250,7 +250,7 @@ function ads_advert_default_page_manager_handlers() {
     $pane->panel = 'bottom_left';
     $pane->type = 'node_comments';
     $pane->subtype = 'node_comments';
-    $pane->shown = FALSE;
+    $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'mode' => '1',
@@ -271,29 +271,15 @@ function ads_advert_default_page_manager_handlers() {
     $display->content['new-6981d000-c074-4c6b-8a5c-0e5a0d7db816'] = $pane;
     $display->panels['bottom_left'][0] = 'new-6981d000-c074-4c6b-8a5c-0e5a0d7db816';
     $pane = new stdClass();
-    $pane->pid = 'new-7b10c984-93e7-489c-a172-bf368e053d31';
+    $pane->pid = 'new-b6d88f04-87ee-4639-8bc0-e1a8111fc9db';
     $pane->panel = 'bottom_left';
-    $pane->type = 'comment_reply_form';
-    $pane->subtype = 'comment_reply_form';
-    $pane->shown = FALSE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'perm',
-          'settings' => array(
-            'perm' => 'post comments',
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
-    );
+    $pane->type = 'node_comment_form';
+    $pane->subtype = 'node_comment_form';
+    $pane->shown = TRUE;
+    $pane->access = array();
     $pane->configuration = array(
-      'anon_links' => FALSE,
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'empty',
-      ),
+      'anon_links' => 0,
+      'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -305,9 +291,9 @@ function ads_advert_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = '7b10c984-93e7-489c-a172-bf368e053d31';
-    $display->content['new-7b10c984-93e7-489c-a172-bf368e053d31'] = $pane;
-    $display->panels['bottom_left'][1] = 'new-7b10c984-93e7-489c-a172-bf368e053d31';
+    $pane->uuid = 'b6d88f04-87ee-4639-8bc0-e1a8111fc9db';
+    $display->content['new-b6d88f04-87ee-4639-8bc0-e1a8111fc9db'] = $pane;
+    $display->panels['bottom_left'][1] = 'new-b6d88f04-87ee-4639-8bc0-e1a8111fc9db';
     $pane = new stdClass();
     $pane->pid = 'new-8b4a48b0-295d-401e-aef7-0424868019ab';
     $pane->panel = 'header';
