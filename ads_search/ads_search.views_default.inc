@@ -22,7 +22,7 @@ function ads_search_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Browse by category.';
+  $handler->display->display_options['title'] = 'Search results.';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -144,7 +144,6 @@ function ads_search_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_ads_adverts';
   $handler->display->display_options['filters']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['group'] = 1;
   $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
@@ -159,6 +158,11 @@ function ads_search_views_default_views() {
     6 => 0,
     5 => 0,
     4 => 0,
+  );
+  $handler->display->display_options['filters']['search_api_views_fulltext']['fields'] = array(
+    'body:summary' => 'body:summary',
+    'body:value' => 'body:value',
+    'title' => 'title',
   );
 
   /* Display: Content pane */
@@ -180,9 +184,10 @@ function ads_search_views_default_views() {
   $handler->display->display_options['link_to_view'] = '1';
   $handler->display->display_options['inherit_panels_path'] = '1';
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'ads_by_terms');
+  /* Display: Search results by taxonomy term */
+  $handler = $view->new_display('page', 'Search results by taxonomy term', 'ads_by_terms');
   $handler->display->display_options['display_description'] = 'Display adverts filtered by taxonomy.';
+  $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Category: Term ID (indexed) */
   $handler->display->display_options['arguments']['field_ad_category_tid']['id'] = 'field_ad_category_tid';
@@ -199,9 +204,37 @@ function ads_search_views_default_views() {
   $handler->display->display_options['arguments']['field_ad_category_tid']['break_phrase'] = 1;
   $handler->display->display_options['arguments']['field_ad_category_tid']['not'] = 0;
   $handler->display->display_options['path'] = 'taxonomy/term/%';
+
+  /* Display: Search results by keywords */
+  $handler = $view->new_display('page', 'Search results by keywords', 'ads_by_keywords');
+  $handler->display->display_options['display_description'] = 'Display adverts filtered by keywords.';
+  $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Search: Fulltext search */
+  $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'keywords';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    9 => 0,
+    7 => 0,
+    3 => 0,
+    8 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['path'] = 'search/results_';
   $translatables['ads_search_results'] = array(
     t('Master'),
-    t('Browse by category.'),
+    t('Search result.'),
     t('more'),
     t('Search'),
     t('Reset'),
@@ -226,10 +259,12 @@ function ads_search_views_default_views() {
     t('Updated'),
     t('Content pane'),
     t('ADS Views'),
-    t('Page'),
+    t('Search results by taxonomy term'),
     t('Display adverts filtered by taxonomy.'),
     t('All'),
     t('%1'),
+    t('Search results by keywords'),
+    t('Display adverts filtered by keywords.'),
   );
   $export['ads_search_results'] = $view;
 

@@ -9,6 +9,15 @@ include_once 'ads_search.features.inc';
 define('ADS_SEARCH_SEARCH_API_SERVER_NAME', 'ads_search_server');
 
 /**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function ads_search_form_views_exposed_form_alter(&$form, &$form_state){
+  if ($form['#action'] === '/search/results_') {
+    $form['#action'] = '/search/results';
+  }
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function ads_search_entity_info_alter(&$entity_info) {
