@@ -487,7 +487,7 @@ function ads_search_default_page_manager_pages() {
           1 => 4,
         ),
         'parent' => 'main',
-        'class' => '',
+        'class' => 'search-result-two-columns',
       ),
       2 => array(
         'type' => 'row',
@@ -804,8 +804,8 @@ function ads_search_default_page_manager_pages() {
       'args' => '',
       'url' => '',
       'display' => 'ads_by_keywords',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Search results',
     );
     $pane->cache = array();
     $pane->style = array(

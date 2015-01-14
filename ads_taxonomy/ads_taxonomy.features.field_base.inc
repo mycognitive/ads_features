@@ -95,6 +95,7 @@ function ads_taxonomy_field_default_field_bases() {
     'settings' => array(
       'allowed_values_function' => 'bundle_name_reference_allowed_values',
       'entity_type' => 'node',
+      'profile2_private' => FALSE,
     ),
     'translatable' => 0,
     'type' => 'bundle_name_reference',

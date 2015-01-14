@@ -26,9 +26,23 @@
 }
 
 div.search-results-left-column {
-  width: 30%;
+  width: 240px;
+  float: left;
+  padding: 0 14px 0 14px !important;
 }
 
 div.search-results-right-column {
-  width: 70%;
+  float: none;
+  margin-left: 240px;
+  width: auto;
+  > div {
+    float: none;
+    padding-left: 59px;
+    border-left: 1px dashed #888;
+  }
+  > div > div {
+    float: none;
+    padding-left: 59px !important;
+    width: 95%;
+  }
 }

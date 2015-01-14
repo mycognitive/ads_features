@@ -26,6 +26,16 @@ function ads_taxonomy_field_default_field_instances() {
         'type' => 'image',
         'weight' => 2,
       ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 2,
+      ),
     ),
     'entity_type' => 'taxonomy_term',
     'field_name' => 'field_ads_cat_icon',
@@ -70,6 +80,16 @@ function ads_taxonomy_field_default_field_instances() {
         'type' => 'image',
         'weight' => 1,
       ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 1,
+      ),
     ),
     'entity_type' => 'taxonomy_term',
     'field_name' => 'field_ads_cat_image',
@@ -105,6 +125,13 @@ function ads_taxonomy_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 0,
+      ),
+      'full' => array(
         'label' => 'above',
         'module' => 'list',
         'settings' => array(),
