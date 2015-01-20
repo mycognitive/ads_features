@@ -92,13 +92,6 @@ function ads_views_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Indexed Node: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'search_api_index_ads_adverts';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_entity'] = 1;
   /* Field: Indexed Node: Image */
   $handler->display->display_options['fields']['field_ad_image']['id'] = 'field_ad_image';
   $handler->display->display_options['fields']['field_ad_image']['table'] = 'search_api_index_ads_adverts';
@@ -115,6 +108,13 @@ function ads_views_views_default_views() {
   $handler->display->display_options['fields']['field_ad_image']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_ad_image']['multi_type'] = 'ol';
   $handler->display->display_options['fields']['field_ad_image']['separator'] = '';
+  /* Field: Indexed Node: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_entity'] = 1;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
@@ -135,10 +135,21 @@ function ads_views_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = array(
     1 => '1',
   );
+  /* Filter criterion: Indexed Node: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    'en' => 'en',
+  );
 
   /* Display: Recent */
-  $handler = $view->new_display('block', 'Recent', 'block');
+  $handler = $view->new_display('block', 'Recent', 'recent');
   $handler->display->display_options['display_description'] = 'Display most recent adverts.';
+
+  /* Display: Popular */
+  $handler = $view->new_display('block', 'Popular', 'popular');
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
   $translatables['ads_selected'] = array(
     t('Master'),
     t('Recent'),
@@ -150,6 +161,7 @@ function ads_views_views_default_views() {
     t('Desc'),
     t('More'),
     t('Display most recent adverts.'),
+    t('Popular'),
   );
   $export['ads_selected'] = $view;
 
