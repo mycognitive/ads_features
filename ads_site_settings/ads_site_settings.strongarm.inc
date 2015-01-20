@@ -28,7 +28,7 @@ function ads_site_settings_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_taxonomy_term_locations_pattern';
-  $strongarm->value = 'location/[term:parents:join-path]/[term:name]';
+  $strongarm->value = '[term:parent:parent:name]/[term:parent:name]/[term:name]';
   $export['pathauto_taxonomy_term_locations_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
