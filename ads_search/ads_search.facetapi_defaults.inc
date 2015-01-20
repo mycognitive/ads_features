@@ -223,7 +223,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->name = 'search_api@ads_adverts:block:field_ad_category';
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
-  $facet->facet = 'field_ad_category';
+  $facet->facet = 'category';
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
@@ -510,7 +510,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->name = 'search_api@ads_adverts:block:field_ad_location';
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
-  $facet->facet = 'field_ad_location';
+  $facet->facet = 'location';
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
@@ -546,7 +546,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->name = 'search_api@ads_adverts:block:field_ad_location:name';
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
-  $facet->facet = 'field_ad_location:name';
+  $facet->facet = 'location_name';
   $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
