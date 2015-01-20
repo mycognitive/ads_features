@@ -47,7 +47,7 @@ function ads_search_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('ADS Search');
   t('Display faceted search filters.');
-  $export['facets'] = $context;
+  $export['ads_facets'] = $context;
 
   return $export;
 }
