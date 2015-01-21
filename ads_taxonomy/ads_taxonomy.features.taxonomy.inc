@@ -12,12 +12,12 @@ function ads_taxonomy_taxonomy_default_vocabularies() {
     'categories' => array(
       'name' => 'Categories',
       'machine_name' => 'categories',
-      'description' => NULL,
+      'description' => 'List of division names of things regarded as having particular shared characteristics.',
       'hierarchy' => 0,
       'module' => '',
       'weight' => 0,
       'language' => 'und',
-      'i18n_mode' => 0,
+      'i18n_mode' => 4,
     ),
     'locations' => array(
       'name' => 'Locations',

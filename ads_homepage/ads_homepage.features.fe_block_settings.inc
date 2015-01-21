@@ -23,8 +23,8 @@ function ads_homepage_default_fe_block_settings() {
     'roles' => array(),
     'themes' => array(
       'ads_tm_inter_comf' => array(
-        'region' => 'menu',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'ads_tm_inter_comf',
         'weight' => -20,
       ),

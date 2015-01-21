@@ -73,7 +73,7 @@ function ads_taxonomy_field_default_field_bases() {
   // Exported field_base: 'field_cat_content_type'
   $field_bases['field_cat_content_type'] = array(
     'active' => 1,
-    'cardinality' => 1,
+    'cardinality' => 3,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_cat_content_type',

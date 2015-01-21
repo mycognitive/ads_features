@@ -26,13 +26,13 @@ function ads_user_default_fe_block_settings() {
         'region' => 'footer',
         'status' => 1,
         'theme' => 'ads_base',
-        'weight' => 0,
+        'weight' => -23,
       ),
       'ads_tm_inter_comf' => array(
         'region' => 'footer',
         'status' => 1,
         'theme' => 'ads_tm_inter_comf',
-        'weight' => 0,
+        'weight' => -23,
       ),
       'bartik' => array(
         'region' => '',
@@ -59,7 +59,7 @@ function ads_user_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => 'Follow us',
+    'title' => '<none>',
     'visibility' => 0,
   );
 
