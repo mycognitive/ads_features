@@ -22,10 +22,10 @@ function ads_menu_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
+      'ads_base' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'ads',
+        'theme' => 'ads_base',
         'weight' => 0,
       ),
       'ads_tm_inter_comf' => array(
@@ -73,11 +73,11 @@ function ads_menu_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
+      'ads_base' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'ads',
-        'weight' => 0,
+        'theme' => 'ads_base',
+        'weight' => -7,
       ),
       'ads_tm_inter_comf' => array(
         'region' => '',
@@ -124,11 +124,11 @@ function ads_menu_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
+      'ads_base' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'ads',
-        'weight' => 0,
+        'theme' => 'ads_base',
+        'weight' => -2,
       ),
       'ads_tm_inter_comf' => array(
         'region' => '',
@@ -175,11 +175,11 @@ function ads_menu_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'ads' => array(
+      'ads_base' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'ads',
-        'weight' => 0,
+        'theme' => 'ads_base',
+        'weight' => -4,
       ),
       'ads_tm_inter_comf' => array(
         'region' => '',

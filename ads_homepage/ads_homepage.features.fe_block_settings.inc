@@ -22,6 +22,12 @@ function ads_homepage_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'ads_base' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ads_base',
+        'weight' => -20,
+      ),
       'ads_tm_inter_comf' => array(
         'region' => '',
         'status' => 0,
