@@ -24,6 +24,7 @@ function ads_search_facetapi_default_facet_settings() {
     'dependencies' => array(
       'bundle' => 'none',
       'bundle_selected' => array(),
+      'roles' => array(),
     ),
     'facet_mincount' => '1',
     'facet_missing' => '0',
@@ -32,6 +33,8 @@ function ads_search_facetapi_default_facet_settings() {
     'default_true' => '1',
     'facet_search_ids' => array(),
     'exclude' => 0,
+    'individual_parent' => 0,
+    'limit_active_items' => 0,
   );
   $export['search_api@ads_adverts::field_ad_category:parent'] = $facet;
 
@@ -57,6 +60,8 @@ function ads_search_facetapi_default_facet_settings() {
     'query_type' => 'term',
     'default_true' => TRUE,
     'facet_search_ids' => array(),
+    'individual_parent' => 0,
+    'limit_active_items' => 0,
   );
   $export['search_api@ads_adverts::field_ad_category:parents_all'] = $facet;
 
@@ -99,6 +104,7 @@ function ads_search_facetapi_default_facet_settings() {
     'dependencies' => array(
       'bundle' => 'none',
       'bundle_selected' => array(),
+      'roles' => array(),
     ),
     'facet_mincount' => '1',
     'facet_missing' => '0',
@@ -106,6 +112,8 @@ function ads_search_facetapi_default_facet_settings() {
     'query_type' => 'term',
     'default_true' => TRUE,
     'facet_search_ids' => array(),
+    'individual_parent' => 0,
+    'limit_active_items' => 0,
   );
   $export['search_api@ads_adverts::title'] = $facet;
 

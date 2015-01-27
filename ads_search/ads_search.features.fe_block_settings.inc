@@ -113,6 +113,12 @@ function ads_search_default_fe_block_settings() {
 search/results',
     'roles' => array(),
     'themes' => array(
+      'ads_base' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'ads_base',
+        'weight' => -24,
+      ),
       'ads_tm_inter_comf' => array(
         'region' => 'user_menu',
         'status' => 1,
