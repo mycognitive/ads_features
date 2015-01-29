@@ -409,8 +409,8 @@ function ads_advert_form_wizard() {
     'show back'       => TRUE,
     'show cancel'     => TRUE,
     'show return'     => FALSE,
-    'back text'       => '« Back',
-    'next text'       => 'Next »',
+    'back text'       => 'Back',
+    'next text'       => 'Next',
     'next callback'   => 'ads_advert_edit_form_subtask_next',
     'finish callback' => 'ads_advert_edit_form_subtask_finish',
     'return callback' => 'ads_advert_edit_form_subtask_finish',
@@ -632,7 +632,7 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
       $form['buttons']['next'] = array(
         '#type'        => 'submit',
-        '#value'       => t('Next »'),
+        '#value'       => t('Next'),
         '#wizard type' => 'next',
         '#next'        => 'step-4',
         '#attributes'  => array(),
