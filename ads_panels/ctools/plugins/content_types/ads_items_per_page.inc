@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ctools content-type plugin for "items per page" selector.
+ *   Ctools content-type plugin for "Items per page" selector.
  */
 
 $plugin = array(

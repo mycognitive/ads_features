@@ -7,8 +7,10 @@
 
 $plugin = array(
   'single' => TRUE,
-  'title' => t('Title'),
+  'title' => t('Ad Title'),
   'icon' => 'icon_node_form.png',
+  'description' => t('The title of the referenced ad.'),
+  'required context' => new ctools_context_required(t('Node'), 'node'),
   'category' => t('ADS'),
   'render callback'  => 'ctools_ads_title_content_type_render',
   'edit form' => 'ctools_ads_title_content_type_edit_form',
@@ -18,24 +20,25 @@ $plugin = array(
 
 /**
  * Renders content.
+ * @fixme
  */
 function ctools_ads_title_content_type_render($subtype, &$conf, $panel_args, $context) {
   $block = new stdClass();
   $title = $conf['override_title_text'];
 
+  /*
   if (!empty($conf['mlpanels'])) {
-    if (!empty($conf['mlpanels'][stoneridge_regional_get_current_language()])) {
-      $title = $conf['mlpanels'][stoneridge_regional_get_current_language()]['override_title_text'];
-    }
+    $title = current(current($conf['mlpanels'])); // override_title_text
   }
+  */
 
-  if (!empty($context)) {
-    $title = ctools_context_keyword_substitute($title, array(), array($context));
-  }
+  // Get a shortcut to the node.
+  $node = $context->data;
+  $title = ctools_context_keyword_substitute($title, array(), array($context));
 
   $block->module  = 'ads_panels';
   $block->content = array(
-    '#markup' => $title,
+    '#markup' => $node->title,
     '#prefix' => '<' . $conf['tag'] . '>',
     '#suffix' => '</' . $conf['tag'] . '>',
   );
@@ -46,10 +49,10 @@ function ctools_ads_title_content_type_render($subtype, &$conf, $panel_args, $co
 }
 
 /**
- * Returns title.
+ * Returns administrative title.
  */
 function ctools_ads_title_content_type_admin_title($subtype, $conf, $context) {
-  return t('Title');
+  return t('Ad Title');
 }
 
 /**
