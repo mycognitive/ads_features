@@ -1,0 +1,29 @@
+.ads-wizard-trails {
+
+  width: 467px;
+  margin: 0 auto;
+  white-space: nowrap;
+
+  &.step-1-of-3 {
+    background: url('../images/step-1-of-3.png') no-repeat;
+  }
+  &.step-2-of-3 {
+    background: url('../images/step-2-of-3.png') no-repeat;
+  }
+  &.step-3-of-3 {
+    background: url('../images/step-3-of-3.png') no-repeat;
+  }
+
+  .label {
+    display: inline-block;
+    font-weight: bold;
+    margin-left: -152px;
+    margin-top: 60px;
+    text-align: center;
+    width: 355px;
+
+    &.active {
+    	color: #000;
+    }
+  }
+}

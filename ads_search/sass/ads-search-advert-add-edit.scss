@@ -1,0 +1,48 @@
+#search-api-ranges-block-slider-view-form-field-ad-price {
+  p.text-range {
+    display: none;
+  }
+  
+  div.ui-slider {
+    width: 100px;
+  }
+  
+  div.range-box-left {
+    float: left;
+  }
+  
+  div.range-slider-box {
+    float: left;
+    margin: 6px 16px;
+  }
+  
+  div.range-box-right {
+    float: left;
+  }
+  
+  input {
+    width: 40px;
+  }
+}
+
+div.search-results-left-column {
+  width: 240px;
+  float: left;
+  padding: 0 14px 0 14px !important;
+}
+
+div.search-results-right-column {
+  float: none;
+  margin-left: 240px;
+  width: auto;
+  > div {
+    float: none;
+    padding-left: 59px;
+    border-left: 1px dashed #888;
+  }
+  > div > div {
+    float: none;
+    padding-left: 59px !important;
+    width: 95%;
+  }
+}
