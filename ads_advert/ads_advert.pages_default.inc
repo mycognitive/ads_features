@@ -250,7 +250,7 @@ function ads_advert_default_page_manager_handlers() {
     $pane->panel = 'bottom_left';
     $pane->type = 'node_comments';
     $pane->subtype = 'node_comments';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'mode' => '1',
@@ -302,13 +302,14 @@ function ads_advert_default_page_manager_handlers() {
     $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
-      'link' => 1,
+      'link' => 0,
       'markup' => 'h1',
       'id' => '',
       'class' => '',
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -361,7 +362,7 @@ function ads_advert_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'title',
+      'label' => 'above',
       'formatter' => 'text_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
@@ -369,7 +370,8 @@ function ads_advert_default_page_manager_handlers() {
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'Description',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -424,6 +426,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Price',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -473,6 +476,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Last updated:',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -497,6 +501,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Posted:',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -530,7 +535,7 @@ function ads_advert_default_page_manager_handlers() {
       ),
     );
     $pane->configuration = array(
-      'label' => 'title',
+      'label' => 'inline',
       'formatter' => 'addressfield_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
@@ -544,6 +549,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Address',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -586,6 +592,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Website',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -610,6 +617,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Posted by:',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -635,6 +643,7 @@ function ads_advert_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'Rate this ad',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -691,9 +700,7 @@ function ads_advert_default_page_manager_handlers() {
               ),
             ),
             'field_ad_contact_method_value' => array(
-              'phone' => 'phone',
-              'email' => NULL,
-              'website' => NULL,
+              0 => 'phone',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
@@ -702,7 +709,7 @@ function ads_advert_default_page_manager_handlers() {
       ),
     );
     $pane->configuration = array(
-      'label' => 'above',
+      'label' => 'inline',
       'formatter' => 'phone_national',
       'delta_limit' => '0',
       'delta_offset' => '0',
@@ -718,8 +725,9 @@ function ads_advert_default_page_manager_handlers() {
         ),
       ),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => 'Phone',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -751,9 +759,7 @@ function ads_advert_default_page_manager_handlers() {
               ),
             ),
             'field_ad_contact_method_value' => array(
-              'email' => 'email',
-              'phone' => NULL,
-              'website' => NULL,
+              0 => 'email',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
@@ -769,8 +775,9 @@ function ads_advert_default_page_manager_handlers() {
       'delta_reversed' => FALSE,
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => 'E-mail',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -802,9 +809,7 @@ function ads_advert_default_page_manager_handlers() {
               ),
             ),
             'field_ad_contact_method_value' => array(
-              'website' => 'website',
-              'phone' => NULL,
-              'email' => NULL,
+              0 => 'website',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
@@ -820,8 +825,9 @@ function ads_advert_default_page_manager_handlers() {
       'delta_reversed' => 0,
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => 'Website',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -846,6 +852,7 @@ function ads_advert_default_page_manager_handlers() {
       'size' => 'big',
       'override_title' => 1,
       'override_title_text' => 'Contact form',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -870,6 +877,7 @@ function ads_advert_default_page_manager_handlers() {
       'size' => 'medium',
       'override_title' => 1,
       'override_title_text' => 'Similar adverts',
+      'override_title_heading' => 'span',
     );
     $pane->cache = array();
     $pane->style = array(
