@@ -215,6 +215,9 @@ function ads_search_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('No adverts found.'),
+    t('<h2>Your search returned no results.</h2>
+<p>Please change your keyword to search again.<br>'),
     t('Location'),
     t('Category node references'),
     t('Image'),
@@ -228,7 +231,6 @@ function ads_search_views_default_views() {
     t('All'),
     t('%1'),
   );
-
   $export['ads_search_results'] = $view;
 
   return $export;

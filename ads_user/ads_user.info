@@ -35,5 +35,4 @@ features[variable][] = follow_site_block_title
 features[variable][] = follow_site_block_user
 features[variable][] = follow_site_icon_style
 features[variable][] = user_picture_style
-mtime = 1415797783
 project path = sites/all/modules/ads/ads_features

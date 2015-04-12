@@ -34,5 +34,4 @@ features[image][] = ads_advert_preview
 features[page_manager_handlers][] = node_view_panel_context
 features[views_view][] = ads_advert_saved_adverts
 features[views_view][] = ads_advert_saved_adverts_admin
-mtime = 1425742994
 project path = sites/all/modules/ads/ads_features
