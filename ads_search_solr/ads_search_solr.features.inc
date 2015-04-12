@@ -7,8 +7,7 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function ads_search_solr_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function ads_search_solr_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -40,8 +39,7 @@ function ads_search_solr_default_search_api_server() {
       "autocorrect_spell" : 1,
       "autocorrect_suggest_words" : 1
     },
-    "enabled" : "1",
-    "rdf_mapping" : []
+    "enabled" : "1"
   }');
   return $items;
 }

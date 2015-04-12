@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ctools content-type plugin to provide RSS link.
+ *   Ctools content-type plugin to provide separator.
  */
 
 $plugin = array(
@@ -40,7 +40,7 @@ function ctools_ads_separator_content_type_render($subtype, &$conf, $panel_args,
  * Returns title.
  */
 function ctools_ads_separator_content_type_admin_title($subtype, $conf, $context) {
-  return t('Title');
+  return t('Separator');
 }
 
 /**

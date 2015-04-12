@@ -409,8 +409,8 @@ function ads_advert_form_wizard() {
     'show back'       => TRUE,
     'show cancel'     => TRUE,
     'show return'     => FALSE,
-    'back text'       => '« Back',
-    'next text'       => 'Next »',
+    'back text'       => 'Back',
+    'next text'       => 'Next',
     'next callback'   => 'ads_advert_edit_form_subtask_next',
     'finish callback' => 'ads_advert_edit_form_subtask_finish',
     'return callback' => 'ads_advert_edit_form_subtask_finish',
@@ -632,7 +632,7 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
       $form['buttons']['next'] = array(
         '#type'        => 'submit',
-        '#value'       => t('Next »'),
+        '#value'       => t('Next'),
         '#wizard type' => 'next',
         '#next'        => 'step-4',
         '#attributes'  => array(),
@@ -663,6 +663,10 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
   if (isset($form['buttons']['return'])) {
     $form['buttons']['return']['#weight'] = 4;
+  }
+
+  if ($step == 2 || $step == 3) {
+    unset($form['buttons']['cancel']);
   }
 
   if ($step == 3 || $step == 4 || $node_is_already_saved) {
@@ -1110,7 +1114,7 @@ function ads_advert_edit_form_subtask_finish(&$form_state) {
 
   ads_advert_editor_form_clear_caches();
 
-  $form_state['redirect'] = 'advert/' . $node->nid;
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $node->nid);
 }
 
 /**
@@ -1119,10 +1123,10 @@ function ads_advert_edit_form_subtask_finish(&$form_state) {
 function ads_advert_edit_form_subtask_cancel(&$form_state) {
   ads_advert_editor_form_clear_caches();
 
-  $action    = arg(1);
+  $action    = arg(2);
 
   if ($action === 'edit') {
-    $form_state['redirect'] = 'advert/view/' . (int) arg(2);
+    $form_state['redirect'] = drupal_get_path_alias('node/' . (int) arg(1));
   }
   else {
     $form_state['redirect'] = '<front>';
@@ -1163,4 +1167,36 @@ function ads_advert_view() {
   }
 
   return ads_advert_get_node_preview($node, FALSE);
+}
+
+/**
+ * Implements hook_views_api_alter().
+ */
+function ads_advert_views_api_alter(&$list) {
+  $path = drupal_get_path('module', 'ads_advert');
+
+  $list['ads_advert']['path']          = $path;
+  $list['ads_advert']['template path'] = $path . '/theme';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ads_advert_theme($existing, $type, $theme, $path) {
+  return array(
+    'ads_advert_wizard_trail' => array(
+      'template' => 'ads-advert-wizard-trail',
+      'path' => $path . '/theme',
+      'type' => 'theme',
+    ),
+  );
+}
+
+/**
+ * Preprocesses ads_advert_wizard_trail template variables.
+ *
+ * @param array $vars
+ */
+function ads_advert_preprocess_ads_advert_wizard_trail(&$vars) {
+  ads_theme_add_css(ads_theme_find('ads_advert', $vars['directory'], 'ads-advert-wizard-trail.scss', ADS_THEME_FIND_SASS));
 }

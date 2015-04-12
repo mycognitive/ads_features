@@ -1,6 +1,4 @@
-@import theme/all;
-@import theme/mixins/gradients;
-@import theme/mixins/images;
+@import theme/init;
 @import compass/css3/text-shadow;
 @import compass/css3/border-radius;
 @import compass/typography/text/nowrap;
@@ -17,7 +15,6 @@ $locationsListCityPadding:      2px 8px 2px 8px;
 $locationsListCityFontSize:      $base-font-size;
 
 .module-ads-locations {
-
   padding: 12px;
 
   .country-title {

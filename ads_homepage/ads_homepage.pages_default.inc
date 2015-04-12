@@ -62,18 +62,22 @@ function ads_homepage_default_page_manager_pages() {
       'default' => NULL,
       'top' => NULL,
       'bottom' => NULL,
-      'left' => NULL,
-      'right' => NULL,
+      'left' => array(
+        'corner_location' => 'panel',
+      ),
+      'right' => array(
+        'corner_location' => 'panel',
+      ),
       'middle' => NULL,
     ),
     'left' => array(
-      'style' => 'default',
+      'style' => 'rounded_corners',
     ),
     'middle' => array(
       'style' => '-1',
     ),
     'right' => array(
-      'style' => 'default',
+      'style' => 'rounded_corners',
     ),
   );
   $display->cache = array();
@@ -81,6 +85,28 @@ function ads_homepage_default_page_manager_pages() {
   $display->uuid = 'de580bcd-36f3-4bb9-87f8-e07189da12b0';
   $display->content = array();
   $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-6a5277dd-2a96-4fca-85ec-aee3cd77fb1f';
+    $pane->panel = 'left';
+    $pane->type = 'block';
+    $pane->subtype = 'block-2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Browse by Location',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6a5277dd-2a96-4fca-85ec-aee3cd77fb1f';
+    $display->content['new-6a5277dd-2a96-4fca-85ec-aee3cd77fb1f'] = $pane;
+    $display->panels['left'][0] = 'new-6a5277dd-2a96-4fca-85ec-aee3cd77fb1f';
     $pane = new stdClass();
     $pane->pid = 'new-7574a09f-b736-423a-be9f-be881f7947b1';
     $pane->panel = 'left';
@@ -98,11 +124,11 @@ function ads_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '7574a09f-b736-423a-be9f-be881f7947b1';
     $display->content['new-7574a09f-b736-423a-be9f-be881f7947b1'] = $pane;
-    $display->panels['left'][0] = 'new-7574a09f-b736-423a-be9f-be881f7947b1';
+    $display->panels['left'][1] = 'new-7574a09f-b736-423a-be9f-be881f7947b1';
     $pane = new stdClass();
     $pane->pid = 'new-2ab2f82c-ceab-4e9b-908b-226c8e111017';
     $pane->panel = 'right';
@@ -133,7 +159,7 @@ function ads_homepage_default_page_manager_pages() {
     $pane->panel = 'right';
     $pane->type = 'views';
     $pane->subtype = 'fivestar';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'override_pager_settings' => 0,
@@ -167,7 +193,7 @@ function ads_homepage_default_page_manager_pages() {
     $pane->panel = 'top';
     $pane->type = 'ads_include_page';
     $pane->subtype = 'ads_include_page';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'page_name' => 'search_filters_top_bar',

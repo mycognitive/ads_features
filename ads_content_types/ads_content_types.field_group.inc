@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ads_advert.field_group.inc
+ * ads_content_types.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function ads_advert_field_group_info() {
+function ads_content_types_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();
@@ -24,7 +24,6 @@ function ads_advert_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_ad_link_source',
-      1 => 'field_ad_category_node_ref',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -57,8 +56,8 @@ function ads_advert_field_group_info() {
     'label' => 'Basic details',
     'weight' => '0',
     'children' => array(
-      0 => 'body',
-      1 => 'title',
+      0 => 'field_ad_category',
+      1 => 'field_ad_image',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -90,10 +89,9 @@ function ads_advert_field_group_info() {
     'label' => 'Additional details',
     'weight' => '1',
     'children' => array(
-      0 => 'field_ad_category',
-      1 => 'field_ad_image',
-      2 => 'field_ad_location',
-      3 => 'field_ad_price',
+      0 => 'field_ad_category_node_ref',
+      1 => 'field_ad_location',
+      2 => 'field_ad_price',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -125,11 +123,13 @@ function ads_advert_field_group_info() {
     'label' => 'Contact and more details',
     'weight' => '2',
     'children' => array(
-      0 => 'field_ad_link',
-      1 => 'field_ad_phone',
-      2 => 'field_ad_address',
-      3 => 'field_ad_contact_method',
-      4 => 'field_ad_email',
+      0 => 'body',
+      1 => 'field_ad_address',
+      2 => 'field_ad_contact_method',
+      3 => 'field_ad_email',
+      4 => 'field_ad_link',
+      5 => 'field_ad_phone',
+      6 => 'title',
     ),
     'format_type' => 'div',
     'format_settings' => array(

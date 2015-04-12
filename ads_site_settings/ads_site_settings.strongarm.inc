@@ -28,7 +28,7 @@ function ads_site_settings_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_taxonomy_term_locations_pattern';
-  $strongarm->value = 'location/[term:parents:join-path]/[term:name]';
+  $strongarm->value = '[term:parent:parent:name]/[term:parent:name]/[term:name]';
   $export['pathauto_taxonomy_term_locations_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -78,9 +78,15 @@ function ads_site_settings_strongarm() {
       'teaser_display_mode' => '5',
       'comment_display_mode' => '1',
       'roles' => array(
-        3 => 0,
+        9 => 0,
         1 => 0,
         2 => 0,
+        3 => 0,
+        4 => 0,
+        5 => 0,
+        6 => 0,
+        7 => 0,
+        8 => 0,
       ),
       'allow_voting_by_author' => 0,
       'noperm_behaviour' => '3',

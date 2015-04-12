@@ -2,17 +2,20 @@
 
 body.page-homepage {
 	.panel-col-first {
-  	width: 24%;
   	margin: 0;
   	padding: 0;
 
     > .inside {
+      padding: 16px 16px;
     	margin: 0;
+    }
+
+    p {
+      padding: 0 47px;
     }
   }
 
   .panel-col-last {
- 	  width: 76%;
     margin: 0;
     padding: 0;
 
@@ -24,16 +27,16 @@ body.page-homepage {
 }
 
 .ads-homepage-category-group {
-  width: 200px;
+  // width: 30%;
 }
 
 .view-categories-grouped {
   padding: 10px 0 0 0;
 
-  > .view-content > div.item-list {
+  > .view-content div.item-list {
     /* Forcing categories to fill all possible columns */
+    width: 30%;
     margin: 0 auto;
-    width: 200px;
     overflow: hidden;
   }
 
@@ -68,11 +71,12 @@ body.page-homepage {
 
   // Category name.
   li {
-    clear: left;
-    margin-left: 23px;
+    float: left;
+    margin-left: 5px;
 
     a {
-      line-height: $base-font-size + 20px;
+      font-size: x-small;
+      line-height: $base-font-size;
       text-decoration: none;
       &:hover {
         color: #000;
@@ -80,8 +84,16 @@ body.page-homepage {
       }
     }
 
-  }
+    /* TODO
+    &:after {
+      content: ",";
+    }
+    &:last-child {
+      content: "";
+    }
+    */
 
+  }
 
 }
 

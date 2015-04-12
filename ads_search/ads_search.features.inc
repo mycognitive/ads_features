@@ -8,6 +8,9 @@
  * Implements hook_ctools_plugin_api().
  */
 function ads_search_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
   if ($module == "facetapi" && $api == "facetapi_defaults") {
     return array("version" => "1");
   }
@@ -23,10 +26,7 @@ function ads_search_ctools_plugin_api($module = NULL, $api = NULL) {
  * Implements hook_views_api().
  */
 function ads_search_views_api($module = NULL, $api = NULL) {
-  return array(
-    "api" => "3.0",
-    'template path' => drupal_get_path('module', 'ads_search') . '/theme',
-  );
+  return array("api" => "3.0");
 }
 
 /**
@@ -37,17 +37,9 @@ function ads_search_image_default_styles() {
 
   // Exported image style: ads_thumbnail_listing.
   $styles['ads_thumbnail_listing'] = array(
-    'name' => 'ads_thumbnail_listing',
     'label' => 'ads_thumbnail_listing',
     'effects' => array(
       2 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
-        'effect callback' => 'image_scale_effect',
-        'dimensions callback' => 'image_scale_dimensions',
-        'form callback' => 'image_scale_form',
-        'summary theme' => 'image_scale_summary',
-        'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
           'width' => 120,
@@ -77,22 +69,44 @@ function ads_search_default_search_api_index() {
       "index_directly" : 1,
       "cron_limit" : "50",
       "fields" : {
+        "author" : { "type" : "integer", "entity_type" : "user" },
         "body:summary" : { "type" : "text", "boost" : "0.1" },
         "body:value" : { "type" : "text", "boost" : "0.1" },
-        "field_ad_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ad_category:name" : { "type" : "string" },
-        "field_ad_category:parent" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ad_category:parents_all" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ad_category:tid" : { "type" : "integer" },
+        "changed" : { "type" : "date" },
+        "created" : { "type" : "date" },
+        "field_ad_category" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ad_category:name" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_ad_category:parent" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
+        "field_ad_category:parents_all" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
+        "field_ad_category:tid" : { "type" : "list\\u003Cinteger\\u003E" },
         "field_ad_category_node_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "field_ad_category_node_ref:nid" : { "type" : "list\\u003Cinteger\\u003E" },
-        "field_ad_location" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ad_location:name" : { "type" : "string" },
+        "field_ad_location" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ad_location:field_region_type" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_ad_location:name" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_ad_location:parent" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
+        "field_ad_location:parents_all" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
         "field_level_1_field" : { "type" : "decimal" },
         "field_level_2_field" : { "type" : "decimal" },
+        "field_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "language" : { "type" : "string" },
         "nid" : { "type" : "integer" },
+        "promote" : { "type" : "boolean" },
         "search_api_language" : { "type" : "string" },
         "status" : { "type" : "integer", "boost" : "0.1" },
+        "sticky" : { "type" : "boolean" },
         "title" : { "type" : "text", "boost" : "0.1" }
       },
       "data_alter_callbacks" : {
@@ -100,39 +114,31 @@ function ads_search_default_search_api_index() {
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
-          "settings" : {
-            "default" : "1",
-            "bundles" : {
-              "article" : "article",
-              "page" : "page",
-              "cv" : "cv",
-              "employer" : "employer",
-              "estate_agency" : "estate_agency",
-              "job" : "job",
-              "job_application" : "job_application",
-              "job_per_file" : "job_per_file",
-              "job_per_link" : "job_per_link",
-              "job_per_template" : "job_per_template",
-              "landlord" : "landlord",
-              "property" : "property"
-            }
-          }
+          "settings" : { "default" : "0", "bundles" : { "advert" : "advert" } }
         },
         "search_api_alter_node_status" : { "status" : 1, "weight" : "0", "settings" : [] },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
         "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } }
+        "search_api_alter_add_hierarchy" : {
+          "status" : 1,
+          "weight" : "0",
+          "settings" : { "fields" : {
+              "field_ad_category:parents_all" : "field_ad_category:parents_all",
+              "field_ad_location:parents_all" : "field_ad_location:parents_all"
+            }
+          }
+        }
       },
       "processors" : {
         "search_api_case_ignore" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "0",
           "settings" : { "fields" : { "title" : true, "body:value" : true, "body:summary" : true } }
         },
         "search_api_html_filter" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "10",
           "settings" : {
             "fields" : { "title" : true, "body:value" : true, "body:summary" : true },
@@ -142,7 +148,7 @@ function ads_search_default_search_api_index() {
           }
         },
         "search_api_tokenizer" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "20",
           "settings" : {
             "fields" : { "title" : true, "body:value" : true, "body:summary" : true },
@@ -151,7 +157,7 @@ function ads_search_default_search_api_index() {
           }
         },
         "search_api_stopwords" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "30",
           "settings" : {
             "fields" : { "title" : true, "body:value" : true, "body:summary" : true },
@@ -160,13 +166,14 @@ function ads_search_default_search_api_index() {
           }
         },
         "search_api_highlighting" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "35",
           "settings" : {
             "prefix" : "\\u003Cstrong\\u003E",
             "suffix" : "\\u003C\\/strong\\u003E",
             "excerpt" : 1,
             "excerpt_length" : "256",
+            "exclude_fields" : [],
             "highlight" : "always"
           }
         }

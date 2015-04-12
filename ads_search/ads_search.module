@@ -9,6 +9,15 @@ include_once 'ads_search.features.inc';
 define('ADS_SEARCH_SEARCH_API_SERVER_NAME', 'ads_search_server');
 
 /**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function ads_search_form_views_exposed_form_alter(&$form, &$form_state){
+  if ($form['#action'] === '/search/results_') {
+    $form['#action'] = '/search/results';
+  }
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function ads_search_entity_info_alter(&$entity_info) {
@@ -265,7 +274,6 @@ function ads_search_ctools_render_alter($info, $page, $context) {
  * @param array $vars
  */
 function ads_search_preprocess_ads_search_results_listing(&$vars) {
-  die ('ok');
   ads_theme_add_css(ads_theme_find('ads_search', $vars['directory'], 'ads-search-results-listing.scss', ADS_THEME_FIND_SASS));
 
   $items = array();

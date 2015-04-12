@@ -22,7 +22,7 @@ function ads_search_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Search Filters Facets';
+  $handler->display->display_options['title'] = 'Browse by category.';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -37,9 +37,44 @@ function ads_search_views_default_views() {
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 20, 50, 100';
-  $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'search_results_item';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'field_ad_image' => 'field_ad_image',
+    'title' => 'title',
+    'field_ad_price' => 'field_ad_price',
+    'field_ad_location_name' => 'field_ad_location_name',
+    'changed' => 'changed',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'field_ad_image' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ad_price' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ad_location_name' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'changed' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -53,6 +88,10 @@ function ads_search_views_default_views() {
   $handler->display->display_options['relationships']['field_ad_location']['id'] = 'field_ad_location';
   $handler->display->display_options['relationships']['field_ad_location']['table'] = 'search_api_index_ads_adverts';
   $handler->display->display_options['relationships']['field_ad_location']['field'] = 'field_ad_location';
+  /* Relationship: Indexed Node: Category node references */
+  $handler->display->display_options['relationships']['field_ad_category_node_ref']['id'] = 'field_ad_category_node_ref';
+  $handler->display->display_options['relationships']['field_ad_category_node_ref']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['relationships']['field_ad_category_node_ref']['field'] = 'field_ad_category_node_ref';
   /* Field: Indexed Node: Image */
   $handler->display->display_options['fields']['field_ad_image']['id'] = 'field_ad_image';
   $handler->display->display_options['fields']['field_ad_image']['table'] = 'search_api_index_ads_adverts';
@@ -74,11 +113,11 @@ function ads_search_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_entity'] = 1;
-  /* Field: Indexed Node: Price */
+  /* Field: Node: Price */
   $handler->display->display_options['fields']['field_ad_price']['id'] = 'field_ad_price';
-  $handler->display->display_options['fields']['field_ad_price']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['fields']['field_ad_price']['table'] = 'entity_node';
   $handler->display->display_options['fields']['field_ad_price']['field'] = 'field_ad_price';
-  $handler->display->display_options['fields']['field_ad_price']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ad_price']['relationship'] = 'field_ad_category_node_ref';
   $handler->display->display_options['fields']['field_ad_price']['click_sort_column'] = 'amount';
   /* Field: Location: Name (indexed) */
   $handler->display->display_options['fields']['field_ad_location_name']['id'] = 'field_ad_location_name';
@@ -108,57 +147,24 @@ function ads_search_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['group'] = 1;
   $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Keywords:';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'keywords';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
+    9 => 0,
+    7 => 0,
     3 => 0,
+    8 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
   );
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'search_results_content_pane');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['link_url'] = 'search/results';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_ad_image' => 'field_ad_image',
-    'title' => 'title',
-    'field_ad_price' => 'field_ad_price',
-    'field_ad_location_name' => 'field_ad_location_name',
-  );
-  $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_ad_image' => array(
-      'align' => 'views-align-left',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'title' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ad_price' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ad_location_name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
-  $handler->display->display_options['style_options']['sticky'] = TRUE;
-  $handler->display->display_options['style_options']['caption'] = 'Search results';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['pane_category']['name'] = 'ADS Views';
   $handler->display->display_options['pane_category']['weight'] = '0';
@@ -173,9 +179,29 @@ function ads_search_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['link_to_view'] = '1';
   $handler->display->display_options['inherit_panels_path'] = '1';
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'ads_by_terms');
+  $handler->display->display_options['display_description'] = 'Display adverts filtered by taxonomy.';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Category: Term ID (indexed) */
+  $handler->display->display_options['arguments']['field_ad_category_tid']['id'] = 'field_ad_category_tid';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['table'] = 'search_api_index_ads_adverts';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['field'] = 'field_ad_category_tid';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['field_ad_category_tid']['title'] = '%1';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['summary_options']['override'] = TRUE;
+  $handler->display->display_options['arguments']['field_ad_category_tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_ad_category_tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['field_ad_category_tid']['break_phrase'] = 1;
+  $handler->display->display_options['arguments']['field_ad_category_tid']['not'] = 0;
+  $handler->display->display_options['path'] = 'taxonomy/term/%';
   $translatables['ads_search_results'] = array(
     t('Master'),
-    t('Search Filters Facets'),
+    t('Browse by category.'),
     t('more'),
     t('Search'),
     t('Reset'),
@@ -193,13 +219,17 @@ function ads_search_views_default_views() {
     t('<h2>Your search returned no results.</h2>
 <p>Please change your keyword to search again.<br>'),
     t('Location'),
+    t('Category node references'),
     t('Image'),
     t('Title'),
     t('Price'),
     t('Updated'),
-    t('Keywords:'),
     t('Content pane'),
     t('ADS Views'),
+    t('Page'),
+    t('Display adverts filtered by taxonomy.'),
+    t('All'),
+    t('%1'),
   );
   $export['ads_search_results'] = $view;
 

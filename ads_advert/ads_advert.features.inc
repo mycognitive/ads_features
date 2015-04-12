@@ -16,81 +16,87 @@ function ads_advert_default_Workflow() {
     "tab_roles" : [],
     "options" : "a:3:{s:16:\\u0022comment_log_node\\u0022;i:0;s:15:\\u0022comment_log_tab\\u0022;i:0;s:13:\\u0022name_as_title\\u0022;i:0;}",
     "states" : {
-      "25" : {"sid":"25","wid":"4","weight":"-50","sysid":"1","state":"(creation)","status":"1","name":"(creation)"},
-      "26" : {"sid":"26","wid":"4","weight":"0","sysid":"0","state":"live","status":"1","name":"live"},
-      "27" : {"sid":"27","wid":"4","weight":"0","sysid":"0","state":"draft","status":"1","name":"draft"},
-      "28" : {"sid":"28","wid":"4","weight":"0","sysid":"0","state":"needs_approval","status":"1","name":"needs_approval"},
-      "29" : {"sid":"29","wid":"4","weight":"0","sysid":"0","state":"needs_editing","status":"1","name":"needs_editing"},
-      "30" : {"sid":"30","wid":"4","weight":"0","sysid":"0","state":"processing_","status":"1","name":"processing_"},
-      "31" : {"sid":"31","wid":"4","weight":"0","sysid":"0","state":"expired_","status":"1","name":"expired_"},
-      "32" : {"sid":"32","wid":"4","weight":"0","sysid":"0","state":"removed_","status":"1","name":"removed_"}
+      "41" : {"sid":"41","wid":"6","weight":"-50","sysid":"1","state":"(creation)","status":"1","name":"(creation)"},
+      "42" : {"sid":"42","wid":"6","weight":"0","sysid":"0","state":"live","status":"1","name":"live"},
+      "43" : {"sid":"43","wid":"6","weight":"0","sysid":"0","state":"draft","status":"1","name":"draft"},
+      "44" : {"sid":"44","wid":"6","weight":"0","sysid":"0","state":"needs_approval","status":"1","name":"needs_approval"},
+      "45" : {"sid":"45","wid":"6","weight":"0","sysid":"0","state":"needs_editing","status":"1","name":"needs_editing"},
+      "46" : {"sid":"46","wid":"6","weight":"0","sysid":"0","state":"processing_","status":"1","name":"processing_"},
+      "47" : {"sid":"47","wid":"6","weight":"0","sysid":"0","state":"expired_","status":"1","name":"expired_"},
+      "48" : {"sid":"48","wid":"6","weight":"0","sysid":"0","state":"removed_","status":"1","name":"removed_"}
     },
     "transitions" : {
-      "175" : {"tid":"175","sid":"25","target_sid":"28","roles":{"-1":-1,"3":"3"},"wid":"4","name":"10_13","label":""},
-      "169" : {"tid":"169","sid":"25","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"10_17","label":""},
-      "173" : {"tid":"173","sid":"25","target_sid":"27","roles":{"-1":-1,"3":"3"},"wid":"4","name":"10_12","label":""},
-      "174" : {"tid":"174","sid":"25","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"10_14","label":""},
-      "170" : {"tid":"170","sid":"25","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"10_11","label":""},
-      "172" : {"tid":"172","sid":"25","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"10_16","label":""},
-      "171" : {"tid":"171","sid":"25","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"10_15","label":""},
-      "208" : {"tid":"208","sid":"26","target_sid":"26","roles":{"-1":-1,"3":"3"},"wid":"4","name":"11_11","label":""},
-      "209" : {"tid":"209","sid":"26","target_sid":"27","roles":{"-1":-1,"3":"3"},"wid":"4","name":"11_12","label":""},
-      "211" : {"tid":"211","sid":"26","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"11_14","label":""},
-      "207" : {"tid":"207","sid":"26","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"11_15","label":""},
-      "210" : {"tid":"210","sid":"26","target_sid":"28","roles":{"-1":-1,"3":"3"},"wid":"4","name":"11_13","label":""},
-      "203" : {"tid":"203","sid":"27","target_sid":"27","roles":{"-1":-1,"3":"3"},"wid":"4","name":"12_12","label":""},
-      "202" : {"tid":"202","sid":"26","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"11_17","label":""},
-      "212" : {"tid":"212","sid":"27","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"12_15","label":""},
-      "204" : {"tid":"204","sid":"27","target_sid":"28","roles":{"-1":-1,"3":"3"},"wid":"4","name":"12_13","label":""},
-      "205" : {"tid":"205","sid":"27","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"12_14","label":""},
-      "206" : {"tid":"206","sid":"26","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"11_16","label":""},
-      "216" : {"tid":"216","sid":"29","target_sid":"27","roles":{"3":"3"},"wid":"4","name":"14_12","label":""},
-      "221" : {"tid":"221","sid":"28","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"13_11","label":""},
-      "220" : {"tid":"220","sid":"27","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"12_17","label":""},
-      "222" : {"tid":"222","sid":"28","target_sid":"27","roles":{"3":"3"},"wid":"4","name":"13_12","label":""},
-      "223" : {"tid":"223","sid":"28","target_sid":"28","roles":{"-1":-1,"3":"3"},"wid":"4","name":"13_13","label":""},
-      "224" : {"tid":"224","sid":"29","target_sid":"29","roles":{"-1":-1,"3":"3"},"wid":"4","name":"14_14","label":""},
-      "219" : {"tid":"219","sid":"28","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"13_14","label":""},
-      "218" : {"tid":"218","sid":"28","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"13_15","label":""},
-      "214" : {"tid":"214","sid":"28","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"13_16","label":""},
-      "215" : {"tid":"215","sid":"29","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"14_11","label":""},
-      "201" : {"tid":"201","sid":"27","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"12_11","label":""},
-      "217" : {"tid":"217","sid":"29","target_sid":"28","roles":{"-1":-1,"3":"3"},"wid":"4","name":"14_13","label":""},
-      "213" : {"tid":"213","sid":"27","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"12_16","label":""},
-      "196" : {"tid":"196","sid":"31","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"16_15","label":""},
-      "183" : {"tid":"183","sid":"31","target_sid":"27","roles":{"3":"3"},"wid":"4","name":"16_12","label":""},
-      "182" : {"tid":"182","sid":"29","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"14_16","label":""},
-      "184" : {"tid":"184","sid":"30","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"15_11","label":""},
-      "185" : {"tid":"185","sid":"30","target_sid":"27","roles":{"3":"3"},"wid":"4","name":"15_12","label":""},
-      "186" : {"tid":"186","sid":"30","target_sid":"28","roles":{"3":"3"},"wid":"4","name":"15_13","label":""},
-      "181" : {"tid":"181","sid":"29","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"14_17","label":""},
-      "180" : {"tid":"180","sid":"30","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"15_17","label":""},
-      "176" : {"tid":"176","sid":"30","target_sid":"30","roles":{"-1":-1,"3":"3"},"wid":"4","name":"15_15","label":""},
-      "177" : {"tid":"177","sid":"30","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"15_16","label":""},
-      "178" : {"tid":"178","sid":"31","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"16_11","label":""},
-      "179" : {"tid":"179","sid":"30","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"15_14","label":""},
-      "187" : {"tid":"187","sid":"31","target_sid":"31","roles":{"-1":-1,"3":"3"},"wid":"4","name":"16_16","label":""},
-      "188" : {"tid":"188","sid":"32","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"17_14","label":""},
-      "195" : {"tid":"195","sid":"31","target_sid":"29","roles":{"3":"3"},"wid":"4","name":"16_14","label":""},
-      "197" : {"tid":"197","sid":"29","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"14_15","label":""},
-      "198" : {"tid":"198","sid":"31","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"16_17","label":""},
-      "199" : {"tid":"199","sid":"31","target_sid":"28","roles":{"3":"3"},"wid":"4","name":"16_13","label":""},
-      "194" : {"tid":"194","sid":"32","target_sid":"26","roles":{"3":"3"},"wid":"4","name":"17_11","label":""},
-      "193" : {"tid":"193","sid":"32","target_sid":"27","roles":{"3":"3"},"wid":"4","name":"17_12","label":""},
-      "189" : {"tid":"189","sid":"32","target_sid":"28","roles":{"3":"3"},"wid":"4","name":"17_13","label":""},
-      "190" : {"tid":"190","sid":"32","target_sid":"30","roles":{"3":"3"},"wid":"4","name":"17_15","label":""},
-      "191" : {"tid":"191","sid":"32","target_sid":"31","roles":{"3":"3"},"wid":"4","name":"17_16","label":""},
-      "192" : {"tid":"192","sid":"32","target_sid":"32","roles":{"-1":-1,"3":"3"},"wid":"4","name":"17_17","label":""},
-      "200" : {"tid":"200","sid":"28","target_sid":"32","roles":{"3":"3"},"wid":"4","name":"13_17","label":""}
+      "287" : {"tid":"287","sid":"41","target_sid":"43","roles":{"-1":-1,"9":"9"},"wid":"6","name":"10_12","label":""},
+      "281" : {"tid":"281","sid":"41","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"10_15","label":""},
+      "285" : {"tid":"285","sid":"41","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"10_17","label":""},
+      "286" : {"tid":"286","sid":"41","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"10_14","label":""},
+      "282" : {"tid":"282","sid":"41","target_sid":"44","roles":{"-1":-1,"9":"9"},"wid":"6","name":"10_13","label":""},
+      "284" : {"tid":"284","sid":"41","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"10_16","label":""},
+      "283" : {"tid":"283","sid":"41","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"10_11","label":""},
+      "320" : {"tid":"320","sid":"42","target_sid":"42","roles":{"-1":-1,"9":"9"},"wid":"6","name":"11_11","label":""},
+      "321" : {"tid":"321","sid":"42","target_sid":"43","roles":{"-1":-1,"9":"9"},"wid":"6","name":"11_12","label":""},
+      "323" : {"tid":"323","sid":"42","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"11_15","label":""},
+      "319" : {"tid":"319","sid":"42","target_sid":"44","roles":{"-1":-1,"9":"9"},"wid":"6","name":"11_13","label":""},
+      "322" : {"tid":"322","sid":"42","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"11_14","label":""},
+      "315" : {"tid":"315","sid":"43","target_sid":"44","roles":{"-1":-1,"9":"9"},"wid":"6","name":"12_13","label":""},
+      "314" : {"tid":"314","sid":"42","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"11_17","label":""},
+      "324" : {"tid":"324","sid":"45","target_sid":"43","roles":{"9":"9"},"wid":"6","name":"14_12","label":""},
+      "316" : {"tid":"316","sid":"43","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"12_14","label":""},
+      "317" : {"tid":"317","sid":"42","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"11_16","label":""},
+      "318" : {"tid":"318","sid":"43","target_sid":"43","roles":{"-1":-1,"9":"9"},"wid":"6","name":"12_12","label":""},
+      "328" : {"tid":"328","sid":"45","target_sid":"44","roles":{"-1":-1,"9":"9"},"wid":"6","name":"14_13","label":""},
+      "333" : {"tid":"333","sid":"44","target_sid":"43","roles":{"9":"9"},"wid":"6","name":"13_12","label":""},
+      "332" : {"tid":"332","sid":"43","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"12_17","label":""},
+      "334" : {"tid":"334","sid":"44","target_sid":"44","roles":{"-1":-1,"9":"9"},"wid":"6","name":"13_13","label":""},
+      "335" : {"tid":"335","sid":"45","target_sid":"45","roles":{"-1":-1,"9":"9"},"wid":"6","name":"14_14","label":""},
+      "336" : {"tid":"336","sid":"47","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"16_15","label":""},
+      "331" : {"tid":"331","sid":"44","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"13_14","label":""},
+      "330" : {"tid":"330","sid":"44","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"13_15","label":""},
+      "326" : {"tid":"326","sid":"44","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"13_16","label":""},
+      "327" : {"tid":"327","sid":"43","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"12_11","label":""},
+      "313" : {"tid":"313","sid":"43","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"12_15","label":""},
+      "329" : {"tid":"329","sid":"43","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"12_16","label":""},
+      "325" : {"tid":"325","sid":"44","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"13_11","label":""},
+      "308" : {"tid":"308","sid":"45","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"14_15","label":""},
+      "295" : {"tid":"295","sid":"47","target_sid":"47","roles":{"-1":-1,"9":"9"},"wid":"6","name":"16_16","label":""},
+      "294" : {"tid":"294","sid":"45","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"14_16","label":""},
+      "296" : {"tid":"296","sid":"46","target_sid":"43","roles":{"9":"9"},"wid":"6","name":"15_12","label":""},
+      "297" : {"tid":"297","sid":"46","target_sid":"44","roles":{"9":"9"},"wid":"6","name":"15_13","label":""},
+      "298" : {"tid":"298","sid":"45","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"14_17","label":""},
+      "293" : {"tid":"293","sid":"46","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"15_11","label":""},
+      "292" : {"tid":"292","sid":"47","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"16_11","label":""},
+      "288" : {"tid":"288","sid":"46","target_sid":"46","roles":{"-1":-1,"9":"9"},"wid":"6","name":"15_15","label":""},
+      "289" : {"tid":"289","sid":"46","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"15_16","label":""},
+      "290" : {"tid":"290","sid":"46","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"15_14","label":""},
+      "291" : {"tid":"291","sid":"46","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"15_17","label":""},
+      "299" : {"tid":"299","sid":"47","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"16_17","label":""},
+      "300" : {"tid":"300","sid":"48","target_sid":"46","roles":{"9":"9"},"wid":"6","name":"17_15","label":""},
+      "307" : {"tid":"307","sid":"47","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"16_14","label":""},
+      "309" : {"tid":"309","sid":"47","target_sid":"43","roles":{"9":"9"},"wid":"6","name":"16_12","label":""},
+      "310" : {"tid":"310","sid":"47","target_sid":"44","roles":{"9":"9"},"wid":"6","name":"16_13","label":""},
+      "311" : {"tid":"311","sid":"48","target_sid":"45","roles":{"9":"9"},"wid":"6","name":"17_14","label":""},
+      "306" : {"tid":"306","sid":"48","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"17_11","label":""},
+      "305" : {"tid":"305","sid":"48","target_sid":"43","roles":{"9":"9"},"wid":"6","name":"17_12","label":""},
+      "301" : {"tid":"301","sid":"48","target_sid":"44","roles":{"9":"9"},"wid":"6","name":"17_13","label":""},
+      "302" : {"tid":"302","sid":"48","target_sid":"47","roles":{"9":"9"},"wid":"6","name":"17_16","label":""},
+      "303" : {"tid":"303","sid":"48","target_sid":"48","roles":{"-1":-1,"9":"9"},"wid":"6","name":"17_17","label":""},
+      "304" : {"tid":"304","sid":"44","target_sid":"48","roles":{"9":"9"},"wid":"6","name":"13_17","label":""},
+      "312" : {"tid":"312","sid":"45","target_sid":"42","roles":{"9":"9"},"wid":"6","name":"14_11","label":""}
     },
     "label" : "ADS",
     "typeMap" : [],
-    "wid_original" : "4",
+    "wid_original" : "6",
     "system_roles" : {
       "-1" : "(author)",
       "1" : "anonymous user",
       "2" : "authenticated user",
-      "3" : "administrator"
+      "9" : "administrator",
+      "7" : "Tag Editor",
+      "3" : "Editor",
+      "8" : "Taxonomist",
+      "6" : "Reviewer",
+      "5" : "Organizer",
+      "4" : "Moderator"
     }
   }');
 
@@ -101,9 +107,6 @@ function ads_advert_default_Workflow() {
  * Implements hook_ctools_plugin_api().
  */
 function ads_advert_ctools_plugin_api($module = NULL, $api = NULL) {
-  if ($module == "field_group" && $api == "field_group") {
-    return array("version" => "1");
-  }
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => "1");
   }
@@ -166,21 +169,13 @@ function ads_advert_image_default_styles() {
 
   // Exported image style: ads_advert_preview.
   $styles['ads_advert_preview'] = array(
-    'name' => 'ads_advert_preview',
     'label' => 'ads_advert_preview',
     'effects' => array(
       1 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 320,
-          'height' => 240,
+          'width' => 200,
+          'height' => 150,
         ),
         'weight' => 1,
       ),
@@ -189,30 +184,3 @@ function ads_advert_image_default_styles() {
 
   return $styles;
 }
-
-/**
- * Implements hook_node_info().
- */
-function ads_advert_node_info() {
-  $items = array(
-    'level_1' => array(
-      'name' => t('Level 1'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-    'level_2' => array(
-      'name' => t('Level 2'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  drupal_alter('node_info', $items);
-  return $items;
-}
-

@@ -69,7 +69,7 @@ advert/*/edit/step-1';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'smart_ip_source';
-  $strongarm->value = 'ipinfodb_service';
+  $strongarm->value = 'mod_geoip';
   $export['smart_ip_source'] = $strongarm;
 
   $strongarm = new stdClass();

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ctools content-type plugin to provide RSS link.
+ *   Ctools content-type plugin to provide placeholder items.
  */
 
 $plugin = array(

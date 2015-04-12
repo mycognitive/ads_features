@@ -18,12 +18,12 @@ function ads_theme_strongarm() {
     'filetypes' => array(
       'sass' => array(
         'compile_handler' => 'sassy/sassy',
-        'cache_handler' => 'prepro/onload',
+        'cache_handler' => 'prepro/cache',
         'cache_path' => 'public://prepro',
       ),
       'scss' => array(
         'compile_handler' => 'sassy/sassy',
-        'cache_handler' => 'prepro/onload',
+        'cache_handler' => 'prepro/cache',
         'cache_path' => 'public://prepro',
       ),
     ),

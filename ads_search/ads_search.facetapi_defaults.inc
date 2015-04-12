@@ -24,6 +24,7 @@ function ads_search_facetapi_default_facet_settings() {
     'dependencies' => array(
       'bundle' => 'none',
       'bundle_selected' => array(),
+      'roles' => array(),
     ),
     'facet_mincount' => '1',
     'facet_missing' => '0',
@@ -32,6 +33,8 @@ function ads_search_facetapi_default_facet_settings() {
     'default_true' => '1',
     'facet_search_ids' => array(),
     'exclude' => 0,
+    'individual_parent' => 0,
+    'limit_active_items' => 0,
   );
   $export['search_api@ads_adverts::field_ad_category:parent'] = $facet;
 
@@ -57,6 +60,8 @@ function ads_search_facetapi_default_facet_settings() {
     'query_type' => 'term',
     'default_true' => TRUE,
     'facet_search_ids' => array(),
+    'individual_parent' => 0,
+    'limit_active_items' => 0,
   );
   $export['search_api@ads_adverts::field_ad_category:parents_all'] = $facet;
 
@@ -99,6 +104,7 @@ function ads_search_facetapi_default_facet_settings() {
     'dependencies' => array(
       'bundle' => 'none',
       'bundle_selected' => array(),
+      'roles' => array(),
     ),
     'facet_mincount' => '1',
     'facet_missing' => '0',
@@ -106,6 +112,8 @@ function ads_search_facetapi_default_facet_settings() {
     'query_type' => 'term',
     'default_true' => TRUE,
     'facet_search_ids' => array(),
+    'individual_parent' => 0,
+    'limit_active_items' => 0,
   );
   $export['search_api@ads_adverts::title'] = $facet;
 
@@ -140,6 +148,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:author'] = $facet;
 
@@ -221,8 +231,8 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->name = 'search_api@ads_adverts:block:field_ad_category';
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
-  $facet->facet = 'field_ad_category';
-  $facet->enabled = FALSE;
+  $facet->facet = 'category';
+  $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
@@ -231,23 +241,36 @@ function ads_search_facetapi_default_facet_settings() {
       'active' => 'active',
       'count' => 'count',
       'display' => 'display',
+      'indexed' => 0,
     ),
     'sort_weight' => array(
-      'active' => -50,
-      'count' => -49,
-      'display' => -48,
+      'active' => '-50',
+      'count' => '-49',
+      'display' => '-48',
+      'indexed' => '0',
     ),
     'sort_order' => array(
-      'active' => 3,
-      'count' => 3,
-      'display' => 4,
+      'active' => '3',
+      'count' => '3',
+      'display' => '4',
+      'indexed' => '4',
     ),
     'empty_behavior' => 'none',
-    'soft_limit' => 20,
+    'soft_limit' => '20',
     'nofollow' => 1,
     'show_expanded' => 0,
     'facet_more_text' => 'Show more',
     'facet_fewer_text' => 'Show fewer',
+    'name' => '',
+    'prefix' => '',
+    'suffix' => '',
+    'auto-submit-delay' => '1500',
+    'range_simple' => 10,
+    'range_advanced' => '',
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'plain_text',
+    ),
   );
   $export['search_api@ads_adverts:block:field_ad_category'] = $facet;
 
@@ -344,7 +367,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'field_ad_category:parents_all';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_checkbox_links',
@@ -388,7 +411,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'field_ad_category:tid';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
@@ -495,7 +518,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->name = 'search_api@ads_adverts:block:field_ad_location';
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
-  $facet->facet = 'field_ad_location';
+  $facet->facet = 'location';
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
@@ -531,7 +554,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->name = 'search_api@ads_adverts:block:field_ad_location:name';
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
-  $facet->facet = 'field_ad_location:name';
+  $facet->facet = 'location_name';
   $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
@@ -568,7 +591,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'field_ad_location:parents_all';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
@@ -592,6 +615,8 @@ function ads_search_facetapi_default_facet_settings() {
     'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
   );
   $export['search_api@ads_adverts:block:field_ad_location:parents_all'] = $facet;
 
@@ -826,7 +851,7 @@ function ads_search_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@ads_adverts';
   $facet->realm = 'block';
   $facet->facet = 'title';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
