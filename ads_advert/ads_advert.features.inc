@@ -135,7 +135,6 @@ function ads_advert_flag_default_flags() {
     'types' => array(
       0 => 'advert',
     ),
-    'errors' => array(),
     'flag_short' => 'Save',
     'flag_long' => '',
     'flag_message' => 'Advert saved. Go to your profile to see saved adverts.',
@@ -145,11 +144,14 @@ function ads_advert_flag_default_flags() {
     'unflag_denied_text' => '',
     'link_type' => 'normal',
     'weight' => 0,
+    'show_in_links' => array(
+      'teaser' => TRUE,
+      'full' => TRUE,
+    ),
+    'show_as_field' => FALSE,
     'show_on_form' => 0,
     'access_author' => '',
     'show_contextual_link' => 0,
-    'show_on_page' => 1,
-    'show_on_teaser' => 1,
     'i18n' => 0,
     'module' => 'ads_advert',
     'locked' => array(
