@@ -23,7 +23,6 @@ features[ctools][] = views:views_default:3.0
 features[fe_block_settings][] = superfish-1
 features[features_api][] = api:2
 features[page_manager_pages][] = homepage
-features[variable][] = devel_use_uncompressed_jquery
 features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_admin_version
 features[variable][] = jquery_update_jquery_cdn
