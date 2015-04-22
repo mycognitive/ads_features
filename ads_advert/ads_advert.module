@@ -47,6 +47,12 @@ function ads_advert_search_api_solr_query_alter(&$call_args, SearchApiQueryInter
  */
 function ads_advert_search_api_solr_search_results_alter(&$results, $query, $response) {
 
+  if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    // Ignore altering AJAX requests.
+    // See: http://drupal.stackexchange.com/q/54296/1908
+    return;
+  }
+
   $original_options = $query->getOptions();
 
   if (strpos($original_options['search id'], 'search_api_views:ads_search_results') === 0) {
