@@ -11,8 +11,8 @@ define('ADS_SEARCH_SEARCH_API_SERVER_NAME', 'ads_search_server');
 /**
  * Implements hook_form_views_exposed_form_alter().
  */
-function ads_search_form_views_exposed_form_alter(&$form, &$form_state){
-  if ($form['#action'] === '/search/results_') {
+function ads_search_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form['#id'] == 'views-exposed-form-ads-search-results-default') {
     $form['#action'] = '/search/results';
   }
 }
