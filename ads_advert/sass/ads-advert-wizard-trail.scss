@@ -10,7 +10,7 @@
   &.step-2-of-3 {
     background: url('../images/step-2-of-3.png') no-repeat;
   }
-  &.step-3-of-3 {
+  &.step-3-of-3, &.step-w-of-3 {
     background: url('../images/step-3-of-3.png') no-repeat;
   }
 

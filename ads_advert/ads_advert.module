@@ -425,7 +425,7 @@ function ads_advert_form_wizard() {
       'step-1' => t('Basic information'),
       'step-2' => t('Category selection'),
       'step-3' => t('Details'),
-      'step-4' => t('Preview'),
+      'review' => t('Review'),
     ),
     'forms' => array(
       'step-1' => array(
@@ -437,7 +437,7 @@ function ads_advert_form_wizard() {
       'step-3' => array(
         'form id' => 'ads_advert_form_step_3',
       ),
-      'step-4' => array(
+      'review' => array(
         'form id' => 'ads_advert_form_step_4',
       ),
     ),
@@ -479,6 +479,8 @@ function ads_advert_form_wizard() {
  */
 function ads_advert_form_step($form, &$form_state, $step = 1) {
 
+  global $user;
+
   $node_type = 'advert';
   $form_id   = $node_type . '_node_form';
   $action    = arg(1) == 'add' ? 'add' : 'edit';
@@ -487,8 +489,6 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
   module_load_include('inc', 'node', 'node.pages');
 
   ctools_include('object-cache');
-
-  $user = $GLOBALS['user'];
 
   if ($form_state['rebuild']) {
     // Don't hang on to submitted data in form state input.
@@ -514,10 +514,10 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
     // We need to load node as it will be edited by the user.
     $node = node_load($nid);
 
-    $content_type_nodes = ads_advert_get_node_content_type_nodes($node, FALSE);
+    $ct_nodes = ads_advert_get_node_content_type_nodes($node, FALSE);
 
     // Storing advert node content type nodes in the cache.
-    ctools_object_cache_set('ads_advert_edit', 'content_type_nodes', $content_type_nodes);
+    ctools_object_cache_set('ads_advert_edit', 'content_type_nodes', $ct_nodes);
   }
 
   if (empty($node)) {
@@ -534,7 +534,6 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
     node_object_prepare($node);
   }
 
-  $node_is_already_saved = !empty($node->nid);
 
   // Storing advert node in the cache.
   ctools_object_cache_set('ads_advert_edit', 'node', $node);
@@ -553,22 +552,24 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
   switch ($step) {
     case 1:
-    case 2:
-    case 4:
       // We don't want following fields in step 1 and 2:
-      unset($form['author']);
-      unset($form['revision_information']);
-      unset($form['options']);
-      unset($form['additional_settings']);
+      unset($form['author'], $form['revision_information'], $form['options'], $form['additional_settings']);
       break;
-  }
+    case 2:
+      // We don't want following fields in step 1 and 2:
+      unset($form['author'], $form['revision_information'], $form['options'], $form['additional_settings']);
+      unset($form['buttons']['cancel']);
 
-  switch ($step) {
+      break;
     case 3:
+      // We don't want following fields in step 3:
+      unset($ct_form['title'], $ct_form['body'], $ct_form['author'], $ct_form['revision_information'], $ct_form['options'], $ct_form['additional_settings']);
+      unset($form['buttons']['cancel']);
+
       // Category-related content types step.
       $content_types = ads_advert_get_node_category_content_types($form_state['node']);
 
-      $content_type_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
+      $ct_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
 
       // Traversing all category-related content types in top-bottom direction.
       foreach ($content_types as $content_type) {
@@ -582,71 +583,65 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
           '#type'  => 'fieldset',
         );
 
-        $content_type_form       = &$form[$content_type]['form'];
-        $content_type_form_state = &$form_state[$content_type];
+        $ct_form       = &$form[$content_type]['form'];
+        $ct_form_state = &$form_state[$content_type];
 
         // We are loading node from the cache or creating new one if not already
         // in cache.
-        $content_type_node = @$content_type_nodes[$content_type];
+        $ct_node = @$ct_nodes[$content_type];
 
-        if ($content_type_node === NULL) {
+        if ($ct_node === NULL) {
           // Node isn't cached, creating new one.
-          $content_type_node = new stdClass();
+          $ct_node = new stdClass();
 
           // Filling node default settings.
-          $content_type_node->title    = '';
-          $content_type_node->nid      = NULL;
-          $content_type_node->type     = $content_type;
-          $content_type_node->uid      = $user->uid;
-          $content_type_node->name     = isset($user->name) ? $user->name : '';
-          $content_type_node->language = LANGUAGE_NONE;
-          $content_type_node->title    = '';
+          $ct_node->title    = '';
+          $ct_node->nid      = NULL;
+          $ct_node->type     = $content_type;
+          $ct_node->uid      = $user->uid;
+          $ct_node->name     = isset($user->name) ? $user->name : '';
+          $ct_node->language = LANGUAGE_NONE;
+          $ct_node->title    = '';
 
-          node_object_prepare($content_type_node);
+          node_object_prepare($ct_node);
 
-          $content_type_nodes[$content_type] = $content_type_node;
+          $ct_nodes[$content_type] = $ct_node;
         }
 
         // Generating content type node editing form.
-        $content_type_form = node_form($content_type_form, $content_type_form_state, $content_type_node);
-
-        // We don't want following fields in step 3:
-        unset($content_type_form['title']);
-        unset($content_type_form['body']);
-        unset($content_type_form['author']);
-        unset($content_type_form['revision_information']);
-        unset($content_type_form['options']);
-        unset($content_type_form['additional_settings']);
+        $ct_form = node_form($ct_form, $ct_form_state, $ct_node);
 
         // Skipping not ours submit callbacks.
-        $content_type_form['actions'] = array();
+        $ct_form['actions'] = array();
 
-        if (!empty($content_type_form_state['field'])) {
+        if (!empty($ct_form_state['field'])) {
           // Copying content type node fields into $form_state['fields'] array.
-          foreach ($content_type_form_state['field'] as $key => $value) {
+          foreach ($ct_form_state['field'] as $key => $value) {
             $form_state['field'][$key] = $value;
           }
         }
 
         // Clearing references.
-        unset($content_type_form);
-        unset($content_type_form_state);
+        unset($ct_form, $ct_form_state);
       }
 
       // Caching content type nodes for later use, e.g., in submit callback.
-      ctools_object_cache_set('ads_advert_edit', 'content_type_nodes', $content_type_nodes);
+      ctools_object_cache_set('ads_advert_edit', 'content_type_nodes', $ct_nodes);
 
       $form['buttons']['next'] = array(
         '#type'        => 'submit',
-        '#value'       => t('Next'),
+        '#value'       => t('Review'),
         '#wizard type' => 'next',
-        '#next'        => 'step-4',
+        '#next'        => 'review',
         '#attributes'  => array(),
       );
 
       break;
 
     case 4:
+      // We don't want following fields in step 4:
+      unset($ct_form['title'], $ct_form['body'], $ct_form['author'], $ct_form['revision_information'], $ct_form['options'], $ct_form['additional_settings']);
+
       // Advert preview step.
       $form['preview_node'] = ads_advert_get_node_preview($node, TRUE);
 
@@ -671,14 +666,11 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
     $form['buttons']['return']['#weight'] = 4;
   }
 
-  if ($step == 2 || $step == 3) {
-    unset($form['buttons']['cancel']);
-  }
-
-  if ($step == 3 || $step == 4 || $node_is_already_saved) {
+  $node_is_already_saved = !empty($node->nid);
+  if ($step == 4 || $node_is_already_saved) {
     $form['buttons']['return'] = array(
       '#type'        => 'submit',
-      '#value'       => t('Save'),
+      '#value'       => t('Post'),
       '#wizard type' => 'finish',
       '#attributes'  => array(),
       '#weight'      => 4,
@@ -734,9 +726,9 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
         'postal_code',
         'country',
         ) as $name) {
-        if (isset($profile_address[$name])) {
-          $form_address[$name] = $profile_address[$name];
-        }
+          if (isset($profile_address[$name])) {
+            $form_address[$name] = $profile_address[$name];
+          }
       }
     }
   }
@@ -760,12 +752,12 @@ function ads_advert_get_node_preview($node, $use_cache = FALSE) {
 
   $preview = node_view($node);
 
-  $content_type_nodes = ads_advert_get_node_content_type_nodes($node, TRUE);
+  $ct_nodes = ads_advert_get_node_content_type_nodes($node, TRUE);
 
-  foreach ($content_type_nodes as $content_type => $content_type_node) {
+  foreach ($ct_nodes as $content_type => $ct_node) {
 
     // Generating content type node preview form.
-    $content_type_preview_form = node_view($content_type_node);
+    $content_type_preview_form = node_view($ct_node);
 
     // We don't want any links on the form.
     unset($content_type_preview_form['links']);
@@ -790,7 +782,7 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
     return array();
   }
 
-  $content_type_nodes       = array();
+  $ct_nodes       = array();
   $node_saved_content_types = array();
 
   if (!isset($node->field_ad_category_node_ref[$node->language])) {
@@ -813,26 +805,26 @@ function ads_advert_get_node_content_type_nodes($node, $use_cache = TRUE) {
   // Traversing all category-related content types in top-bottom direction.
   foreach ($content_types as $content_type) {
 
-    $content_type_node = $use_cache ? @$cached_content_type_nodes[$content_type] : NULL;
+    $ct_node = $use_cache ? @$cached_content_type_nodes[$content_type] : NULL;
 
-    if ($content_type_node === NULL) {
+    if ($ct_node === NULL) {
       // Getting index of content type node saved in the node field.
-      $content_type_node_index = @$node_saved_content_types[$content_type];
+      $ct_node_index = @$node_saved_content_types[$content_type];
 
-      if ($content_type_node_index === NULL) {
+      if ($ct_node_index === NULL) {
         continue;
       }
 
-      $content_type_node_nid = $node->field_ad_category_node_ref[$node->language][$content_type_node_index]['target_id'];
+      $ct_node_nid = $node->field_ad_category_node_ref[$node->language][$ct_node_index]['target_id'];
 
-      $content_type_nodes[$content_type] = node_load($content_type_node_nid);
+      $ct_nodes[$content_type] = node_load($ct_node_nid);
     }
     else {
-      $content_type_nodes[$content_type] = $content_type_node;
+      $ct_nodes[$content_type] = $ct_node;
     }
   }
 
-  return $content_type_nodes;
+  return $ct_nodes;
 }
 
 /**
@@ -979,14 +971,14 @@ function ads_advert_form_step_3_submit(&$form, &$form_state) {
 
   $content_types = ads_advert_get_node_category_content_types($form_state['node']);
 
-  $content_type_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
+  $ct_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
 
   // Traversing all category-related content types in top-bottom direction.
   foreach ($content_types as $content_type) {
 
     // We have ready content type's form state in $form_state[$content_type]
     // array.
-    $content_type_node_form_state = &$form_state[$content_type];
+    $ct_node_form_state = &$form_state[$content_type];
 
     foreach ($form_state['values'] as $key => $value) {
       if (!empty($form_state['input'][$key])) {
@@ -996,25 +988,25 @@ function ads_advert_form_step_3_submit(&$form, &$form_state) {
 
     // As $form_state['values'] belongs to advert node, we have to use
     // $form_state['input'] for content type node creation.
-    $content_type_node_form_state['values'] = $form_state['input'];
+    $ct_node_form_state['values'] = $form_state['input'];
 
     // The node_form_submit_build_node function requires passing the
     // $form_state['node'] argument with the node the function should operate
     // on. Our content type node is already cached so we will use its cached
     // version.
-    $content_type_node_form_state['node']   = $content_type_nodes[$content_type];
+    $ct_node_form_state['node']   = $ct_nodes[$content_type];
 
     // Fill up node properties with the form state input values.
-    $content_type_node_form_state['node']   = node_form_submit_build_node($form[$content_type]['form'], $content_type_node_form_state);
+    $ct_node_form_state['node']   = node_form_submit_build_node($form[$content_type]['form'], $ct_node_form_state);
 
     // We don't want other submit callbacks to be called.
     $form[$content_type]['#submit']      = array();
 
-    $content_type_nodes[$content_type]   = $content_type_node_form_state['node'];
+    $ct_nodes[$content_type]   = $ct_node_form_state['node'];
   }
 
   // Caching content type node objects.
-  ctools_object_cache_set('ads_advert_edit', 'content_type_nodes', $content_type_nodes);
+  ctools_object_cache_set('ads_advert_edit', 'content_type_nodes', $ct_nodes);
 }
 
 /**
@@ -1099,18 +1091,18 @@ function ads_advert_edit_form_subtask_finish(&$form_state) {
   // Clearing content type node references in the advert node object.
   $node->field_ad_category_node_ref[$node->language] = array();
 
-  $content_type_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
+  $ct_nodes = ctools_object_cache_get('ads_advert_edit', 'content_type_nodes');
 
   // Traversing all category-related content types in top-bottom direction.
   foreach ($content_types as $content_type) {
-    $content_type_node = $content_type_nodes[$content_type];
+    $ct_node = $ct_nodes[$content_type];
 
     // Saving content type node.
-    node_save($content_type_node);
+    node_save($ct_node);
 
     // Adding content type node reference to the advert node object.
     $node->field_ad_category_node_ref[$node->language][] = array(
-      'target_id'   => $content_type_node->nid,
+      'target_id'   => $ct_node->nid,
       'target_type' => 'node',
     );
   }
