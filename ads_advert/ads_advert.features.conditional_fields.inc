@@ -10,7 +10,7 @@
 function ads_advert_conditional_fields_default_fields() {
   $items = array();
 
-  $items[] = array(
+  $items["node:advert:0"] = array(
     'entity' => 'node',
     'bundle' => 'advert',
     'dependent' => 'field_ad_email',
@@ -153,7 +153,7 @@ function ads_advert_conditional_fields_default_fields() {
     ),
   );
 
-  $items[] = array(
+  $items["node:advert:1"] = array(
     'entity' => 'node',
     'bundle' => 'advert',
     'dependent' => 'field_ad_link',
@@ -296,7 +296,7 @@ function ads_advert_conditional_fields_default_fields() {
     ),
   );
 
-  $items[] = array(
+  $items["node:advert:2"] = array(
     'entity' => 'node',
     'bundle' => 'advert',
     'dependent' => 'field_ad_phone',

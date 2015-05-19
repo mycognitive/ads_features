@@ -262,7 +262,7 @@ function ads_content_types_field_default_field_bases() {
   // Exported field_base: 'field_ad_phone'
   $field_bases['field_ad_phone'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 3,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ad_phone',
@@ -278,8 +278,10 @@ function ads_content_types_field_default_field_bases() {
       ),
       'comment_allowed_values_function' => '',
       'comment_allowed_values_type' => 'custom',
+      'country' => 'gb',
       'extension_size' => 6,
       'number_size' => 15,
+      'profile2_private' => FALSE,
     ),
     'translatable' => 0,
     'type' => 'phone',
