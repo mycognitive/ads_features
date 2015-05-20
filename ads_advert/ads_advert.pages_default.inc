@@ -299,7 +299,7 @@ function ads_advert_default_page_manager_handlers() {
     $pane->panel = 'header';
     $pane->type = 'node_title';
     $pane->subtype = 'node_title';
-    $pane->shown = FALSE;
+    $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'link' => 0,
@@ -307,7 +307,7 @@ function ads_advert_default_page_manager_handlers() {
       'id' => '',
       'class' => '',
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'override_title_heading' => 'span',
     );
