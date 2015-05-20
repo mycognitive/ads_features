@@ -241,7 +241,7 @@ function ads_advert_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = '%node:title';
   $display->uuid = 'ef041a75-f17b-48a5-a4c5-f1395657e08d';
   $display->content = array();
   $display->panels = array();
@@ -294,34 +294,6 @@ function ads_advert_default_page_manager_handlers() {
     $pane->uuid = 'b6d88f04-87ee-4639-8bc0-e1a8111fc9db';
     $display->content['new-b6d88f04-87ee-4639-8bc0-e1a8111fc9db'] = $pane;
     $display->panels['bottom_left'][1] = 'new-b6d88f04-87ee-4639-8bc0-e1a8111fc9db';
-    $pane = new stdClass();
-    $pane->pid = 'new-8b4a48b0-295d-401e-aef7-0424868019ab';
-    $pane->panel = 'header';
-    $pane->type = 'node_title';
-    $pane->subtype = 'node_title';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'link' => 0,
-      'markup' => 'h1',
-      'id' => '',
-      'class' => '',
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'span',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '8b4a48b0-295d-401e-aef7-0424868019ab';
-    $display->content['new-8b4a48b0-295d-401e-aef7-0424868019ab'] = $pane;
-    $display->panels['header'][0] = 'new-8b4a48b0-295d-401e-aef7-0424868019ab';
     $pane = new stdClass();
     $pane->pid = 'new-5bb2e88c-9e6d-4616-8bbd-c1662565fdf9';
     $pane->panel = 'left_side';
@@ -890,8 +862,8 @@ function ads_advert_default_page_manager_handlers() {
     $pane->uuid = 'd100e5f8-ef33-4683-ba70-f96958e8d409';
     $display->content['new-d100e5f8-ef33-4683-ba70-f96958e8d409'] = $pane;
     $display->panels['right_side'][7] = 'new-d100e5f8-ef33-4683-ba70-f96958e8d409';
-  $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-8b4a48b0-295d-401e-aef7-0424868019ab';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context'] = $handler;
 

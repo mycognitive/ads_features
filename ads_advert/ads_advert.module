@@ -13,6 +13,47 @@ define('ADS_ADVERT_SEARCH_INDEX_NAME', 'ads_adverts');
 include_once 'ads_advert.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function ads_advert_menu() {
+  $menu['advert/add'] = array(
+    'title'            => 'Advert',
+    'description'      => 'Advert',
+    'page callback'    => 'ads_advert_form_wizard',
+    'page arguments'   => array(2),
+    'access arguments' => array('access content'),
+  );
+
+  $menu['advert/%/edit'] = array(
+    'title'            => 'Advert',
+    'description'      => 'Advert',
+    'page callback'    => 'ads_advert_form_wizard',
+    'page arguments'   => array(2, 3),
+    'access arguments' => array('access content'),
+  );
+
+  // This item is overriden by ADS Panels module (node_view) if present.
+  $menu['advert/%'] = array(
+    'title'            => 'Advert',
+    'description'      => 'Advert',
+    'page callback'    => 'ads_advert_view',
+    'page arguments'   => array(2),
+    'access arguments' => array('access content'),
+  );
+
+  // Renders facets related with ads categories. The parameter is id of the
+  // search generated for this page.
+  $menu['advert/facets/ajax/%'] = array(
+    'page callback' => 'ads_advert_advert_facets_get_ajax',
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+  );
+
+  return $menu;
+}
+
+
+/**
  * Implements hook_search_api_solr_query_alter().
  */
 function ads_advert_search_api_solr_query_alter(&$call_args, SearchApiQueryInterface $query) {
@@ -313,45 +354,6 @@ function ads_advert_render_facet_filters(SearchApiQuery $query, $result, $facets
 
   // Rendering "ads-search-filters-refine.tpl.php".
   echo theme('ads_search_filters_refine', array('tree' => $facets_tree));
-}
-
-/**
- * Implements hook_menu().
- */
-function ads_advert_menu() {
-  $menu['advert/add'] = array(
-    'title'            => 'Advert',
-    'description'      => 'Advert',
-    'page callback'    => 'ads_advert_form_wizard',
-    'page arguments'   => array(2),
-    'access arguments' => array('access content'),
-  );
-
-  $menu['advert/%/edit'] = array(
-    'title'            => 'Advert',
-    'description'      => 'Advert',
-    'page callback'    => 'ads_advert_form_wizard',
-    'page arguments'   => array(2, 3),
-    'access arguments' => array('access content'),
-  );
-
-  $menu['advert/%'] = array(
-    'title'            => 'Advert',
-    'description'      => 'Advert',
-    'page callback'    => 'ads_advert_view',
-    'page arguments'   => array(2),
-    'access arguments' => array('access content'),
-  );
-
-  // Renders facets related with ads categories. The parameter is id of the
-  // search generated for this page.
-  $menu['advert/facets/ajax/%'] = array(
-    'page callback' => 'ads_advert_advert_facets_get_ajax',
-    'page arguments' => array(3),
-    'access arguments' => array('access content'),
-  );
-
-  return $menu;
 }
 
 /**
@@ -1164,6 +1166,7 @@ function ads_advert_view() {
     exit;
   }
 
+  // drupal_set_title($node->title);
   return ads_advert_get_node_preview($node, FALSE);
 }
 
