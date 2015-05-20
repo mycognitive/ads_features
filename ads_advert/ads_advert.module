@@ -425,7 +425,7 @@ function ads_advert_form_wizard() {
       'step-1' => t('Basic information'),
       'step-2' => t('Category selection'),
       'step-3' => t('Details'),
-      'review' => t('Review'),
+      'preview' => t('Preview'),
     ),
     'forms' => array(
       'step-1' => array(
@@ -437,7 +437,7 @@ function ads_advert_form_wizard() {
       'step-3' => array(
         'form id' => 'ads_advert_form_step_3',
       ),
-      'review' => array(
+      'preview' => array(
         'form id' => 'ads_advert_form_step_4',
       ),
     ),
@@ -630,9 +630,9 @@ function ads_advert_form_step($form, &$form_state, $step = 1) {
 
       $form['buttons']['next'] = array(
         '#type'        => 'submit',
-        '#value'       => t('Review'),
+        '#value'       => t('Preview'),
         '#wizard type' => 'next',
-        '#next'        => 'review',
+        '#next'        => 'preview',
         '#attributes'  => array(),
       );
 
